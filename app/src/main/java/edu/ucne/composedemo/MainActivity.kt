@@ -37,10 +37,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.room.Dao
+import androidx.room.Database
+import androidx.room.Delete
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.Query
 import androidx.room.Room
-import edu.ucne.composedemo.data.local.database.TicketDb
-import edu.ucne.composedemo.data.local.entities.TicketEntity
+import androidx.room.RoomDatabase
+import androidx.room.Upsert
 import edu.ucne.composedemo.ui.theme.DemoAp2Theme
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -68,8 +75,6 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                     ) {
                         TicketScreen()
-
-
                     }
                 }
             }
@@ -205,6 +210,47 @@ class MainActivity : ComponentActivity() {
 
     private suspend fun saveTicket(ticket: TicketEntity) {
         ticketDb.ticketDao().save(ticket)
+    }
+    @Entity(tableName = "Tickets")
+    data class TicketEntity(
+        @PrimaryKey
+        val ticketId: Int? = null,
+        val cliente: String = "",
+        val asunto: String = ""
+    )
+
+
+    @Dao
+    interface TicketDao {
+        @Upsert()
+        suspend fun save(ticket: TicketEntity)
+
+        @Query(
+            """
+        SELECT * 
+        FROM Tickets 
+        WHERE ticketId=:id  
+        LIMIT 1
+        """
+        )
+        suspend fun find(id: Int): TicketEntity?
+
+        @Delete
+        suspend fun delete(ticket: TicketEntity)
+
+        @Query("SELECT * FROM Tickets")
+        fun getAll(): Flow<List<TicketEntity>>
+    }
+
+    @Database(
+        entities = [
+            TicketEntity::class
+        ],
+        version = 1,
+        exportSchema = false
+    )
+    abstract class TicketDb : RoomDatabase() {
+        abstract fun ticketDao(): TicketDao
     }
 
     @Preview(showBackground = true, showSystemUi = true)
