@@ -51,217 +51,31 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-    private lateinit var ticketDb: TicketDb
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        ticketDb = Room.databaseBuilder(
-            applicationContext,
-            TicketDb::class.java,
-            "Ticket.db"
-        ).fallbackToDestructiveMigration()
-            .build()
-
         setContent {
             DemoAp2Theme {
-
-
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
                     ) {
-                        TicketScreen()
+
                     }
                 }
             }
         }
-    }
-
-    @Composable
-    fun TicketScreen(
-    ) {
-        var cliente by remember { mutableStateOf("") }
-        var asunto by remember { mutableStateOf("") }
-        var errorMessage: String? by remember { mutableStateOf(null) }
-
-        Scaffold { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(8.dp)
-            ) {
-                ElevatedCard(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    ) {
-
-                        OutlinedTextField(
-                            label = { Text(text = "Cliente") },
-                            value = cliente,
-                            onValueChange = { cliente = it },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        OutlinedTextField(
-                            label = { Text(text = "Asunto") },
-                            value = asunto,
-                            onValueChange = { asunto = it },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Spacer(modifier = Modifier.padding(2.dp))
-                        errorMessage?.let {
-                            Text(text = it, color = Color.Red)
-                        }
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            OutlinedButton(
-                                onClick = {
-
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "new button"
-                                )
-                                Text(text = "Nuevo")
-                            }
-                            val scope = rememberCoroutineScope()
-                            OutlinedButton(
-                                onClick = {
-                                    if (cliente.isBlank())
-                                        errorMessage = "Nombre vacio"
-
-                                    scope.launch {
-                                        saveTicket(
-                                            TicketEntity(
-                                                cliente = cliente,
-                                                asunto = asunto
-                                            )
-                                        )
-                                        cliente = ""
-                                        asunto = ""
-                                    }
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Edit,
-                                    contentDescription = "save button"
-                                )
-                                Text(text = "Guardar")
-                            }
-                        }
-                    }
-                }
-
-                val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
-                val ticketList by ticketDb.ticketDao().getAll()
-                    .collectAsStateWithLifecycle(
-                        initialValue = emptyList(),
-                        lifecycleOwner = lifecycleOwner,
-                        minActiveState = Lifecycle.State.STARTED
-                    )
-                TicketListScreen(ticketList)
-            }
-        }
-    }
-
-    @Composable
-    fun TicketListScreen(ticketList: List<TicketEntity>) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            Text("Lista de tickets")
-
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(ticketList) {
-                    TicketRow(it)
-                }
-            }
-        }
-    }
-
-    @Composable
-    private fun TicketRow(it: TicketEntity) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(modifier = Modifier.weight(1f), text = it.ticketId.toString())
-            Text(
-                modifier = Modifier.weight(2f),
-                text = it.cliente,
-                style = MaterialTheme.typography.headlineLarge
-            )
-            Text(modifier = Modifier.weight(2f), text = it.asunto)
-        }
-        HorizontalDivider()
-    }
-
-    private suspend fun saveTicket(ticket: TicketEntity) {
-        ticketDb.ticketDao().save(ticket)
-    }
-    @Entity(tableName = "Tickets")
-    data class TicketEntity(
-        @PrimaryKey
-        val ticketId: Int? = null,
-        val cliente: String = "",
-        val asunto: String = ""
-    )
-
-
-    @Dao
-    interface TicketDao {
-        @Upsert()
-        suspend fun save(ticket: TicketEntity)
-
-        @Query(
-            """
-        SELECT * 
-        FROM Tickets 
-        WHERE ticketId=:id  
-        LIMIT 1
-        """
-        )
-        suspend fun find(id: Int): TicketEntity?
-
-        @Delete
-        suspend fun delete(ticket: TicketEntity)
-
-        @Query("SELECT * FROM Tickets")
-        fun getAll(): Flow<List<TicketEntity>>
-    }
-
-    @Database(
-        entities = [
-            TicketEntity::class
-        ],
-        version = 1,
-        exportSchema = false
-    )
-    abstract class TicketDb : RoomDatabase() {
-        abstract fun ticketDao(): TicketDao
     }
 
     @Preview(showBackground = true, showSystemUi = true)
     @Composable
     fun Preview() {
         DemoAp2Theme {
-            val ticketList = listOf(
-                TicketEntity(1, "Enel ewsd4444444444", "Impresora"),
-                TicketEntity(2, "Juan", "Cable de red"),
-            )
-            TicketListScreen(ticketList)
+
         }
     }
 }
