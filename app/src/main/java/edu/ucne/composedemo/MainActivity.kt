@@ -182,15 +182,6 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
-
-                /*val lifecycleOwner = LocalLifecycleOwner.current
-                val ticketList by ticketDb.ticketDao().getAll()
-                    .collectAsStateWithLifecycle(
-                        initialValue = emptyList(),
-                        lifecycleOwner = lifecycleOwner,
-                        minActiveState = Lifecycle.State.STARTED
-                    )
-                TicketListScreen(ticketList)*/
             }
         }
     }
