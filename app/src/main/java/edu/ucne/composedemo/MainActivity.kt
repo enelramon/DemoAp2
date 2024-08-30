@@ -16,14 +16,19 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,10 +41,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import edu.ucne.composedemo.data.local.database.TicketDb
 import edu.ucne.composedemo.data.local.entities.TicketEntity
+import edu.ucne.composedemo.presentation.navigation.Screen
 import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 import kotlinx.coroutines.launch
 
@@ -59,31 +70,45 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             DemoAp2Theme {
-
-
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
                     ) {
-                        TicketScreen()
-
-
+                        val navController = rememberNavController()
+                        DemoAp2NavHost(navController)
                     }
                 }
             }
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun TicketScreen(
+        goTicketList: () -> Unit
     ) {
         var cliente by remember { mutableStateOf("") }
         var asunto by remember { mutableStateOf("") }
         var errorMessage: String? by remember { mutableStateOf(null) }
 
-        Scaffold { innerPadding ->
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = "Registro Tickets") },
+                    navigationIcon = {
+                        IconButton(onClick = goTicketList) {
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = "Lista"
+                            )
+                        }
+                    }
+                )
+            }
+        ) { innerPadding ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -145,6 +170,7 @@ class MainActivity : ComponentActivity() {
                                         cliente = ""
                                         asunto = ""
                                     }
+                                    goTicketList()
                                 }
                             ) {
                                 Icon(
@@ -156,35 +182,54 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
-
-                val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
-                val ticketList by ticketDb.ticketDao().getAll()
-                    .collectAsStateWithLifecycle(
-                        initialValue = emptyList(),
-                        lifecycleOwner = lifecycleOwner,
-                        minActiveState = Lifecycle.State.STARTED
-                    )
-                TicketListScreen(ticketList)
             }
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun TicketListScreen(ticketList: List<TicketEntity>) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            Text("Lista de tickets")
+    fun TicketListScreen(
+        ticketList: List<TicketEntity>,
+        onAddTicket: () -> Unit
+    ) {
+        Scaffold (
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = "Tickets")
+                        }
 
-            LazyColumn(
+                    }
+                )
+            },
+            floatingActionButton = {
+                FloatingActionButton(onClick = onAddTicket) {
+                    Icon(Icons.Filled.Add, "Agregar nueva entidad")
+                }
+            }
+        ){
+            Column(
                 modifier = Modifier.fillMaxSize()
+                    .padding(it)
             ) {
-                items(ticketList) {
-                    TicketRow(it)
+                Spacer(modifier = Modifier.height(32.dp))
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(ticketList) {
+                        TicketRow(it)
+                    }
                 }
             }
         }
+
     }
 
     @Composable
@@ -207,6 +252,36 @@ class MainActivity : ComponentActivity() {
         ticketDb.ticketDao().save(ticket)
     }
 
+    @Composable
+    fun DemoAp2NavHost(
+        navHostController: NavHostController
+    ){
+        val lifecycleOwner = LocalLifecycleOwner.current
+        val ticketList by ticketDb.ticketDao().getAll()
+            .collectAsStateWithLifecycle(
+                initialValue = emptyList(),
+                lifecycleOwner = lifecycleOwner,
+                minActiveState = Lifecycle.State.STARTED
+            )
+        NavHost(
+            navController = navHostController,
+            startDestination = Screen.TicketList
+        ){
+            composable<Screen.TicketList>{
+                TicketListScreen(
+                    ticketList = ticketList,
+                    onAddTicket = { navHostController.navigate(Screen.Ticket(0)) }
+                )
+            }
+            composable<Screen.Ticket>{
+                TicketScreen(
+                    goTicketList = { navHostController.navigate(Screen.TicketList) }
+
+                )
+            }
+        }
+    }
+
     @Preview(showBackground = true, showSystemUi = true)
     @Composable
     fun Preview() {
@@ -215,7 +290,10 @@ class MainActivity : ComponentActivity() {
                 TicketEntity(1, "Enel ewsd4444444444", "Impresora"),
                 TicketEntity(2, "Juan", "Cable de red"),
             )
-            TicketListScreen(ticketList)
+            TicketListScreen(
+                ticketList,
+                onAddTicket = {}
+            )
         }
     }
 }
