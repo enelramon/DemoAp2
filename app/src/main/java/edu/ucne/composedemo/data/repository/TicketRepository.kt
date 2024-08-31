@@ -6,8 +6,7 @@ import javax.inject.Inject
 
 class TicketRepository @Inject constructor(
     private val ticketDao: TicketDao
-)
-{
+) {
     suspend fun save(ticket: TicketEntity) = ticketDao.save(ticket)
 
     suspend fun getTicket(id: Int) = ticketDao.find(id)

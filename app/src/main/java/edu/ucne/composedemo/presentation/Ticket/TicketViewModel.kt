@@ -47,6 +47,21 @@ class TicketViewModel @Inject constructor(
         }
     }
 
+    fun selectedTicket(ticketId: Int){
+        viewModelScope.launch {
+            if(ticketId > 0){
+                val ticket = ticketRepository.getTicket(ticketId)
+                _uiState.update {
+                    it.copy(
+                        ticketId = ticket?.ticketId,
+                        cliente = ticket?.cliente,
+                        asunto = ticket?.asunto
+                    )
+                }
+            }
+        }
+    }
+
     fun delete() {
         viewModelScope.launch {
             ticketRepository.delete(_uiState.value.toEntity())

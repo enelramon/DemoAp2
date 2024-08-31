@@ -8,13 +8,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,7 +31,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun TicketScreen(
-    viewModel: TicketViewModel = hiltViewModel()
+    viewModel: TicketViewModel = hiltViewModel(),
+    ticketId: Int,
+    goBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     TicketBodyScreen(
@@ -37,10 +43,12 @@ fun TicketScreen(
         onTicketIdChange = viewModel::onTicketIdChange,
         saveTicket = viewModel::save,
         deleteTicket = viewModel::delete,
-        nuevoTicket = viewModel::nuevo
+        nuevoTicket = viewModel::nuevo,
+        goBack = goBack
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TicketBodyScreen(
     uiState: UiState,
@@ -49,10 +57,27 @@ fun TicketBodyScreen(
     onTicketIdChange: (Int) -> Unit,
     saveTicket: () -> Unit,
     deleteTicket: () -> Unit,
-    nuevoTicket: () -> Unit
+    nuevoTicket: () -> Unit,
+    goBack: () -> Unit
 ) {
 
-    Scaffold { innerPadding ->
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "Ticket")
+                },
+                navigationIcon = {
+                    IconButton(onClick = goBack) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
+            )
+        }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -70,13 +95,13 @@ fun TicketBodyScreen(
 
                     OutlinedTextField(
                         label = { Text(text = "Cliente") },
-                        value = uiState.cliente?: "",
+                        value = uiState.cliente ?: "",
                         onValueChange = onClienteChange,
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         label = { Text(text = "Asunto") },
-                        value = uiState.asunto?: "",
+                        value = uiState.asunto ?: "",
                         onValueChange = onAsuntoChange,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -103,6 +128,7 @@ fun TicketBodyScreen(
 
                             onClick = {
                                 saveTicket()
+                                goBack()
                             }
                         ) {
                             Icon(
@@ -114,7 +140,7 @@ fun TicketBodyScreen(
                     }
                 }
             }
-            TicketListScreen(uiState.tickets)
+//            TicketListScreen(uiState.tickets,)
         }
     }
 }

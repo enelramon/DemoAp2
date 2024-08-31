@@ -49,36 +49,14 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private lateinit var ticketDb: TicketDb
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             DemoAp2Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                    ) {
-                        val navHost = rememberNavController()
-                        DemoAp2NavHost(navHost)
-                    }
-                }
+                val navHost = rememberNavController()
+                DemoAp2NavHost(navHost)
             }
-        }
-    }
-
-    @Preview(showBackground = true, showSystemUi = true)
-    @Composable
-    fun Preview() {
-        DemoAp2Theme {
-            val ticketList = listOf(
-                TicketEntity(1, "Enel ewsd4444444444", "Impresora"),
-                TicketEntity(2, "Juan", "Cable de red"),
-            )
-            TicketListScreen(ticketList)
         }
     }
 }
