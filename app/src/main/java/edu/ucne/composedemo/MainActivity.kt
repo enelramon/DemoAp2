@@ -37,174 +37,37 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
+import dagger.hilt.android.AndroidEntryPoint
 import edu.ucne.composedemo.data.local.database.TicketDb
 import edu.ucne.composedemo.data.local.entities.TicketEntity
+import edu.ucne.composedemo.presentation.Ticket.TicketListScreen
+import edu.ucne.composedemo.presentation.navigation.DemoAp2NavHost
 import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private lateinit var ticketDb: TicketDb
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        ticketDb = Room.databaseBuilder(
-            applicationContext,
-            TicketDb::class.java,
-            "Ticket.db"
-        ).fallbackToDestructiveMigration()
-            .build()
-
         setContent {
             DemoAp2Theme {
-
-
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
                     ) {
-                        TicketScreen()
-
-
+                        val navHost = rememberNavController()
+                        DemoAp2NavHost(navHost)
                     }
                 }
             }
         }
-    }
-
-    @Composable
-    fun TicketScreen(
-    ) {
-        var cliente by remember { mutableStateOf("") }
-        var asunto by remember { mutableStateOf("") }
-        var errorMessage: String? by remember { mutableStateOf(null) }
-
-        Scaffold { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(8.dp)
-            ) {
-                ElevatedCard(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    ) {
-
-                        OutlinedTextField(
-                            label = { Text(text = "Cliente") },
-                            value = cliente,
-                            onValueChange = { cliente = it },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        OutlinedTextField(
-                            label = { Text(text = "Asunto") },
-                            value = asunto,
-                            onValueChange = { asunto = it },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Spacer(modifier = Modifier.padding(2.dp))
-                        errorMessage?.let {
-                            Text(text = it, color = Color.Red)
-                        }
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            OutlinedButton(
-                                onClick = {
-
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "new button"
-                                )
-                                Text(text = "Nuevo")
-                            }
-                            val scope = rememberCoroutineScope()
-                            OutlinedButton(
-                                onClick = {
-                                    if (cliente.isBlank())
-                                        errorMessage = "Nombre vacio"
-
-                                    scope.launch {
-                                        saveTicket(
-                                            TicketEntity(
-                                                cliente = cliente,
-                                                asunto = asunto
-                                            )
-                                        )
-                                        cliente = ""
-                                        asunto = ""
-                                    }
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Edit,
-                                    contentDescription = "save button"
-                                )
-                                Text(text = "Guardar")
-                            }
-                        }
-                    }
-                }
-
-                val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
-                val ticketList by ticketDb.ticketDao().getAll()
-                    .collectAsStateWithLifecycle(
-                        initialValue = emptyList(),
-                        lifecycleOwner = lifecycleOwner,
-                        minActiveState = Lifecycle.State.STARTED
-                    )
-                TicketListScreen(ticketList)
-            }
-        }
-    }
-
-    @Composable
-    fun TicketListScreen(ticketList: List<TicketEntity>) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            Text("Lista de tickets")
-
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(ticketList) {
-                    TicketRow(it)
-                }
-            }
-        }
-    }
-
-    @Composable
-    private fun TicketRow(it: TicketEntity) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(modifier = Modifier.weight(1f), text = it.ticketId.toString())
-            Text(
-                modifier = Modifier.weight(2f),
-                text = it.cliente,
-                style = MaterialTheme.typography.headlineLarge
-            )
-            Text(modifier = Modifier.weight(2f), text = it.asunto)
-        }
-        HorizontalDivider()
-    }
-
-    private suspend fun saveTicket(ticket: TicketEntity) {
-        ticketDb.ticketDao().save(ticket)
     }
 
     @Preview(showBackground = true, showSystemUi = true)
