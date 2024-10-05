@@ -24,9 +24,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 
 
 @Composable
@@ -38,12 +40,7 @@ fun TicketScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     TicketBodyScreen(
         uiState = uiState,
-        onClienteChange = viewModel::onClienteChange,
-        onAsuntoChange = viewModel::onAsuntoChange,
-        onTicketIdChange = viewModel::onTicketIdChange,
-        saveTicket = viewModel::save,
-        deleteTicket = viewModel::delete,
-        nuevoTicket = viewModel::nuevo,
+        viewModel::onEvent,
         goBack = goBack
     )
 }
@@ -51,13 +48,8 @@ fun TicketScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TicketBodyScreen(
-    uiState: UiState,
-    onClienteChange: (String) -> Unit,
-    onAsuntoChange: (String) -> Unit,
-    onTicketIdChange: (Int) -> Unit,
-    saveTicket: () -> Unit,
-    deleteTicket: () -> Unit,
-    nuevoTicket: () -> Unit,
+    uiState: TicketUiState,
+    onEvent: (TicketEvent) -> Unit,
     goBack: () -> Unit
 ) {
 
@@ -96,13 +88,13 @@ fun TicketBodyScreen(
                     OutlinedTextField(
                         label = { Text(text = "Cliente") },
                         value = uiState.cliente ?: "",
-                        onValueChange = onClienteChange,
+                        onValueChange = { onEvent(TicketEvent.ClienteChange(it)) },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         label = { Text(text = "Asunto") },
                         value = uiState.asunto ?: "",
-                        onValueChange = onAsuntoChange,
+                        onValueChange = { onEvent(TicketEvent.AsuntoChange(it)) } ,
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.padding(2.dp))
@@ -114,7 +106,7 @@ fun TicketBodyScreen(
                     ) {
                         OutlinedButton(
                             onClick = {
-                                nuevoTicket()
+                                onEvent(TicketEvent.New)
                             }
                         ) {
                             Icon(
@@ -127,7 +119,7 @@ fun TicketBodyScreen(
                         OutlinedButton(
 
                             onClick = {
-                                saveTicket()
+                                onEvent(TicketEvent.Save)
                                 goBack()
                             }
                         ) {
@@ -142,5 +134,13 @@ fun TicketBodyScreen(
             }
 //            TicketListScreen(uiState.tickets,)
         }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun Preview() {
+    DemoAp2Theme {
+
     }
 }
