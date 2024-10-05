@@ -1,4 +1,4 @@
-package edu.ucne.composedemo.data.di
+package edu.ucne.composedemo.di
 
 import android.app.Application
 import android.content.Context
