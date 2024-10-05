@@ -2,7 +2,6 @@ package edu.ucne.composedemo.presentation.Ticket
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.PrimaryKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.composedemo.data.local.entities.TicketEntity
 import edu.ucne.composedemo.data.repository.TicketRepository
@@ -16,14 +15,24 @@ import javax.inject.Inject
 class TicketViewModel @Inject constructor(
     private val ticketRepository: TicketRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(UiState())
+    private val _uiState = MutableStateFlow(TicketUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
         getTickets()
     }
 
-    fun save() {
+    fun onEvent(event: TicketEvent){
+        when (event){
+            is TicketEvent.TicketChange -> onTicketIdChange(event.ticketId)
+            is TicketEvent.ClienteChange -> onClienteChange(event.cliente)
+            is TicketEvent.AsuntoChange -> onAsuntoChange(event.asunto)
+            TicketEvent.Save -> save()
+            TicketEvent.Delete -> delete()
+            TicketEvent.New -> nuevo()
+        }
+    }
+    private fun save() {
         viewModelScope.launch {
             if (_uiState.value.cliente.isNullOrBlank() && _uiState.value.asunto.isNullOrBlank()){
                 _uiState.update {
@@ -36,7 +45,7 @@ class TicketViewModel @Inject constructor(
         }
     }
 
-    fun nuevo() {
+    private fun nuevo() {
         _uiState.update {
             it.copy(
                 ticketId = null,
@@ -62,7 +71,7 @@ class TicketViewModel @Inject constructor(
         }
     }
 
-    fun delete() {
+    private fun delete() {
         viewModelScope.launch {
             ticketRepository.delete(_uiState.value.toEntity())
         }
@@ -78,36 +87,30 @@ class TicketViewModel @Inject constructor(
         }
     }
 
-    fun onClienteChange(cliente: String) {
+    private fun onClienteChange(cliente: String) {
         _uiState.update {
             it.copy(cliente = cliente)
         }
     }
 
-    fun onAsuntoChange(asunto: String) {
+    private fun onAsuntoChange(asunto: String) {
         _uiState.update {
             it.copy(asunto = asunto)
         }
     }
 
-    fun onTicketIdChange(ticketId: Int) {
+    private fun onTicketIdChange(ticketId: Int) {
         _uiState.update {
             it.copy(ticketId = ticketId)
         }
     }
-
 }
 
-data class UiState(
-    val ticketId: Int? = null,
-    val cliente: String? = "",
-    val asunto: String? = null,
-    val errorMessage: String? = null,
-    val tickets: List<TicketEntity> = emptyList()
-)
 
-fun UiState.toEntity() = TicketEntity(
+
+fun TicketUiState.toEntity() = TicketEntity(
     ticketId = ticketId,
     cliente = cliente ?: "",
     asunto = asunto ?: ""
 )
+
