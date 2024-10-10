@@ -10,6 +10,6 @@ interface TicketingApi {
     suspend fun getSistemas(): List<SistemaDto>
 
     @PUT("api/Sistemas")
-    suspend fun updateSistemas(@Body sistemaDto: SistemaDto): SistemaDto
+    suspend fun updateSistema(@Body sistemaDto: SistemaDto): SistemaDto
 
 }
