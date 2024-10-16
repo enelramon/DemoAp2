@@ -26,5 +26,8 @@ object AppModule {
 
     @Provides
     fun provideTicketDao(ticketDb: TicketDb) = ticketDb.ticketDao()
+    @Provides
+    @Singleton
+    fun provideSuplidorGastoDao(ticketDb: TicketDb) = ticketDb.suplidorGastoDao()
 
 }
