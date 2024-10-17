@@ -1,14 +1,15 @@
 package edu.ucne.composedemo.presentation.cobro
 
+import edu.ucne.composedemo.data.remote.Resource
 import edu.ucne.composedemo.data.remote.dto.CobroDto
 import java.util.Date
+
 data class CobroUiState(
-    val cobros: List<CobroDto> = emptyList(),
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null,
-    val idCobro: Int = 0,
-    val monto: Double = 0.0,
-    val codigoCliente: String = "",
-    val observaciones: String = "",
-    val fecha: Long = System.currentTimeMillis()
-)
+    val idCobro: Int? = null,
+    val fecha: Date? = Date(),
+    val monto: Int? = null,
+    val codigoCliente: Int?= null,
+    val observaciones: String? = " ",
+    val cobros: Resource<List<CobroDto>> = emptyList()
+
+    )
