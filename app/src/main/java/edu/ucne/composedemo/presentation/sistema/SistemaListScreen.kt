@@ -11,9 +11,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,17 +38,20 @@ fun SistemaListScreen(
     SistemaListBodyScreen(
         uiState,
         goToSistema,
+        viewModel::getSistemas
     )
 }
+
 @Composable
 fun SistemaListBodyScreen(
     uiState: SistemaUiState,
-    goToSistema: (Int) -> Unit
+    goToSistema: (Int) -> Unit,
+    onRefresh: () -> Unit
 ) {
     Scaffold(modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {}
+                onClick = onRefresh
             ) {
                 Icon(
                     imageVector = Icons.Default.Refresh,
@@ -63,6 +68,15 @@ fun SistemaListBodyScreen(
             Spacer(modifier = Modifier.height(32.dp))
             Text("Lista de Sistemas")
 
+            if (uiState.isLoading) {
+                CircularProgressIndicator()
+            }
+             uiState.errorMessage?.let{ error ->
+               Text(
+                   text = error,
+                   color = MaterialTheme.colorScheme.error,
+               )
+            }
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -76,6 +90,7 @@ fun SistemaListBodyScreen(
         }
     }
 }
+
 @Composable
 private fun SistemaRow(
     it: SistemaDto,
@@ -90,10 +105,10 @@ private fun SistemaRow(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable {
-                goToSistema(it.sistemaId)
+                goToSistema(it.idSistema)
             }
         ) {
-            Text(modifier = Modifier.weight(1f), text = it.sistemaId.toString())
+            Text(modifier = Modifier.weight(1f), text = it.idSistema.toString())
             Text(
                 modifier = Modifier.weight(2f),
                 text = it.nombre,
@@ -109,6 +124,8 @@ private fun Preview() {
     DemoAp2Theme {
         SistemaListBodyScreen(
             uiState = SistemaUiState(
+                isLoading = true,
+                errorMessage = "error",
                 sistemas = listOf(
                     SistemaDto(1, "Sistema 1"),
                     SistemaDto(2, "Sistema 2"),
@@ -122,7 +139,8 @@ private fun Preview() {
                     SistemaDto(10, "Sistema 10"),
                 )
             ),
-            goToSistema = {}
+            goToSistema = {},
+            onRefresh = {}
         )
     }
 }
