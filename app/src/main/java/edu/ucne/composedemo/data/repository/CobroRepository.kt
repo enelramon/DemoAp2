@@ -10,16 +10,22 @@ import javax.inject.Inject
 
 class CobroRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
-) {
-     fun getCobro(): Flow<Resource<List<CobroDto>>> = flow {
+){
+    suspend fun getCobro() : Flow<Resource<List<CobroDto>>> = flow {
         try {
             emit(Resource.Loading())
-            val cobros = remoteDataSource.getCobros()
+            val cobros =
+                remoteDataSource.getCobros()
+
             emit(Resource.Success(cobros))
-        } catch (e: HttpException) {
+        }catch (e : HttpException){
             emit(Resource.Error("Error HTTP GENERAL ${e.message}"))
-        } catch (e: Exception) {
+        }catch (e: Exception){
             emit(Resource.Error("Error Desconocido ${e.message}"))
         }
     }
+
+
+
+
 }
