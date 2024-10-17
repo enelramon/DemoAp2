@@ -1,5 +1,6 @@
 package edu.ucne.composedemo.data.remote
 
+import edu.ucne.composedemo.data.remote.dto.ClienteDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -15,4 +16,7 @@ interface TicketingApi {
     @PUT("api/Sistemas")
     suspend fun updateSistema(@Body sistemaDto: SistemaDto): SistemaDto
 
+    @Headers("X-API-Key:test")
+    @GET("api/Clientes/GetClientes")
+    suspend fun getClientes(): List<ClienteDto>
 }
