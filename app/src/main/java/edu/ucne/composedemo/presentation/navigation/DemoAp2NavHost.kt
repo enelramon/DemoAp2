@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import edu.ucne.composedemo.presentation.Ticket.TicketListScreen
 import edu.ucne.composedemo.presentation.Ticket.TicketScreen
+import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
 
 
 @Composable
@@ -15,7 +16,7 @@ fun DemoAp2NavHost(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.TicketList
+        startDestination = Screen.EquiposAnyDeskList
     ) {
         composable<Screen.TicketList> {
             TicketListScreen(
@@ -37,5 +38,10 @@ fun DemoAp2NavHost(
                 }
             )
         }
+
+        composable<Screen.EquiposAnyDeskList> {
+            EquipoAnyDeskListScreen()
+        }
+
     }
 }
