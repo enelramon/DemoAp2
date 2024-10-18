@@ -27,17 +27,20 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
+import edu.ucne.composedemo.presentation.components.TopBarComponent
 import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 
 @Composable
 fun SistemaListScreen(
     viewModel: SistemaViewModel = hiltViewModel(),
     goToSistema: (Int) -> Unit,
+    onDrawer: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     SistemaListBodyScreen(
         uiState,
         goToSistema,
+        onDrawer,
         viewModel::getSistemas
     )
 }
@@ -46,9 +49,17 @@ fun SistemaListScreen(
 fun SistemaListBodyScreen(
     uiState: SistemaUiState,
     goToSistema: (Int) -> Unit,
-    onRefresh: () -> Unit
+    onDrawer: () -> Unit,
+    onRefresh: () -> Unit,
 ) {
-    Scaffold(modifier = Modifier.fillMaxSize(),
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopBarComponent(
+                title = "Sistemas",
+                onDrawer
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onRefresh
@@ -66,7 +77,6 @@ fun SistemaListBodyScreen(
                 .padding(innerPadding)
         ) {
             Spacer(modifier = Modifier.height(32.dp))
-            Text("Lista de Sistemas")
 
             if (uiState.isLoading) {
                 CircularProgressIndicator()
@@ -140,7 +150,8 @@ private fun Preview() {
                 )
             ),
             goToSistema = {},
-            onRefresh = {}
+            onRefresh = {},
+            onDrawer = {}
         )
     }
 }
