@@ -11,8 +11,7 @@ interface TicketingApi {
     @Headers("X-API-Key:test")
     @GET("api/Sistemas")
     suspend fun getSistemas(): List<SistemaDto>
-
-    @Headers("X-API-Key", "test")
+    @Headers("X-API-Key:test")
     @PUT("api/Sistemas")
     suspend fun updateSistema(@Body sistemaDto: SistemaDto): SistemaDto
 
