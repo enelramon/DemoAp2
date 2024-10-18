@@ -1,29 +1,14 @@
 package edu.ucne.composedemo.data.remote.dto
 
-import edu.ucne.composedemo.data.local.entities.SuplidorGastoEntity
-
 data class SuplidorGastoDto(
-    val idSuplidor: Int? =null,
-    val nombres: String? =null,
-    val direccion: String? =null,
-    val telefono: String? =null,
-    val celular: String? =null,
-    val fax: String? =null,
-    val rnc: String? =null,
-    val tipoNCF: Int? =null,
-    val condicion: Int? =null,
-    val email: String? =null
-)
-
-fun SuplidorGastoDto.toEntity() = SuplidorGastoEntity(
-    idSuplidor = idSuplidor?:0,
-    nombres = nombres?:"",
-    direccion = direccion?:"",
-    telefono = telefono?:"",
-    celular = celular?:"",
-    fax = fax?:"",
-    rnc = rnc?:"",
-    tipoNCF = tipoNCF?:0,
-    condicion = condicion?:0,
-    email = email?:""
+    val idSuplidor: Int,
+    val nombres: String,
+    val direccion: String,
+    val telefono: String,
+    val celular: String,
+    val fax: String,
+    val rnc: String,
+    val tipoNCF: Int,
+    val condicion: Int,
+    val email: String
 )
