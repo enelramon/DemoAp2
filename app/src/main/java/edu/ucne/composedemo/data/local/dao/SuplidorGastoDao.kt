@@ -12,5 +12,5 @@ interface SuplidorGastoDao {
     @Upsert
     suspend fun save(suplidorGastoEntity: SuplidorGastoEntity)
     @Query("Select * from suplidoresgastos")
-    suspend fun getSuplidoresGastos(): Flow<List<SuplidorGastoEntity>>
+    fun getSuplidoresGastos(): Flow<List<SuplidorGastoEntity>>
 }
