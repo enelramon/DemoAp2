@@ -32,6 +32,7 @@ fun DrawerMenu(
     navSistemaList: () -> Unit,
     navTicketList: () -> Unit,
     navClienteList: () -> Unit,
+    navSuplidorGasto: () -> Unit,
     content: @Composable () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -50,7 +51,13 @@ fun DrawerMenu(
             title = "Clientes",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info
+        ),
+        NavigationItem(
+            title = "SuplidoresGastos",
+            selectedIcon = Icons.Filled.Info,
+            unselectedIcon = Icons.Outlined.Info
         )
+
     )
     val selectedItem = remember { mutableStateOf(items[0]) }
 
@@ -90,6 +97,7 @@ fun DrawerMenu(
                                 "Tickets" -> {navTicketList()}
                                 "Sistemas" -> {navSistemaList()}
                                 "Clientes" -> {navClienteList()}
+                                "SuplidoresGastos" -> {navSuplidorGasto()}
                             }
                         }
                     )

@@ -25,27 +25,37 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.ucne.composedemo.data.local.entities.SuplidorGastoEntity
+import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
+import edu.ucne.composedemo.presentation.components.TopBarComponent
 import edu.ucne.composedemo.presentation.navigation.Screen
 
 @Composable
 fun SuplidorGastosListScreen(
     viewModel: SuplidorGastosViewModel = hiltViewModel(),
-    onGoCreate: () -> Unit
+    onGoCreate: () -> Unit,
+    onDrawer: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     SuplidorGastosBodyListCreen(
         uiState = uiState,
-        onGoCreate= onGoCreate
+        onGoCreate= onGoCreate,
+        onDrawer = onDrawer
     )
 }
 
 @Composable
 fun SuplidorGastosBodyListCreen(
     uiState: UiState,
-    onGoCreate: () -> Unit
+    onGoCreate: () -> Unit,
+    onDrawer: () -> Unit
 ) {
     Scaffold(
+        topBar = {
+            TopBarComponent(
+                title = "Sistemas",
+                onDrawer
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onGoCreate
@@ -122,7 +132,7 @@ fun SuplidorGastosBodyListCreen(
 
 @Composable
 fun SuplidoresGastosRowList(
-    suplidorGastoEntity: SuplidorGastoEntity
+    suplidorGasto: SuplidorGastoDto
 ) {
     Row(
         modifier = Modifier
@@ -131,27 +141,27 @@ fun SuplidoresGastosRowList(
             .padding(16.dp)
     ) {
         Text(
-            text = suplidorGastoEntity.nombres,
+            text = suplidorGasto.nombres,
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = suplidorGastoEntity.direccion,
+            text = suplidorGasto.direccion,
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = suplidorGastoEntity.telefono,
+            text = suplidorGasto.telefono,
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = suplidorGastoEntity.fax,
+            text = suplidorGasto.fax,
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = suplidorGastoEntity.rnc,
+            text = suplidorGasto.rnc,
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = suplidorGastoEntity.email,
+            text = suplidorGasto.email,
             modifier = Modifier.weight(1f)
         )
     }

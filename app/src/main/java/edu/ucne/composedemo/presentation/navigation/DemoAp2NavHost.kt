@@ -13,6 +13,7 @@ import edu.ucne.composedemo.presentation.Ticket.TicketScreen
 import edu.ucne.composedemo.presentation.cliente.ClienteListScreen
 import edu.ucne.composedemo.presentation.components.DrawerMenu
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
+import edu.ucne.composedemo.presentation.supplidorGastos.SuplidorGastosListScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -26,6 +27,7 @@ fun DemoAp2NavHost(
         navClienteList = { navHostController.navigate(Screen.ClienteList) },
         navTicketList = { navHostController.navigate(Screen.TicketList) },
         navSistemaList = { navHostController.navigate(Screen.SistemaList) },
+        navSuplidorGasto = {navHostController.navigate(Screen.SuplidoresGastoList) }
     ) {
         NavHost(
             navController = navHostController,
@@ -80,6 +82,17 @@ fun DemoAp2NavHost(
                             drawerState.open()
                         }
                     }
+                )
+            }
+
+            composable<Screen.SuplidoresGastoList>{
+                SuplidorGastosListScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    },
+                    onGoCreate = {}
                 )
             }
         }
