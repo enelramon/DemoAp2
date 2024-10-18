@@ -62,7 +62,12 @@ fun CobroListBodyScreen(uiState: CobroUiState) {
                 uiState.isLoading -> {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
+
                     )
+                }
+
+                uiState.errorMessage != null -> {
+                    Text(text = uiState.errorMessage)
                 }
 
                 else -> {
