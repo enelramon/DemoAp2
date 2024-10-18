@@ -25,18 +25,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.composedemo.data.local.entities.TicketEntity
+import edu.ucne.composedemo.presentation.components.TopBarComponent
 
 @Composable
 fun TicketListScreen(
     viewModel: TicketViewModel = hiltViewModel(),
     goToTicket: (Int) -> Unit,
-    createTicket: () -> Unit
+    createTicket: () -> Unit,
+    onDrawer: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     TicketListBodyScreen(
         uiState,
         goToTicket,
-        createTicket
+        createTicket,
+        onDrawer
     )
 }
 
@@ -44,9 +47,17 @@ fun TicketListScreen(
 fun TicketListBodyScreen(
     uiState: TicketUiState,
     goToTicket: (Int) -> Unit,
-    createTicket: () -> Unit
+    createTicket: () -> Unit,
+    onDrawer: () -> Unit
 ) {
-    Scaffold(modifier = Modifier.fillMaxSize(),
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopBarComponent(
+                title = "Tickets",
+                onDrawer
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = createTicket
@@ -62,7 +73,6 @@ fun TicketListBodyScreen(
             modifier = Modifier.fillMaxSize().padding(innerPadding)
         ) {
             Spacer(modifier = Modifier.height(32.dp))
-            Text("Lista de tickets")
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize()

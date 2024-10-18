@@ -1,46 +1,87 @@
 package edu.ucne.composedemo.presentation.navigation
 
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import edu.ucne.composedemo.presentation.Ticket.TicketListScreen
 import edu.ucne.composedemo.presentation.Ticket.TicketScreen
+import edu.ucne.composedemo.presentation.cliente.ClienteListScreen
+import edu.ucne.composedemo.presentation.components.DrawerMenu
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
-
+import kotlinx.coroutines.launch
 
 @Composable
 fun DemoAp2NavHost(
     navHostController: NavHostController
 ) {
-    NavHost(
-        navController = navHostController,
-        startDestination = Screen.SistemaList
+    val scope = rememberCoroutineScope()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    DrawerMenu(
+        drawerState = drawerState,
+        navClienteList = { navHostController.navigate(Screen.ClienteList) },
+        navTicketList = { navHostController.navigate(Screen.TicketList) },
+        navSistemaList = { navHostController.navigate(Screen.SistemaList) },
     ) {
-        composable<Screen.TicketList> {
-            TicketListScreen(
-                goToTicket = {
-                    navHostController.navigate(Screen.Ticket(it))
-                },
-                createTicket = {
-                    navHostController.navigate(Screen.Ticket(0))
-                }
-            )
-        }
+        NavHost(
+            navController = navHostController,
+            startDestination = Screen.SistemaList
+        ) {
+            composable<Screen.TicketList> {
+                TicketListScreen(
+                    goToTicket = {
+                        navHostController.navigate(Screen.Ticket(it))
+                    },
+                    createTicket = {
+                        navHostController.navigate(Screen.Ticket(0))
+                    },
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
 
-        composable<Screen.Ticket> {
-            val args = it.toRoute<Screen.Ticket>()
-            TicketScreen(
-                ticketId = args.ticketId,
-                goBack = {
-                    navHostController.navigateUp()
-                }
-            )
-        }
+            composable<Screen.Ticket> {
+                val args = it.toRoute<Screen.Ticket>()
+                TicketScreen(
+                    ticketId = args.ticketId,
+                    goBack = {
+                        navHostController.navigateUp()
+                    },
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
 
-        composable<Screen.SistemaList> {
-            SistemaListScreen {  }
+            composable<Screen.SistemaList> {
+                SistemaListScreen(
+                    goToSistema = {},
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
+
+            composable<Screen.ClienteList> {
+                ClienteListScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
         }
     }
 }
