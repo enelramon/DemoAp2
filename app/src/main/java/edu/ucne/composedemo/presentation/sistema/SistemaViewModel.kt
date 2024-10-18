@@ -30,14 +30,14 @@ class SistemaViewModel @Inject constructor(
     fun update() {
         viewModelScope.launch {
             val response = sistemaRepository.update(SistemaDto(
-                sistemaId = _uiState.value.sistemaId?: 0,
+                idSistema = _uiState.value.sistemaId?: 0,
                 nombre = _uiState.value.nombre?:""
             ))
         }
     }
 
 
-    private fun getSistemas() {
+    fun getSistemas() {
         viewModelScope.launch {
             sistemaRepository.getSistemas().collectLatest { result ->
                 when (result) {
@@ -57,7 +57,7 @@ class SistemaViewModel @Inject constructor(
                     }
                     is Resource.Error -> {
                         _uiState.update {
-                            it.copy(errorMessage = it.errorMessage,
+                            it.copy(errorMessage = result.message ?: "Error desconocido",
                                 isLoading = false)
                         }
                     }
@@ -75,7 +75,8 @@ data class SistemaUiState(
     val isLoading: Boolean = false,
 )
 
+
 fun SistemaUiState.toEntity() = SistemaDto(
-    sistemaId = sistemaId ?: 0,
+    idSistema = sistemaId ?: 0,
     nombre = nombre ?: ""
 )

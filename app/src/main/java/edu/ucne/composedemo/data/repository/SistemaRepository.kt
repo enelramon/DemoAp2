@@ -1,5 +1,6 @@
 package edu.ucne.composedemo.data.repository
 
+import android.util.Log
 import edu.ucne.composedemo.data.remote.RemoteDataSource
 import edu.ucne.composedemo.data.remote.Resource
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
@@ -21,9 +22,11 @@ class SistemaRepository @Inject constructor(
             //val sistemasLocal = getSistemasLocal()
             emit(Resource.Success(sistemas))
         } catch (e: HttpException) {
-            emit(Resource.Error("Error de internet ${e.message}"))
+            Log.e("Retrofit No connection", "Error de connection ${e.message} ", e)
+            emit(Resource.Error("Error de internet ${e.message} "))
         } catch (e: Exception) {
-            emit(Resource.Error("Unknown error: ${e.message}"))
+            Log.e("Retrofit Unknown ", "Error desconocido ${e.message} ", e)
+            emit(Resource.Error("Unknown error ${e.message} "))
         }
     }
 

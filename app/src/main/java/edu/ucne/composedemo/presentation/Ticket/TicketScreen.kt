@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import edu.ucne.composedemo.presentation.components.TopBarComponent
 import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 
 
@@ -35,38 +36,31 @@ import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 fun TicketScreen(
     viewModel: TicketViewModel = hiltViewModel(),
     ticketId: Int,
-    goBack: () -> Unit
+    goBack: () -> Unit,
+    onDrawer: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     TicketBodyScreen(
         uiState = uiState,
         viewModel::onEvent,
-        goBack = goBack
+        goBack = goBack,
+        onDrawer = onDrawer
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TicketBodyScreen(
     uiState: TicketUiState,
     onEvent: (TicketEvent) -> Unit,
-    goBack: () -> Unit
+    goBack: () -> Unit,
+    onDrawer: () -> Unit
 ) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = "Ticket")
-                },
-                navigationIcon = {
-                    IconButton(onClick = goBack) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                }
+            TopBarComponent(
+                title = "Registro de Tickets",
+                onDrawer
             )
         }
     ) { innerPadding ->
