@@ -17,7 +17,7 @@ class CobroRepository @Inject constructor(
             val cobros = remoteDataSource.getCobros()
             emit(Resource.Success(cobros))
         } catch (e: HttpException) {
-            emit(Resource.Error("Error HTTP GENERAL ${e.message}"))
+            emit(Resource.Error("Error HTTP GENERAL ${e.message()}"))
         } catch (e: Exception) {
             emit(Resource.Error("Error Desconocido ${e.message}"))
         }
