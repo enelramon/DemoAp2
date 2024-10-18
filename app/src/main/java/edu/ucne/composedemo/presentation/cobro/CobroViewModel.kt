@@ -13,15 +13,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class CobroViewModel @Inject constructor(
-    private  val  cobroRepository: CobroRepository
+    private val cobroRepository: CobroRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CobroUiState())
     val uiState = _uiState.asStateFlow()
-
 
     init {
         getCobros()
@@ -32,33 +30,25 @@ class CobroViewModel @Inject constructor(
             cobroRepository.getCobro().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> {
-                        _uiState.update {
-                            it.copy(isLoading = true)
-                        }
+                        _uiState.update { it.copy(isLoading = true) }
                     }
 
                     is Resource.Success -> {
+                        val cobros = result.data as? List<CobroDto> ?: emptyList()
                         _uiState.update {
-                            it.copy(
-                                cobros = result.data ?: emptyList(),
-                                isLoading = false
-                            )
+                            it.copy(cobros = cobros, isLoading = false)
                         }
                     }
 
                     is Resource.Error -> {
                         _uiState.update {
-                            it.copy(
-                                errorMessage = it.errorMessage,
-                                isLoading = false
-                            )
+                            it.copy(errorMessage = result.message, isLoading = false)
                         }
                     }
                 }
             }
         }
     }
-
 
     fun onEvent(event: CobroEvent) {
         when (event) {
@@ -72,14 +62,3 @@ class CobroViewModel @Inject constructor(
         }
     }
 }
-
-fun  CobroUiState.toEntity() = CobroDto(
-    idCobro = idCobro,
-    monto = monto,
-    codigoCliente = codigoCliente,
-    observaciones = observaciones,
-    fecha = fecha
-)
-
-
-
