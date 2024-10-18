@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import edu.ucne.composedemo.presentation.Ticket.TicketListScreen
 import edu.ucne.composedemo.presentation.Ticket.TicketScreen
+import edu.ucne.composedemo.presentation.supplidorGastos.SuplidorGastosListScreen
 
 
 @Composable
@@ -15,7 +16,7 @@ fun DemoAp2NavHost(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.TicketList
+        startDestination = Screen.SuplidorGastosListScreen
     ) {
         composable<Screen.TicketList> {
             TicketListScreen(
@@ -35,6 +36,11 @@ fun DemoAp2NavHost(
                 goBack = {
                     navHostController.navigateUp()
                 }
+            )
+        }
+        composable<Screen.SuplidorGastosListScreen> {
+            SuplidorGastosListScreen (
+                onGoCreate = {},
             )
         }
     }

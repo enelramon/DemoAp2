@@ -21,8 +21,4 @@ interface TicketingApi {
     @Headers("X-API-Key","test")
     suspend fun getSuplidoresGastos(): List<SuplidorGastoDto>
 
-    @Headers("X-API-Key","test")
-    @POST("api/SuplidoresGastos")
-    suspend fun addSuplidorGastos(@Body suplidorGastoDto: SuplidorGastoDto): SuplidorGastoDto
-
 }
