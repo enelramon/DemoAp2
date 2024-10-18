@@ -34,9 +34,8 @@ class CobroViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        val cobros = result.data as? List<CobroDto> ?: emptyList()
                         _uiState.update {
-                            it.copy(cobros = cobros, isLoading = false)
+                            it.copy(cobros = result.data ?: emptyList(), isLoading = false)
                         }
                     }
 
