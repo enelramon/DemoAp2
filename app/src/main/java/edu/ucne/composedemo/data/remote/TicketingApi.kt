@@ -17,8 +17,4 @@ interface TicketingApi {
     @GET("api/Cobros")
     suspend fun  getCobro(): List<CobroDto>
 
-    @POST("api/Cobros")
-    suspend fun  postCobro(): List<CobroDto>
-
-
 }
