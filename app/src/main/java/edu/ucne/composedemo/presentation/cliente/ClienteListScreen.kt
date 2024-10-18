@@ -43,40 +43,34 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.composedemo.data.remote.dto.ClienteDto
+import edu.ucne.composedemo.presentation.components.TopBarComponent
 import kotlinx.coroutines.launch
 
 @Composable
 fun ClienteListScreen(
-    viewModel: ClienteViewModel = hiltViewModel()
+    viewModel: ClienteViewModel = hiltViewModel(),
+    onDrawer: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
     ClienteListBody(
         uiState = uiState,
-        onEvent = viewModel::onEvent
+        onEvent = viewModel::onEvent,
+        onDrawer = onDrawer
     )
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClienteListBody(
     uiState: ClienteUiState,
-    onEvent: (ClienteEvent) -> Unit
+    onEvent: (ClienteEvent) -> Unit,
+    onDrawer: () -> Unit
 ) {
     Scaffold (
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "Lista Clientes",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+            TopBarComponent(
+                title = "Clientes",
+                onDrawer
             )
         },
         floatingActionButton = {
@@ -244,6 +238,7 @@ fun ClienteListPreview() {
 
     ClienteListBody(
         uiState = ClienteUiState(clientes = list),
-        onEvent = {}
+        onEvent = {},
+        onDrawer = {}
     )
 }
