@@ -32,6 +32,7 @@ fun DrawerMenu(
     navSistemaList: () -> Unit,
     navTicketList: () -> Unit,
     navClienteList: () -> Unit,
+    navEquiposAnyDeskList: () -> Unit,
     content: @Composable () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -48,6 +49,11 @@ fun DrawerMenu(
         ),
         NavigationItem(
             title = "Clientes",
+            selectedIcon = Icons.Filled.Info,
+            unselectedIcon = Icons.Outlined.Info
+        ),
+        NavigationItem(
+            title = "Equipos AnyDesks",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info
         )
@@ -90,6 +96,7 @@ fun DrawerMenu(
                                 "Tickets" -> {navTicketList()}
                                 "Sistemas" -> {navSistemaList()}
                                 "Clientes" -> {navClienteList()}
+                                "Equipos AnyDesks" -> {navEquiposAnyDeskList()}
                             }
                         }
                     )
