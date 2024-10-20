@@ -14,5 +14,5 @@ class RemoteDataSource @Inject constructor(
 
     suspend fun getEquiposAnyDesks() = ticketingApi.getEquiposAnyDesks()
 
-    suspend fun getSuplidoresGastos() = ticketingApi.getSuplidoresGastos()
+    suspend fun getAnydeskLog(id: Int) = ticketingApi.getAnyDeskLogs(id)
 }
