@@ -1,4 +1,4 @@
-package edu.ucne.composedemo.presentation.supplidorGastos
+package edu.ucne.composedemo.presentation.suplidorGastos
 
 import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
 

@@ -1,4 +1,4 @@
-package edu.ucne.composedemo.presentation.supplidorGastos
+package edu.ucne.composedemo.presentation.suplidorGastos
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,10 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
 import edu.ucne.composedemo.presentation.components.TopBarComponent
-import edu.ucne.composedemo.presentation.navigation.Screen
 
 @Composable
 fun SuplidorGastosListScreen(
@@ -80,7 +78,7 @@ fun SuplidorGastosBodyListCreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 15.dp),
+                    .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -89,15 +87,15 @@ fun SuplidorGastosBodyListCreen(
                 )
                 Text(
                     "Direccion",
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1.2f)
                 )
                 Text(
                     "Telefono",
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1.2f)
                 )
                 Text(
                     "Fax",
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1.1f)
                 )
                 Text(
                     "Rnc",
@@ -119,7 +117,6 @@ fun SuplidorGastosBodyListCreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 15.dp)
             ) {
                 items(uiState.suplidoresGastos){
                     SuplidoresGastosRowList(it)
@@ -146,15 +143,15 @@ fun SuplidoresGastosRowList(
         )
         Text(
             text = suplidorGasto.direccion,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1.2f)
         )
         Text(
             text = suplidorGasto.telefono,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1.1f)
         )
         Text(
             text = suplidorGasto.fax,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1.1f)
         )
         Text(
             text = suplidorGasto.rnc,
