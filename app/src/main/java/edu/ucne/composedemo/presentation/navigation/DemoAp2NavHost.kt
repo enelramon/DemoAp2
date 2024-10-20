@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import edu.ucne.composedemo.presentation.Ticket.TicketListScreen
 import edu.ucne.composedemo.presentation.Ticket.TicketScreen
+import edu.ucne.composedemo.presentation.anydesklog.AnyDeskLogListScreen
 import edu.ucne.composedemo.presentation.cliente.ClienteListScreen
 import edu.ucne.composedemo.presentation.components.DrawerMenu
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
@@ -27,7 +28,8 @@ fun DemoAp2NavHost(
         navClienteList = { navHostController.navigate(Screen.ClienteList) },
         navTicketList = { navHostController.navigate(Screen.TicketList) },
         navSistemaList = { navHostController.navigate(Screen.SistemaList) },
-        navEquiposAnyDeskList = {navHostController.navigate(Screen.EquiposAnyDeskList)}
+        navEquiposAnyDeskList = {navHostController.navigate(Screen.EquiposAnyDeskList)},
+        navAnyDeskLogList = {navHostController.navigate(Screen.AnyDeskLogList)}
     ) {
         NavHost(
             navController = navHostController,
@@ -87,6 +89,15 @@ fun DemoAp2NavHost(
 
             composable<Screen.EquiposAnyDeskList> {
                 EquipoAnyDeskListScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
+            composable<Screen.AnyDeskLogList> {
+                AnyDeskLogListScreen(
                     onDrawer = {
                         scope.launch {
                             drawerState.open()
