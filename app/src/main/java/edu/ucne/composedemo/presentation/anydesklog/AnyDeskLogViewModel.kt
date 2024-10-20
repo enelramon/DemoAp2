@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,15 +19,14 @@ class AnyDeskLogViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AnyDeskLogUiState())
     val uiState = _uiState.asStateFlow()
 
-
     init {
-        getAnyDeskLogs()
-
+        val id = 1
+        getAnyDeskLogs(id)
     }
 
-    private fun getAnyDeskLogs() {
+    private fun getAnyDeskLogs(id: Int) {
         viewModelScope.launch {
-            anyDeskLogRepository.getAllAnydeskLog().collectLatest { result ->
+            anyDeskLogRepository.getAnydeskLog(id).collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> {
                         _uiState.update {
@@ -35,15 +35,20 @@ class AnyDeskLogViewModel @Inject constructor(
                     }
                     is Resource.Success -> {
                         _uiState.update {
-                            it.copy(anyDeskLogs = result.data ?: emptyList())
+                            it.copy(
+                                anyDeskLogs = result.data ?: emptyList(),
+                                isLoading = false
+                            )
                         }
                     }
                     is Resource.Error -> {
                         _uiState.update {
-                            it.copy(errorMessage = result.message ?: "Error desconocido")
+                            it.copy(
+                                errorMessage = result.message ?: "Error desconocido",
+                                isLoading = false
+                            )
                         }
                     }
-
                 }
             }
         }
