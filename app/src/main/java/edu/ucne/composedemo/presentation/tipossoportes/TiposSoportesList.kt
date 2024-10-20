@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -121,4 +122,31 @@ private fun TiposSoportesRow(
             Text(modifier = Modifier.weight(0.10f), text = it.precioBase.toString())
         }
     }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun TiposSoportesListPreview() {
+    TiposSoportesListBodyScreen(
+        uiState = TiposSoportesUiState(
+            tiposSoportes = listOf(
+                TiposSoportesDto(
+                    idTipo = 1,
+                    descripcion = "Soporte 1",
+                    precioBase = 100
+                ),
+                TiposSoportesDto(
+                    idTipo = 2,
+                    descripcion = "Soporte 2",
+                    precioBase = 200
+                ),
+                TiposSoportesDto(
+                    idTipo = 3,
+                    descripcion = "Soporte 3",
+                    precioBase = 300
+                )
+            )
+        ),
+        onDrawer = {}
+    )
 }
