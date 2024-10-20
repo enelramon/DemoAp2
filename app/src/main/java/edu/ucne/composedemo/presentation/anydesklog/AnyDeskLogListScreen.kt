@@ -13,11 +13,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,18 +22,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import edu.ucne.composedemo.data.remote.dto.AnyDeskLogDto
+import edu.ucne.composedemo.presentation.components.TopBarComponent
+import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 
 @Composable
 fun AnyDeskLogListScreen(
-    viewModel: AnyDeskLogViewModel = hiltViewModel()
+    viewModel: AnyDeskLogViewModel = hiltViewModel(),
+    onDrawer: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     AnyDeskLogBodyListScreen(
         uiState = uiState,
         isLoading = uiState.isLoading,
+        onDrawer = onDrawer
     )
 }
 
@@ -44,18 +46,14 @@ fun AnyDeskLogListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 fun AnyDeskLogBodyListScreen(
     uiState: AnyDeskLogUiState,
-    isLoading: Boolean
+    isLoading: Boolean,
+    onDrawer: () -> Unit
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Lista AnyDeskLog",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors()
+            TopBarComponent(
+                title = "AnyDeskLogs",
+                onDrawer
             )
         },
     ) { innerPadding ->
@@ -76,22 +74,30 @@ fun AnyDeskLogBodyListScreen(
                     Row(
                         modifier = Modifier
                     ) {
-                        Text(text = "IdCliente",
+                        Text(
+                            text = "IdCliente",
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold)
-                        Text(text = "Cliente",
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Cliente",
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold)
-                        Text(text = "Cantidad",
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Cantidad",
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold)
-                        Text(text = "Minutos",
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Minutos",
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold)
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     LazyColumn(
@@ -119,17 +125,54 @@ fun AnyDeskLogBodyListScreen(
 fun AnyDeskLogRow(
     anyDeskLog: AnyDeskLogDto
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.padding(16.dp)
         ) {
-            Text(modifier = Modifier.weight(1f), textAlign = TextAlign.Center, text = anyDeskLog.idCliente.toString())
-            Text(modifier = Modifier.weight(1f), textAlign = TextAlign.Center, text = anyDeskLog.cliente)
-            Text(modifier = Modifier.weight(1f), textAlign = TextAlign.Center, text = anyDeskLog.cantidad.toString())
-            Text(modifier = Modifier.weight(1f), textAlign = TextAlign.Center, text = anyDeskLog.minutos.toString())
+            Text(
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center,
+                text = anyDeskLog.idCliente.toString()
+            )
+            Text(
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center,
+                text = anyDeskLog.cliente
+            )
+            Text(
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center,
+                text = anyDeskLog.cantidad.toString()
+            )
+            Text(
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center,
+                text = anyDeskLog.minutos.toString()
+            )
         }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun AnyDeskLogListPreview() {
+    DemoAp2Theme {
+        AnyDeskLogBodyListScreen(
+            uiState = AnyDeskLogUiState(
+                isLoading = false,
+                errorMessage = "",
+                anyDeskLogs = listOf(
+                    AnyDeskLogDto(1, "Ferreteria Gama", 1.0, 10),
+                    AnyDeskLogDto(2, "Ferreteria mireserba", 2.0, 15),
+                    AnyDeskLogDto(3, "Supermercado Yoma", 3.0, 20)
+                )
+            ),
+            isLoading = false,
+            onDrawer = {}
+        )
     }
 }
