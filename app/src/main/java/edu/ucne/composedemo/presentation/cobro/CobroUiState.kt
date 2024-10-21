@@ -1,7 +1,7 @@
 package edu.ucne.composedemo.presentation.cobro
 
 import edu.ucne.composedemo.data.remote.dto.CobroDto
-import java.util.Date
+
 data class CobroUiState(
     val cobros: List<CobroDto> = emptyList(),
     val isLoading: Boolean = false,
