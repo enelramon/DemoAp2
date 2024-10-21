@@ -13,4 +13,7 @@ sealed class Screen {
     data object ClienteList : Screen()
     @Serializable
     data object EquiposAnyDeskList : Screen()
+    @Serializable
+    data object AnyDeskLogList : Screen()
+
 }
