@@ -1,6 +1,5 @@
 package edu.ucne.composedemo.presentation.cobro
 
-import edu.ucne.composedemo.presentation.Ticket.TicketEvent
 
 sealed interface CobroEvent {
     data class CobroChange(val cobroId: Int): CobroEvent
