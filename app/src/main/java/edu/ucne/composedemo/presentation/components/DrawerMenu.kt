@@ -24,16 +24,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import edu.ucne.composedemo.presentation.navigation.Screen
 import kotlinx.coroutines.launch
 
 @Composable
 fun DrawerMenu(
     drawerState: DrawerState,
-    navSistemaList: () -> Unit,
-    navTicketList: () -> Unit,
-    navClienteList: () -> Unit,
-    navEquiposAnyDeskList: () -> Unit,
-    navAnyDeskLogList: () -> Unit,
+    navHostController: NavHostController,
     content: @Composable () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -99,11 +97,11 @@ fun DrawerMenu(
                             selectedItem.value = item
                             scope.launch { drawerState.close() }
                             when (item.title) {
-                                "Tickets" -> {navTicketList()}
-                                "Sistemas" -> {navSistemaList()}
-                                "Clientes" -> {navClienteList()}
-                                "Equipos AnyDesks" -> {navEquiposAnyDeskList()}
-                                "AnyDeskLogs" -> {navAnyDeskLogList()}
+                                "Tickets" -> {navHostController.navigate(Screen.TicketList)}
+                                "Sistemas" -> {navHostController.navigate(Screen.SistemaList)}
+                                "Clientes" -> {navHostController.navigate(Screen.ClienteList)}
+                                "Equipos AnyDesks" -> {navHostController.navigate(Screen.EquiposAnyDeskList)}
+                                "AnyDeskLogs" -> {navHostController.navigate(Screen.AnyDeskLogList)}
                             }
                         }
                     )
