@@ -25,11 +25,7 @@ fun DemoAp2NavHost(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     DrawerMenu(
         drawerState = drawerState,
-        navClienteList = { navHostController.navigate(Screen.ClienteList) },
-        navTicketList = { navHostController.navigate(Screen.TicketList) },
-        navSistemaList = { navHostController.navigate(Screen.SistemaList) },
-        navEquiposAnyDeskList = {navHostController.navigate(Screen.EquiposAnyDeskList)},
-        navAnyDeskLogList = {navHostController.navigate(Screen.AnyDeskLogList)}
+        navHostController = navHostController
     ) {
         NavHost(
             navController = navHostController,
