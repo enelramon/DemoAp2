@@ -15,7 +15,6 @@ import edu.ucne.composedemo.presentation.cliente.ClienteListScreen
 import edu.ucne.composedemo.presentation.components.DrawerMenu
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
-import edu.ucne.composedemo.presentation.tipossoportes.TiposSoportesListScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -26,12 +25,7 @@ fun DemoAp2NavHost(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     DrawerMenu(
         drawerState = drawerState,
-        navClienteList = { navHostController.navigate(Screen.ClienteList) },
-        navTicketList = { navHostController.navigate(Screen.TicketList) },
-        navSistemaList = { navHostController.navigate(Screen.SistemaList) },
-        navEquiposAnyDeskList = {navHostController.navigate(Screen.EquiposAnyDeskList)},
-        navAnyDeskLogList = {navHostController.navigate(Screen.AnyDeskLogList)},
-        navTiposSoportesList = {navHostController.navigate(Screen.TiposSoportesList)}
+        navHostController = navHostController
     ) {
         NavHost(
             navController = navHostController,
@@ -100,16 +94,6 @@ fun DemoAp2NavHost(
             }
             composable<Screen.AnyDeskLogList> {
                 AnyDeskLogListScreen(
-                    onDrawer = {
-                        scope.launch {
-                            drawerState.open()
-                        }
-                    }
-                )
-            }
-
-            composable<Screen.TiposSoportesList> {
-                TiposSoportesListScreen(
                     onDrawer = {
                         scope.launch {
                             drawerState.open()
