@@ -19,12 +19,10 @@ class Gastosrepository @Inject constructor(
             emit (Resource.Success(gastosApi))
 
         }catch (e: HttpException){
-            emit(Resource.Error(e.message ?: "Error Desconocido"))
+            emit(Resource.Error("Error de Internet:${e.message()} "))
 
         }
         catch (e: Exception){
-            emit(Resource.Error(e.message ?: "Error Desconocido"))
-        }catch (e: Exception){
             emit(Resource.Error(e.message ?: "Error Desconocido"))
         }
     }
