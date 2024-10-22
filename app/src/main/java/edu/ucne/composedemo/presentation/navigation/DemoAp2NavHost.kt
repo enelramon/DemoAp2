@@ -14,6 +14,7 @@ import edu.ucne.composedemo.presentation.anydesklog.AnyDeskLogListScreen
 import edu.ucne.composedemo.presentation.cliente.ClienteListScreen
 import edu.ucne.composedemo.presentation.components.DrawerMenu
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
+import edu.ucne.composedemo.presentation.gastos.GastosListScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
 import kotlinx.coroutines.launch
 
@@ -101,6 +102,19 @@ fun DemoAp2NavHost(
                     }
                 )
             }
+            composable<Screen.GastosList> {
+                GastosListScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+
+                )
+            }
+
+
+
         }
     }
 }
