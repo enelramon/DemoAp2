@@ -22,11 +22,9 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
-      
-    - name: Build project and run unit tests
-      run: ./gradlew test --no-daemon
+
+    - name: Build and run unit tests
+      run: ./gradlew build test --no-daemon
 #    - name: Add coverage comment to PR
 #      uses: madrapps/jacoco-report@v1.3
 #      with:
