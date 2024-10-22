@@ -60,11 +60,6 @@ fun DrawerMenu(
             title = "AnyDeskLogs",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info
-        ),
-        NavigationItem(
-            title = "Gastos",
-            selectedIcon = Icons.Filled.Info,
-            unselectedIcon = Icons.Outlined.Info
         )
 
     )
@@ -108,8 +103,6 @@ fun DrawerMenu(
                                 "Clientes" -> {navHostController.navigate(Screen.ClienteList)}
                                 "Equipos AnyDesks" -> {navHostController.navigate(Screen.EquiposAnyDeskList)}
                                 "AnyDeskLogs" -> {navHostController.navigate(Screen.AnyDeskLogList)}
-                                "Gastos" -> {navHostController.navigate(Screen.GastosList)}
-
                             }
                         }
                     )
