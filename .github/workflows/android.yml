@@ -24,11 +24,13 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build, run unit tests, and capture results
-      run: |
-        ./gradlew build test --no-daemon | tee test-results.txt
+      run: ./gradlew build test --no-daemon --stacktrace
 
-    - name: Output test results
-      run: cat test-results.txt
+    - name: Unit tests results
+      uses: actions/upload-artifact@v1
+      with:
+        name: unit-tests-results
+        path: app/build/reports/tests/testDebugUnitTest/index.html
       
 #    - name: Add coverage comment to PR
 #      uses: madrapps/jacoco-report@v1.3
