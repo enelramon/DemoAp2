@@ -26,14 +26,14 @@ jobs:
       run: ./gradlew build
       
     - name: Build project and run unit tests
-      run: ./gradlew test unitTestCoverageReport --no-daemon
-    - name: Add coverage comment to PR
-      uses: madrapps/jacoco-report@v1.3
-      with:
-        paths: "${{github.workspace}}/app/build/reports/jacoco/unitTestCoverageReport/unitTestCoverageReport.xml"
-        token: "${{secrets.GITHUB_TOKEN}}"
-    - name: Store HTML coverage report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: "${{github.workspace}}/app/build/reports/jacoco/unitTestCoverageReport/html/"
+      run: ./gradlew test --no-daemon
+#    - name: Add coverage comment to PR
+#      uses: madrapps/jacoco-report@v1.3
+#      with:
+#        paths: "${{github.workspace}}/app/build/reports/jacoco/unitTestCoverageReport/unitTestCoverageReport.xml"
+#        token: "${{secrets.GITHUB_TOKEN}}"
+#    - name: Store HTML coverage report
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: coverage-report
+#        path: "${{github.workspace}}/app/build/reports/jacoco/unitTestCoverageReport/html/"
