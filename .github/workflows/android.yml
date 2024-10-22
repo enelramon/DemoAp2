@@ -23,8 +23,13 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Build and run unit tests
-      run: ./gradlew build test --no-daemon
+    - name: Build, run unit tests, and capture results
+      run: |
+        ./gradlew build test --no-daemon | tee test-results.txt
+
+    - name: Output test results
+      run: cat test-results.txt
+      
 #    - name: Add coverage comment to PR
 #      uses: madrapps/jacoco-report@v1.3
 #      with:
