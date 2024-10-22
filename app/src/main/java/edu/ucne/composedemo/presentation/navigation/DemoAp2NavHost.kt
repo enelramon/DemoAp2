@@ -15,7 +15,6 @@ import edu.ucne.composedemo.presentation.cliente.ClienteListScreen
 import edu.ucne.composedemo.presentation.components.DrawerMenu
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
-import edu.ucne.composedemo.presentation.suplidorGastos.SuplidorGastosListScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -26,13 +25,7 @@ fun DemoAp2NavHost(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     DrawerMenu(
         drawerState = drawerState,
-        navClienteList = { navHostController.navigate(Screen.ClienteList) },
-        navTicketList = { navHostController.navigate(Screen.TicketList) },
-        navSistemaList = { navHostController.navigate(Screen.SistemaList) },
-        navEquiposAnyDeskList = { navHostController.navigate(Screen.EquiposAnyDeskList) },
-        navAnyDeskLogList = { navHostController.navigate(Screen.AnyDeskLogList) },
-        navSuplidorGastosList = { navHostController.navigate(Screen.SuplidorGastosList) }
-
+        navHostController = navHostController
     ) {
         NavHost(
             navController = navHostController,
@@ -106,16 +99,6 @@ fun DemoAp2NavHost(
                             drawerState.open()
                         }
                     }
-                )
-            }
-            composable<Screen.SuplidorGastosList> {
-                SuplidorGastosListScreen(
-                    onDrawer = {
-                        scope.launch {
-                            drawerState.open()
-                        }
-                    },
-                    onGoCreate = {}
                 )
             }
         }
