@@ -131,7 +131,14 @@ fun GastosRow(
                     )
                 )
                 Text(
-                    text = "Descripcion: ${gasto.fecha}",
+                    text = "Fecha: ${gasto.fecha}",
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
+                )
+                Text(
+                    text = "Concepto: ${gasto.concepto}",
                     style = TextStyle(
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
