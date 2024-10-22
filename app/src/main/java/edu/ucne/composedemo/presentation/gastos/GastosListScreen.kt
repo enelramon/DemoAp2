@@ -55,6 +55,7 @@ fun GastosListBodyscreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
+                    onDrawer()
                     Text(
                         text = "Lista de Gastos",
                         style = TextStyle(
