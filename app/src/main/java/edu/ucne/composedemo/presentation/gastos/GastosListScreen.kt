@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.composedemo.data.remote.dto.GastoDto
-import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 
 @Composable
 fun GastosListScreen(
@@ -84,11 +83,9 @@ fun GastosListBodyscreen(
                         .fillMaxSize()
                         .wrapContentSize(align = Alignment.Center)
                 )
-            }
-            else if (uiState.errorMessage.isNotEmpty()) {
+            } else if (uiState.errorMessage.isNotEmpty()) {
                 Text("Error: ${uiState.errorMessage}")
-            }
-            else {
+            } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -101,6 +98,18 @@ fun GastosListBodyscreen(
         }
     }
 }
+
+@Composable
+fun GastoInfoRow(label: String, value: String) {
+    Text(
+        text = "$label: $value",
+        style = TextStyle(
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+        )
+    )
+}
+
 @Composable
 fun GastosRow(
     gasto: GastoDto
@@ -111,7 +120,7 @@ fun GastosRow(
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
         elevation = CardDefaults.cardElevation(6.dp)
-    ){
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -119,65 +128,20 @@ fun GastosRow(
                 .padding(16.dp)
                 .background(MaterialTheme.colorScheme.surfaceVariant),
             horizontalArrangement = Arrangement.SpaceBetween
-        ){
+        ) {
             Column(
                 modifier = Modifier.weight(5f),
                 verticalArrangement = Arrangement.Center
-            ){
-                Text(
-                    text = gasto.concepto,
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                )
-                Text(
-                    text = "Fecha: ${gasto.fecha}",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                    )
-                )
-                Text(
-                    text = "Concepto: ${gasto.concepto}",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                    )
-                )
-                Text(
-                    text = "Descuento: ${gasto.descuento}",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                    )
-                )
-                Text(
-                    text = "Itbis: ${gasto.itbis}",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                    )
-                )
-                Text(
-                    text = "Monto: ${gasto.monto}",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                    )
-                )
-                Text(
-                    text = "Suplidor: ${gasto.suplidor}",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                    )
-                )
+            ) {
+                GastoInfoRow(label = "Concepto", value = gasto.concepto)
+                GastoInfoRow(label = "Fecha", value = gasto.fecha)
+                GastoInfoRow(label = "Descuento", value = "${gasto.descuento}")
+                GastoInfoRow(label = "Itbis", value = "${gasto.itbis}")
+                GastoInfoRow(label = "Monto", value = "${gasto.monto}")
+                GastoInfoRow(label = "Suplidor", value = gasto.suplidor)
             }
         }
     }
-
 }
 
 @Preview(showSystemUi = true, showBackground = true)
@@ -212,5 +176,4 @@ private fun Preview() {
         uiState = GastosUiState(gastos = list),
         onDrawer = {}
     )
-
 }
