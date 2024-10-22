@@ -80,6 +80,11 @@ fun DrawerMenu(
             title = "SuplidoresGastos",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info
+        ),
+        NavigationItem(
+            title = "Cuentas x Cobrar",
+            selectedIcon = Icons.Filled.Info,
+            unselectedIcon = Icons.Outlined.Info
         )
 
 
@@ -128,6 +133,7 @@ fun DrawerMenu(
                                 "Cobros" -> {navHostController.navigate(Screen.CobroList)}
                                 "Tipos Soportes" -> {navHostController.navigate(Screen.TiposSoportesList)}
                                 "SuplidoresGastos"-> {navHostController.navigate(Screen.SuplidoresGastosList)}
+                                "Cuentas x Cobrar" -> {navHostController.navigate(Screen.CxcList)}
                             }
                         }
                     )
