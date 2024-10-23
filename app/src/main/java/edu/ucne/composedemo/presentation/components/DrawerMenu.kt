@@ -63,9 +63,11 @@ fun DrawerMenu(
         ),
         NavigationItem(
             title = "Cuentas x Cobrar",
+            title = "Cobros",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info
         )
+
     )
     val selectedItem = remember { mutableStateOf(items[0]) }
 
@@ -108,6 +110,7 @@ fun DrawerMenu(
                                 "Equipos AnyDesks" -> {navHostController.navigate(Screen.EquiposAnyDeskList)}
                                 "AnyDeskLogs" -> {navHostController.navigate(Screen.AnyDeskLogList)}
                                 "Cuentas x Cobrar" -> {navHostController.navigate(Screen.CxcList)}
+                                "Cobros" -> {navHostController.navigate(Screen.CobroList)}
                             }
                         }
                     )

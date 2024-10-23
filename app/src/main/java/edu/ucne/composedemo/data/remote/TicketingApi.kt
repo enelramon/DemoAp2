@@ -4,6 +4,7 @@ import edu.ucne.composedemo.data.remote.dto.AnyDeskLogDto
 import edu.ucne.composedemo.data.remote.dto.ClienteDto
 import edu.ucne.composedemo.data.remote.dto.CxcDto
 import edu.ucne.composedemo.data.remote.dto.EquiposAnyDeskDto
+import edu.ucne.composedemo.data.remote.dto.CobroDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -35,5 +36,9 @@ interface TicketingApi {
     @Headers("X-API-Key:test")
     @GET("api/Cxc/{idCliente}")
     suspend fun getCxc(@Path("idCliente") idCliente: Int): List<CxcDto>
+    @GET("api/Cobros")
+    suspend fun  getCobro(): List<CobroDto>
+
+
 
 }
