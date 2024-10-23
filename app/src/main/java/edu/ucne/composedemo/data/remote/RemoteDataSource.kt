@@ -5,6 +5,7 @@ import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
     private val ticketingApi: TicketingApi
+
 ) {
     suspend fun getSistemas() = ticketingApi.getSistemas()
 
@@ -17,4 +18,7 @@ class RemoteDataSource @Inject constructor(
     suspend fun getAnydeskLog(id: Int) = ticketingApi.getAnyDeskLogs(id)
 
     suspend fun getSuplidoresGastos() = ticketingApi.getSuplidoresGastos()
+    suspend fun getCobros() = ticketingApi.getCobro()
+
+
 }

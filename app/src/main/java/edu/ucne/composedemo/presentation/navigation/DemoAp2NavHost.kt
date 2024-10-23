@@ -12,6 +12,7 @@ import edu.ucne.composedemo.presentation.Ticket.TicketListScreen
 import edu.ucne.composedemo.presentation.Ticket.TicketScreen
 import edu.ucne.composedemo.presentation.anydesklog.AnyDeskLogListScreen
 import edu.ucne.composedemo.presentation.cliente.ClienteListScreen
+import edu.ucne.composedemo.presentation.cobro.CobroListScreen
 import edu.ucne.composedemo.presentation.components.DrawerMenu
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
@@ -104,12 +105,15 @@ fun DemoAp2NavHost(
             }
             composable<Screen.SuplidorGastosList> {
                 SuplidorGastosListScreen(
+            composable<Screen.CobroList> {
+                CobroListScreen(
                     onDrawer = {
                         scope.launch {
                             drawerState.open()
                         }
                     },
                     onGoCreate = {}
+                    }
                 )
             }
         }
