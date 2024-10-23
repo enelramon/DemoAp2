@@ -35,7 +35,7 @@ import java.util.Locale
 @Composable
 fun CobroListScreen(
     viewModel: CobroViewModel = hiltViewModel(),
-            onDrawer: () -> Unit
+    onDrawer: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     CobroListBodyScreen(uiState)
