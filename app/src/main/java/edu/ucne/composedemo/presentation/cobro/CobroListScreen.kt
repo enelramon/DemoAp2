@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.composedemo.data.remote.dto.CobroDto
+import edu.ucne.composedemo.presentation.components.TopBarComponent
 
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -38,16 +39,18 @@ fun CobroListScreen(
     onDrawer: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    CobroListBodyScreen(uiState)
+    CobroListBodyScreen(uiState, onDrawer)
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CobroListBodyScreen(uiState: CobroUiState) {
+fun CobroListBodyScreen(uiState: CobroUiState, onDrawer: () -> Unit) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            CenterAlignedTopAppBar(title = { Text(text = "Cobros") })
+            TopBarComponent (
+                title = "Cobros" ,onDrawer)
         }
     ) { innerPadding ->
         Column(
