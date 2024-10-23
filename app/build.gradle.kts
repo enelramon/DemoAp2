@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -31,6 +32,8 @@ android {
 
     buildTypes {
         release {
+
+
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -74,6 +77,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+
+
+
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.4")
 
     //navegacion
@@ -105,6 +111,8 @@ dependencies {
     testImplementation("app.cash.turbine:turbine:1.1.0")
     testImplementation("org.robolectric:robolectric:4.11.1")
     testImplementation("com.google.truth:truth:1.4.2")
+    testImplementation("junit:junit:4.13.2")
+
 
 
     androidTestImplementation(libs.androidx.junit)
