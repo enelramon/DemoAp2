@@ -18,5 +18,8 @@ sealed class Screen {
     @Serializable
     data object GastosList : Screen()
 
+    @Serializable
+    data object CobroList : Screen()
+
 
 }

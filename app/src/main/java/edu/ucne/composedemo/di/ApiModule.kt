@@ -26,6 +26,7 @@ object ApiModule {
     fun provideMoshi(): Moshi =
         Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
+            .add(DateAdapter())
             .build()
 
     @Provides
