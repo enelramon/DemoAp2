@@ -2,9 +2,10 @@ package edu.ucne.composedemo.data.remote
 
 import edu.ucne.composedemo.data.remote.dto.AnyDeskLogDto
 import edu.ucne.composedemo.data.remote.dto.ClienteDto
+import edu.ucne.composedemo.data.remote.dto.CobroDto
+import edu.ucne.composedemo.data.remote.dto.CxcDto
 import edu.ucne.composedemo.data.remote.dto.EquiposAnyDeskDto
 import edu.ucne.composedemo.data.remote.dto.GastoDto
-import edu.ucne.composedemo.data.remote.dto.CobroDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
 import edu.ucne.composedemo.data.remote.dto.TiposSoportesDto
@@ -39,7 +40,6 @@ interface TicketingApi {
     @GET("api/Gastos")
     suspend fun getGastos(): List<GastoDto>
 
-
     @Headers("X-API-Key:test")
     @GET("api/Cobros")
     suspend fun  getCobro(): List<CobroDto>
@@ -52,5 +52,8 @@ interface TicketingApi {
     @GET("api/SuplidoresGastos")
     suspend fun getSuplidoresGastos(): List<SuplidorGastoDto>
 
+    @Headers("X-API-Key:test")
+    @GET("api/Cxc/{idCliente}")
+    suspend fun getCxc(@Path("idCliente") idCliente: Int): List<CxcDto>
 
 }
