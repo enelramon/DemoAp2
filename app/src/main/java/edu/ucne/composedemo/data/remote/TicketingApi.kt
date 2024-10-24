@@ -5,6 +5,7 @@ import edu.ucne.composedemo.data.remote.dto.ClienteDto
 import edu.ucne.composedemo.data.remote.dto.EquiposAnyDeskDto
 import edu.ucne.composedemo.data.remote.dto.CobroDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
+import edu.ucne.composedemo.data.remote.dto.TiposSoportesDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -36,6 +37,7 @@ interface TicketingApi {
     @GET("api/Cobros")
     suspend fun  getCobro(): List<CobroDto>
 
-
-
+    @Headers("X-API-Key:test")
+    @GET("api/TiposSoportes")
+    suspend fun getTiposSoportes(): List<TiposSoportesDto>
 }
