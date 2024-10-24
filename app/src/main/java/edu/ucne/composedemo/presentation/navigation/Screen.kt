@@ -22,4 +22,6 @@ sealed class Screen {
     data object CobroList : Screen()
     @Serializable
     data object TiposSoportesList : Screen()
+    @Serializable
+    data object SuplidoresGastosList : Screen()
 }
