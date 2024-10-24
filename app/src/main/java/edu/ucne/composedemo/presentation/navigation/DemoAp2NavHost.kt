@@ -17,6 +17,7 @@ import edu.ucne.composedemo.presentation.components.DrawerMenu
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
 import edu.ucne.composedemo.presentation.gastos.GastosListScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
+import edu.ucne.composedemo.presentation.suplidorGastos.SuplidorGastosListScreen
 import edu.ucne.composedemo.presentation.tipossoportes.TiposSoportesListScreen
 import kotlinx.coroutines.launch
 
@@ -130,6 +131,16 @@ fun DemoAp2NavHost(
                             drawerState.open()
                         }
                     }
+                )
+            }
+            composable<Screen.SuplidoresGastosList> {
+                SuplidorGastosListScreen (
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    },
+                    onGoCreate = {}
                 )
             }
         }
