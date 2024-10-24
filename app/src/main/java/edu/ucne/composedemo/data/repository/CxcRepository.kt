@@ -16,9 +16,6 @@ class CxcRepository @Inject constructor(
         try {
             emit(Resource.Loading())
             val cxc = remoteDataSource.getCxc(idCliente)
-
-            //Todo: Insertar "sistemas" a la base de datos room
-
             emit(Resource.Success(cxc))
         } catch (e: HttpException) {
             emit(Resource.Error("Error de internet ${e.message}"))
