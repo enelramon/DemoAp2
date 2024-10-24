@@ -2,8 +2,13 @@ package edu.ucne.composedemo.data.remote
 
 import edu.ucne.composedemo.data.remote.dto.AnyDeskLogDto
 import edu.ucne.composedemo.data.remote.dto.ClienteDto
+import edu.ucne.composedemo.data.remote.dto.CobroDto
+import edu.ucne.composedemo.data.remote.dto.CxcDto
 import edu.ucne.composedemo.data.remote.dto.EquiposAnyDeskDto
+import edu.ucne.composedemo.data.remote.dto.GastoDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
+import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
+import edu.ucne.composedemo.data.remote.dto.TiposSoportesDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
