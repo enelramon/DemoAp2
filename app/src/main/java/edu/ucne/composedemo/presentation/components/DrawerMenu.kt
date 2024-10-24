@@ -62,13 +62,17 @@ fun DrawerMenu(
             unselectedIcon = Icons.Outlined.Info
         ),
         NavigationItem(
+            title = "Gastos",
+            selectedIcon = Icons.Filled.Info,
+            unselectedIcon = Icons.Outlined.Info
+        ),
+        NavigationItem(
             title = "Cobros",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info
-        )
-        ,
+        ),
         NavigationItem(
-            title = "SuplidoresGastos",
+            title = "Tipos Soportes",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info
         )
@@ -114,8 +118,9 @@ fun DrawerMenu(
                                 "Clientes" -> {navHostController.navigate(Screen.ClienteList)}
                                 "Equipos AnyDesks" -> {navHostController.navigate(Screen.EquiposAnyDeskList)}
                                 "AnyDeskLogs" -> {navHostController.navigate(Screen.AnyDeskLogList)}
-                                "SuplidoresGastos" -> {navHostController.navigate(Screen.SuplidorGastosList)}
+                                "Gastos" -> {navHostController.navigate(Screen.GastosList)}
                                 "Cobros" -> {navHostController.navigate(Screen.CobroList)}
+                                "Tipos Soportes" -> {navHostController.navigate(Screen.TiposSoportesList)}
                             }
                         }
                     )
