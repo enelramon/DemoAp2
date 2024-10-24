@@ -17,7 +17,8 @@ class ClienteRepository @Inject constructor(
             val clientes = remoteDataSource.getClientes()
             emit(Resource.Success(clientes))
         } catch (e: HttpException) {
-            emit(Resource.Error("Error de conexion ${e.message()}"))
+            val errorMessage = e.response()?.errorBody()?.string() ?: e.message()
+            emit(Resource.Error("Error de conexion $errorMessage"))
         } catch (e: Exception) {
             emit(Resource.Error("Error ${e.message}"))
         }
