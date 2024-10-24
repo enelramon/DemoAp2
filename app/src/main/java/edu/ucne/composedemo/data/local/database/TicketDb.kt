@@ -7,7 +7,7 @@ import edu.ucne.composedemo.data.local.entities.TicketEntity
 
 @Database(
     entities = [
-        TicketEntity::class
+        TicketEntity::class,
     ],
     version = 1,
     exportSchema = false
