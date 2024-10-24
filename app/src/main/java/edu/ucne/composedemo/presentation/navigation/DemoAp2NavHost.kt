@@ -105,16 +105,22 @@ fun DemoAp2NavHost(
             }
             composable<Screen.SuplidorGastosList> {
                 SuplidorGastosListScreen(
-            composable<Screen.CobroList> {
-                CobroListScreen(
                     onDrawer = {
                         scope.launch {
                             drawerState.open()
                         }
                     },
                     onGoCreate = {}
-                    }
                 )
+                composable<Screen.CobroList> {
+                    CobroListScreen(
+                        onDrawer = {
+                            scope.launch {
+                                drawerState.open()
+                            }
+                        }
+                    )
+                }
             }
         }
     }
