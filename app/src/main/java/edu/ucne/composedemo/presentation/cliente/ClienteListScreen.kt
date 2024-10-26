@@ -207,8 +207,8 @@ fun ClienteListPreview() {
             empresa = "Empresa 1",
             direccion = "Direccion 1",
             telefono = "809-123-4567",
-            celular = "809-123-4567",
-            rnc = "123456789",
+            celular = "829-456-9435",
+            rnc = "111111111",
             tieneIguala = true,
             tipoComprobante = 1
         ),
@@ -217,22 +217,11 @@ fun ClienteListPreview() {
             nombres = "Maria Perez",
             empresa = "Empresa 2",
             direccion = "Direccion 2",
-            telefono = "809-123-4567",
-            celular = "809-123-4567",
-            rnc = "123456789",
+            telefono = "809-300-9212",
+            celular = "829-452-9870",
+            rnc = "222222222",
             tieneIguala = true,
-            tipoComprobante = 1
-        ),
-        ClienteDto(
-            codigoCliente = 3,
-            nombres = "Pedro Perez",
-            empresa = "Empresa 3",
-            direccion = "Direccion 3",
-            telefono = "809-123-4567",
-            celular = "809-123-4567",
-            rnc = "123456789",
-            tieneIguala = true,
-            tipoComprobante = 1
+            tipoComprobante = 2
         )
     )
 
