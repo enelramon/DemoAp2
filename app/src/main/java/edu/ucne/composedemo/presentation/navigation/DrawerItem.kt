@@ -18,26 +18,20 @@ import kotlinx.coroutines.launch
 fun DrawerItem(
     title: String,
     icon: ImageVector,
-    drawerState: DrawerState,
-    mutableState: MutableState<String>,
+    isSelected: Boolean,
     navigateTo: () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
     NavigationDrawerItem(
         icon = {
             Icon(
                 imageVector = icon,
                 contentDescription = title,
-                tint = if (title == mutableState.value)
+                tint = if (isSelected)
                     Color.Black else Color.Gray
             )
         },
         label = { Text(text = title) },
-        selected = mutableState.value == title,
-        onClick = {
-            navigateTo()
-            mutableState.value = title
-            scope.launch { drawerState.close() }
-        }
+        selected = isSelected,
+        onClick = navigateTo
     )
 }
