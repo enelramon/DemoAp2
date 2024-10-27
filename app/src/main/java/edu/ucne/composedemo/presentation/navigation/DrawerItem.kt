@@ -20,7 +20,7 @@ fun DrawerItem(
     icon: ImageVector,
     drawerState: DrawerState,
     mutableState: MutableState<String>,
-    navegateTo: () -> Unit
+    navigateTo: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     NavigationDrawerItem(
@@ -35,7 +35,7 @@ fun DrawerItem(
         label = { Text(text = title) },
         selected = mutableState.value == title,
         onClick = {
-            navegateTo()
+            navigateTo()
             mutableState.value = title
             scope.launch { drawerState.close() }
         }
