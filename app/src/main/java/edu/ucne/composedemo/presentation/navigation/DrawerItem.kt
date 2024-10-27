@@ -12,7 +12,7 @@ fun DrawerItem(
     title: String,
     icon: ImageVector,
     isSelected: Boolean,
-    navigateTo: () -> Unit
+    navigateTo: (String) -> Unit
 ) {
     NavigationDrawerItem(
         icon = {
@@ -25,6 +25,6 @@ fun DrawerItem(
         },
         label = { Text(text = title) },
         selected = isSelected,
-        onClick = navigateTo
+        onClick = { navigateTo(title) }
     )
 }
