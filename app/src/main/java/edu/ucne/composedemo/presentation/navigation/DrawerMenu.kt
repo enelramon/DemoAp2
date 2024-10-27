@@ -16,11 +16,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.launch
 
 @Composable
 fun DrawerMenu(
@@ -29,6 +31,7 @@ fun DrawerMenu(
     content: @Composable () -> Unit
 ) {
     val selectedItem = remember { mutableStateOf("Sistemas") }
+    val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
         drawerContent = {
@@ -47,46 +50,96 @@ fun DrawerMenu(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 LazyColumn {
-                    item{
+                    item {
                         DrawerItem(
-                            "Sistemas", Icons.Filled.Info, drawerState, selectedItem,
-                        ){ navHostController.navigate(Screen.SistemaList) }
+                            "Sistemas", Icons.Filled.Info, selectedItem.value == "Sistemas",
+                        ) {
+                            navHostController.navigate(Screen.SistemaList)
+                            selectedItem.value = "Sistemas"
+                            scope.launch { drawerState.close() }
+                        }
 
                         DrawerItem(
-                            "Tickets", Icons.Filled.Info, drawerState, selectedItem,
-                        ){ navHostController.navigate(Screen.TicketList) }
+                            "Tickets", Icons.Filled.Info, selectedItem.value == "Tickets",
+                        ) {
+                            navHostController.navigate(Screen.TicketList)
+                            selectedItem.value = "Tickets"
+                            scope.launch { drawerState.close() }
+                        }
 
                         DrawerItem(
-                            "Clientes", Icons.Filled.Info, drawerState, selectedItem,
-                        ){ navHostController.navigate(Screen.ClienteList) }
+                            "Clientes", Icons.Filled.Info, selectedItem.value == "Clientes",
+                        ) {
+                            navHostController.navigate(Screen.ClienteList)
+                            selectedItem.value = "Clientes"
+                            scope.launch { drawerState.close() }
+                        }
 
                         DrawerItem(
-                            "Equipos AnyDesks", Icons.Filled.Info, drawerState, selectedItem,
-                        ){ navHostController.navigate(Screen.EquiposAnyDeskList) }
+                            "Equipos AnyDesks",
+                            Icons.Filled.Info,
+                            selectedItem.value == "Equipos AnyDesks",
+                        ) {
+                            navHostController.navigate(Screen.EquiposAnyDeskList)
+                            selectedItem.value = "Equipos AnyDesks"
+                            scope.launch { drawerState.close() }
+                        }
 
                         DrawerItem(
-                            "AnyDeskLogs", Icons.Filled.Info, drawerState, selectedItem,
-                        ){ navHostController.navigate(Screen.AnyDeskLogList) }
+                            "AnyDeskLogs", Icons.Filled.Info, selectedItem.value == "AnyDeskLogs",
+                        ) {
+                            navHostController.navigate(Screen.AnyDeskLogList)
+                            selectedItem.value = "AnyDeskLogs"
+                            scope.launch { drawerState.close() }
+                        }
 
                         DrawerItem(
-                            "Gastos", Icons.Filled.Info, drawerState, selectedItem,
-                        ){ navHostController.navigate(Screen.GastosList) }
+                            "Gastos", Icons.Filled.Info, selectedItem.value == "Gastos",
+                        ) {
+                            navHostController.navigate(Screen.GastosList)
+                            selectedItem.value = "Gastos"
+                            scope.launch { drawerState.close() }
+                        }
 
                         DrawerItem(
-                            "Cobros", Icons.Filled.Info, drawerState, selectedItem,
-                        ){ navHostController.navigate(Screen.CobroList) }
+                            "Cobros", Icons.Filled.Info, selectedItem.value == "Cobros",
+                        ) {
+                            navHostController.navigate(Screen.CobroList)
+                            selectedItem.value = "Cobros"
+                            scope.launch { drawerState.close() }
+                        }
 
                         DrawerItem(
-                            "Tipos Soportes", Icons.Filled.Info, drawerState, selectedItem,
-                        ){ navHostController.navigate(Screen.TiposSoportesList) }
+                            "Tipos Soportes",
+                            Icons.Filled.Info,
+                            selectedItem.value == "Tipos Soportes",
+                        ) {
+                            navHostController.navigate(Screen.TiposSoportesList)
+                            selectedItem.value = "Tipos Soportes"
+                            scope.launch { drawerState.close() }
+                        }
 
                         DrawerItem(
-                            "Suplidores Gastos", Icons.Filled.Info, drawerState, selectedItem,
-                        ){ navHostController.navigate(Screen.SuplidoresGastosList) }
+                            "Suplidores Gastos",
+                            Icons.Filled.Info,
+                            selectedItem.value == "Suplidores Gastos",
+                        ) {
+                            navHostController.navigate(Screen.SuplidoresGastosList)
+                            selectedItem.value = "Suplidores Gastos"
+                            scope.launch { drawerState.close() }
+                        }
 
                         DrawerItem(
-                            "Cuentas x Cobrar", Icons.Filled.Info, drawerState, selectedItem
-                        ){ navHostController.navigate(Screen.CxcList) }
+                            "Cuentas x Cobrar",
+                            Icons.Filled.Info,
+                            selectedItem.value == "Cuentas x Cobrar"
+                        ) {
+                            navHostController.navigate(Screen.CxcList)
+                            selectedItem.value = "Cuentas x Cobrar"
+                            scope.launch {
+                                drawerState.close()
+                            }
+                        }
                     }
                 }
             }
