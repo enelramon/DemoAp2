@@ -19,9 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import edu.ucne.composedemo.R
 import kotlinx.coroutines.launch
 
 @Composable
@@ -51,94 +53,105 @@ fun DrawerMenu(
 
                 LazyColumn {
                     item {
+
                         DrawerItem(
-                            "Sistemas", Icons.Filled.Info, selectedItem.value == "Sistemas",
+                            title = stringResource(R.string.drawer_sistemas),
+                            icon = Icons.Filled.Info,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_sistemas)
                         ) {
                             navHostController.navigate(Screen.SistemaList)
-                            selectedItem.value = "Sistemas"
+                            selectedItem.value = it
                             scope.launch { drawerState.close() }
                         }
 
                         DrawerItem(
-                            "Tickets", Icons.Filled.Info, selectedItem.value == "Tickets",
+                            title = stringResource(R.string.drawer_tickets),
+                            icon = Icons.Filled.Info,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_tickets)
                         ) {
                             navHostController.navigate(Screen.TicketList)
-                            selectedItem.value = "Tickets"
+                            selectedItem.value = it
                             scope.launch { drawerState.close() }
                         }
 
                         DrawerItem(
-                            "Clientes", Icons.Filled.Info, selectedItem.value == "Clientes",
+                            title = stringResource(R.string.drawer_clientes),
+                            icon = Icons.Filled.Info,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_clientes)
                         ) {
                             navHostController.navigate(Screen.ClienteList)
-                            selectedItem.value = "Clientes"
+                            selectedItem.value = it
                             scope.launch { drawerState.close() }
                         }
 
                         DrawerItem(
-                            "Equipos AnyDesks",
-                            Icons.Filled.Info,
-                            selectedItem.value == "Equipos AnyDesks",
+                            title = stringResource(R.string.drawer_equiposAnydesks),
+                            icon = Icons.Filled.Info,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_equiposAnydesks)
                         ) {
                             navHostController.navigate(Screen.EquiposAnyDeskList)
-                            selectedItem.value = "Equipos AnyDesks"
+                            selectedItem.value = it
                             scope.launch { drawerState.close() }
                         }
 
                         DrawerItem(
-                            "AnyDeskLogs", Icons.Filled.Info, selectedItem.value == "AnyDeskLogs",
+                            title = stringResource(R.string.drawer_anydeskLogs),
+                            icon = Icons.Filled.Info,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_anydeskLogs)
                         ) {
                             navHostController.navigate(Screen.AnyDeskLogList)
-                            selectedItem.value = "AnyDeskLogs"
+                            selectedItem.value = it
                             scope.launch { drawerState.close() }
                         }
 
                         DrawerItem(
-                            "Gastos", Icons.Filled.Info, selectedItem.value == "Gastos",
+                            title = stringResource(R.string.drawer_gastos),
+                            icon = Icons.Filled.Info,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_gastos)
                         ) {
                             navHostController.navigate(Screen.GastosList)
-                            selectedItem.value = "Gastos"
+                            selectedItem.value = it
                             scope.launch { drawerState.close() }
                         }
 
                         DrawerItem(
-                            "Cobros", Icons.Filled.Info, selectedItem.value == "Cobros",
+                            title = stringResource(R.string.drawer_cobros),
+                            icon = Icons.Filled.Info,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_cobros)
                         ) {
                             navHostController.navigate(Screen.CobroList)
-                            selectedItem.value = "Cobros"
+                            selectedItem.value = it
                             scope.launch { drawerState.close() }
                         }
 
                         DrawerItem(
-                            "Tipos Soportes",
-                            Icons.Filled.Info,
-                            selectedItem.value == "Tipos Soportes",
+                            title = stringResource(R.string.drawer_tiposSoportes),
+                            icon = Icons.Filled.Info,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_tiposSoportes)
                         ) {
                             navHostController.navigate(Screen.TiposSoportesList)
-                            selectedItem.value = "Tipos Soportes"
+                            selectedItem.value = it
                             scope.launch { drawerState.close() }
                         }
 
                         DrawerItem(
-                            "Suplidores Gastos",
-                            Icons.Filled.Info,
-                            selectedItem.value == "Suplidores Gastos",
+                            title = stringResource(R.string.drawer_suplidoresGastos),
+                            icon = Icons.Filled.Info,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_suplidoresGastos)
                         ) {
                             navHostController.navigate(Screen.SuplidoresGastosList)
-                            selectedItem.value = "Suplidores Gastos"
+                            selectedItem.value = it
                             scope.launch { drawerState.close() }
                         }
 
                         DrawerItem(
-                            "Cuentas x Cobrar",
-                            Icons.Filled.Info,
-                            selectedItem.value == "Cuentas x Cobrar"
+                            title = stringResource(R.string.drawer_cxc),
+                            icon = Icons.Filled.Info,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_cxc)
                         ) {
                             navHostController.navigate(Screen.CxcList)
-                            selectedItem.value = "Cuentas x Cobrar"
-                            scope.launch {
-                                drawerState.close()
-                            }
+                            selectedItem.value = it
+                            scope.launch { drawerState.close() }
                         }
                     }
                 }
