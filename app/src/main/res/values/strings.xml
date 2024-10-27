@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">DemoAp2</string>
+    <string name="drawer_sistemas">Sistemas</string>
+    <string name="drawer_tickets">Tickets</string>
+    <string name="drawer_clientes">Clientes</string>
+    <string name="drawer_equiposAnydesks">Equipos AnyDesks</string>
+    <string name="drawer_anydeskLogs">AnyDeskLogs</string>
+    <string name="drawer_gastos">Gastos</string>
+    <string name="drawer_cobros">Cobros</string>
+    <string name="drawer_tiposSoportes">Tipos Soportes</string>
+    <string name="drawer_suplidoresGastos">Suplidores Gastos</string>
+    <string name="drawer_cxc">Cuentas x Cobrar</string>
 </resources>
