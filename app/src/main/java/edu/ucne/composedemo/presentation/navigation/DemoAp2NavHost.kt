@@ -52,9 +52,7 @@ fun DemoAp2NavHost(
             }
 
             composable<Screen.Ticket> {
-                val args = it.toRoute<Screen.Ticket>()
                 TicketScreen(
-                    ticketId = args.ticketId,
                     goBack = {
                         navHostController.navigateUp()
                     },

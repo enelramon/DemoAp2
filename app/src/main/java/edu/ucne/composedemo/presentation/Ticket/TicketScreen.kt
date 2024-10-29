@@ -35,7 +35,6 @@ import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 @Composable
 fun TicketScreen(
     viewModel: TicketViewModel = hiltViewModel(),
-    ticketId: Int,
     goBack: () -> Unit,
     onDrawer: () -> Unit
 ) {
@@ -109,7 +108,6 @@ fun TicketBodyScreen(
                             )
                             Text(text = "Nuevo")
                         }
-                        val scope = rememberCoroutineScope()
                         OutlinedButton(
 
                             onClick = {
@@ -126,7 +124,6 @@ fun TicketBodyScreen(
                     }
                 }
             }
-//            TicketListScreen(uiState.tickets,)
         }
     }
 }
