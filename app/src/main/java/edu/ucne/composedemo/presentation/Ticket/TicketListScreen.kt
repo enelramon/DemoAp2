@@ -80,8 +80,7 @@ fun TicketListBodyScreen(
                 items(uiState.tickets) {
                     TicketRow(
                         it,
-                        goToTicket,
-                        createTicket
+                        goToTicket
                     )
                 }
             }
@@ -91,8 +90,7 @@ fun TicketListBodyScreen(
 @Composable
 private fun TicketRow(
     it: TicketEntity,
-    goToTicket: (Int) -> Unit,
-    createTicket: () -> Unit
+    goToTicket: (Int) -> Unit
 ) {
 
         Column(
@@ -116,5 +114,4 @@ private fun TicketRow(
             }
         }
         HorizontalDivider()
-
 }
