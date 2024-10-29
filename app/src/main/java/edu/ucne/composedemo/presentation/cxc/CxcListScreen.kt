@@ -135,16 +135,7 @@ fun CxcListBody(
                             state = dismissState,
                             enableDismissFromStartToEnd = false,
                             enableDismissFromEndToStart = false,
-                            backgroundContent = {
-                                val color by animateColorAsState(
-                                    when (dismissState.targetValue) {
-                                        SwipeToDismissBoxValue.Settled -> Color.Transparent
-                                        SwipeToDismissBoxValue.EndToStart -> Color.Red
-                                        SwipeToDismissBoxValue.StartToEnd -> TODO()
-                                    },
-                                    label = "Changing color"
-                                )
-                            },
+                            backgroundContent = {},
                             modifier = Modifier
                         ) {
                             Row(
