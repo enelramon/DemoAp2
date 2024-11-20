@@ -1,5 +1,6 @@
 package edu.ucne.composedemo.data.remote
 
+import androidx.room.Delete
 import edu.ucne.composedemo.data.remote.dto.AnyDeskLogDto
 import edu.ucne.composedemo.data.remote.dto.ClienteDto
 import edu.ucne.composedemo.data.remote.dto.CobroDto
@@ -8,10 +9,12 @@ import edu.ucne.composedemo.data.remote.dto.EquiposAnyDeskDto
 import edu.ucne.composedemo.data.remote.dto.GastoDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
+import edu.ucne.composedemo.data.remote.dto.TicketDto
 import edu.ucne.composedemo.data.remote.dto.TiposSoportesDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
@@ -23,6 +26,10 @@ interface TicketingApi {
     @Headers("X-API-Key", "test")
     @PUT("api/Sistemas")
     suspend fun updateSistema(@Body sistemaDto: SistemaDto): SistemaDto
+
+    @Headers("X-API-Key:test")
+    @GET("api/Clientes/GetClientes")
+    suspend fun getClientee(): List<ClienteDto>
 
     @Headers("X-API-Key:test")
     @GET("api/Clientes/GetClientes")
@@ -55,5 +62,21 @@ interface TicketingApi {
     @Headers("X-API-Key:test")
     @GET("api/Cxc/{idCliente}")
     suspend fun getCxc(@Path("idCliente") idCliente: Int): List<CxcDto>
+
+
+
+    @Headers("X-API-Key:test")
+    @GET("api/Tickets")
+    suspend fun getTickets() : List<TicketDto>
+    @Headers("X-API-Key:test")
+    @GET("api/Tickets/{idTicket}")
+    suspend fun getTicket(@Path("idTicket") idTicket: Double): List<TicketDto>
+    @Headers("X-API-Key:test")
+    @POST("api/Tickets")
+    suspend fun saveTicket(@Body ticketDto: TicketDto): TicketDto
+    @PUT("api/Tickets/{idTickets}")
+    suspend fun putTickets(@Path("idTickets") idTicket: Double, @Body ticket: TicketDto):TicketDto
+
+
 
 }
