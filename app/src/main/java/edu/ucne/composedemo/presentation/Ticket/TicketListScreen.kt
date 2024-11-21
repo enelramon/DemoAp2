@@ -143,7 +143,8 @@ fun TicketListBodyScreen(
                 items(uiState.tickets) {
                     TicketCart(
                         it,
-                        date = "12/08/2023"
+                        date = "12/08/2023",
+                        goToTicket
                     )
                 }
             }
@@ -154,12 +155,16 @@ fun TicketListBodyScreen(
 @Composable
 private fun TicketCart (
     ticket: TicketEntity,
-    date: String
+    date: String,
+    goToTicket: (Int) -> Unit
 ){
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp),
+            .padding(4.dp)
+            .clickable {
+                goToTicket(ticket.ticketId ?: 0)
+            },
         elevation = CardDefaults.cardElevation()
     ) {
         Column(
