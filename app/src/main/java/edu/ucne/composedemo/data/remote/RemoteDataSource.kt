@@ -1,6 +1,7 @@
 package edu.ucne.composedemo.data.remote
 
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
+import edu.ucne.composedemo.data.remote.dto.TicketDto
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
@@ -11,6 +12,7 @@ class RemoteDataSource @Inject constructor(
 
     suspend fun updateSistemas(sistemaDto: SistemaDto) = ticketingApi.updateSistema(sistemaDto)
 
+    suspend fun getCliente(id: Double?) = ticketingApi.getClientes()
     suspend fun getClientes() = ticketingApi.getClientes()
 
     suspend fun getEquiposAnyDesks() = ticketingApi.getEquiposAnyDesks()
@@ -26,5 +28,11 @@ class RemoteDataSource @Inject constructor(
     suspend fun getSuplidoresGastos() = ticketingApi.getSuplidoresGastos()
 
     suspend fun getCxc(idCliente: Int) = ticketingApi.getCxc(idCliente)
+
+
+    suspend fun getTickets() = ticketingApi.getTickets()
+    suspend fun saveTicket(ticketDto: TicketDto) = ticketingApi.saveTicket(ticketDto)
+    suspend fun getTicket(idTicket: Double) = ticketingApi.getTicket(idTicket)
+
 
 }
