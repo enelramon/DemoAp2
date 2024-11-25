@@ -76,7 +76,7 @@ private fun MetaBodyScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedButton(
-                onClick = { /*TODO*/ },
+                onClick = {},
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
                 Text("Cerrar Meta")
