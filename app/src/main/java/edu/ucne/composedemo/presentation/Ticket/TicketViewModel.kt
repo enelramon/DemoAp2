@@ -30,6 +30,11 @@ class TicketViewModel @Inject constructor(
         viewModelScope.launch {
             clienteRepository.getClientes().collect { resource ->
                 when (resource) {
+                    is Resource.Loading -> {
+                        _uiState.update {
+                            it.copy(isLoading = true)
+                        }
+                    }
                     is Resource.Success -> {
                         _uiState.update {
                             it.copy(clientes = resource.data ?: emptyList())
@@ -40,7 +45,7 @@ class TicketViewModel @Inject constructor(
                             it.copy(errorMessage = resource.message)
                         }
                     }
-                    else -> {}
+
                 }
             }
         }
