@@ -30,6 +30,27 @@ class TicketViewModel @Inject constructor(
         viewModelScope.launch {
             clienteRepository.getClientes().collect { resource ->
                 when (resource) {
+                    is Resource.Success -> {
+                        _uiState.update {
+                            it.copy(clientes = resource.data ?: emptyList())
+                        }
+                    }
+                    is Resource.Error -> {
+                        _uiState.update {
+                            it.copy(errorMessage = resource.message)
+                        }
+                    }
+                    else -> {}
+                }
+            }
+        }
+        getClientes()
+
+    }
+    private fun getClientes() {
+        viewModelScope.launch {
+            clienteRepository.getClientes().collect { resource ->
+                when (resource) {
                     is Resource.Loading -> {
                         _uiState.update {
                             it.copy(isLoading = true)
@@ -58,6 +79,7 @@ class TicketViewModel @Inject constructor(
             is TicketEvent.AsuntoChange -> onAsuntoChange(event.asunto)
             is TicketEvent.EncargadoChange -> event.idEncargado?.let { onEncargadoChange(it) }
             TicketEvent.Save -> save()
+            TicketEvent.Delete -> delete()
             TicketEvent.New -> nuevo()
         }
     }
@@ -87,11 +109,46 @@ class TicketViewModel @Inject constructor(
                 estatus = null,
                 especificaciones = "",
                 archivo = "",
+                fecha = "",
+                vence = "",
+                prioridad = null,
+                idEncargado = null,
+                estatus = null,
+                especificaciones = "",
+                archivo = "",
 
             )
         }
     }
 
+            )
+        }
+    }
+
+    private fun getTickets() {
+        viewModelScope.launch {
+            ticketRepository.getTickets().collect { tickets ->
+                when (tickets) {
+                    is Resource.Loading -> {
+                        _uiState.update {
+                            it.copy(isLoading = true)
+                        }
+                    }
+                    is Resource.Success -> {
+                        _uiState.update {
+                            it.copy(
+                                tickets = tickets.data ?: emptyList(),
+                                isLoading = false
+                            )
+                        }
+                    }
+                    is Resource.Error ->{
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                errorCargar = tickets.message)
+                        }
+                    }
     private fun getTickets() {
         viewModelScope.launch {
             ticketRepository.getTickets().collect { tickets ->
