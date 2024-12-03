@@ -11,6 +11,8 @@ import javax.inject.Inject
 class ClienteRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) {
+    suspend fun getClienteById(id: Double) = remoteDataSource.getCliente(id)
+
     fun getClientes(): Flow<Resource<List<ClienteDto>>> = flow {
         try {
             emit(Resource.Loading())
