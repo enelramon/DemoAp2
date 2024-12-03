@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import edu.ucne.composedemo.data.local.entities.TicketEntity
+import edu.ucne.composedemo.data.remote.dto.TicketDto
 import edu.ucne.composedemo.presentation.components.TopBarComponent
 import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 
@@ -151,7 +151,7 @@ fun TicketListBodyScreen(
 
 @Composable
 private fun TicketCard (
-    ticket: TicketEntity,
+    ticket: TicketDto,
     date: String,
     goToTicket: (Double) -> Unit
 ){
@@ -184,7 +184,7 @@ private fun TicketCard (
 @Composable
 private fun TicketPreview() {
     val sampleTickets = listOf(
-        TicketEntity(
+        TicketDto(
             idTicket = 1.1,
             fecha = "2024-12-01",
             vence = "2024-12-10",
@@ -198,7 +198,7 @@ private fun TicketPreview() {
             especificaciones = "Revisión completa del sistema",
             archivo = null
         ),
-        TicketEntity(
+        TicketDto(
             idTicket = 2.1,
             fecha = "2024-12-02",
             vence = "2024-12-12",
@@ -212,7 +212,7 @@ private fun TicketPreview() {
             especificaciones = "Reemplazo de piezas defectuosas",
             archivo = "garantia.pdf"
         ),
-        TicketEntity(
+        TicketDto(
             idTicket = 3.1,
             fecha = "2024-12-03",
             vence = "2024-12-13",
