@@ -30,48 +30,18 @@ class TicketViewModel @Inject constructor(
         viewModelScope.launch {
             clienteRepository.getClientes().collect { resource ->
                 when (resource) {
-                    is Resource.Loading -> {
-                        _uiState.update {
-                            it.copy(isLoading = true)
-                        }
-                    }
+                    is Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
                     is Resource.Success -> {
+                        val clientes = resource.data ?: emptyList()
+                        val clienteMap = clientes.associateBy { it.codigoCliente }
                         _uiState.update {
-                            it.copy(clientes = resource.data ?: emptyList())
+                            it.copy(
+                                clientes = clientes,
+                                nombreCliente = clienteMap[uiState.value.idCliente]?.nombres ?: ""
+                            )
                         }
                     }
-                    is Resource.Error -> {
-                        _uiState.update {
-                            it.copy(errorMessage = resource.message)
-                        }
-                    }
-
-                }
-            }
-        }
-        getClientes()
-
-    }
-    private fun getClientes() {
-        viewModelScope.launch {
-            clienteRepository.getClientes().collect { resource ->
-                when (resource) {
-                    is Resource.Loading -> {
-                        _uiState.update {
-                            it.copy(isLoading = true)
-                        }
-                    }
-                    is Resource.Success -> {
-                        _uiState.update {
-                            it.copy(clientes = resource.data ?: emptyList())
-                        }
-                    }
-                    is Resource.Error -> {
-                        _uiState.update {
-                            it.copy(errorMessage = resource.message)
-                        }
-                    }
-
+                    is Resource.Error -> _uiState.update { it.copy(errorMessage = resource.message) }
                 }
             }
         }
@@ -84,10 +54,18 @@ class TicketViewModel @Inject constructor(
             is TicketEvent.AsuntoChange -> onAsuntoChange(event.asunto)
             is TicketEvent.EncargadoChange -> event.idEncargado?.let { onEncargadoChange(it) }
             TicketEvent.Save -> save()
-            TicketEvent.Delete -> delete()
             TicketEvent.New -> nuevo()
+            is TicketEvent.MinutosInvertidosChange -> event.minutos?.let { onMinutosInvertidosChange(it) }
+
         }
     }
+
+    private fun onMinutosInvertidosChange(minutos: Int) {
+        _uiState.update {
+            it.copy(minutosInvertidos = minutos)
+        }
+    }
+
     private fun save() {
         viewModelScope.launch {
             if (_uiState.value.idCliente ==null && _uiState.value.asunto.isNullOrBlank()){
@@ -114,17 +92,6 @@ class TicketViewModel @Inject constructor(
                 estatus = null,
                 especificaciones = "",
                 archivo = "",
-                fecha = "",
-                vence = "",
-                prioridad = null,
-                idEncargado = null,
-                estatus = null,
-                especificaciones = "",
-                archivo = "",
-
-            )
-        }
-    }
 
             )
         }
@@ -139,6 +106,7 @@ class TicketViewModel @Inject constructor(
                             it.copy(isLoading = true)
                         }
                     }
+
                     is Resource.Success -> {
                         _uiState.update {
                             it.copy(
@@ -147,41 +115,20 @@ class TicketViewModel @Inject constructor(
                             )
                         }
                     }
-                    is Resource.Error ->{
+
+                    is Resource.Error -> {
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                errorCargar = tickets.message)
-                        }
-                    }
-    private fun getTickets() {
-        viewModelScope.launch {
-            ticketRepository.getTickets().collect { tickets ->
-                when (tickets) {
-                    is Resource.Loading -> {
-                        _uiState.update {
-                            it.copy(isLoading = true)
-                        }
-                    }
-                    is Resource.Success -> {
-                        _uiState.update {
-                            it.copy(
-                                tickets = tickets.data ?: emptyList(),
-                                isLoading = false
+                                errorCargar = tickets.message
                             )
-                        }
-                    }
-                    is Resource.Error ->{
-                        _uiState.update {
-                            it.copy(
-                                isLoading = false,
-                                errorCargar = tickets.message)
                         }
                     }
                 }
             }
         }
     }
+
 
     private fun onClienteChange(cliente: Double) {
         _uiState.update {
@@ -201,10 +148,17 @@ class TicketViewModel @Inject constructor(
         }
     }
     private fun onEncargadoChange(idEncargado: Int) {
-        _uiState.update {
-            it.copy(idEncargado = idEncargado)
+        if (idEncargado > 0) {
+            _uiState.update { currentState ->
+                currentState.copy(idEncargado = idEncargado)
+            }
+        } else {
+            _uiState.update {
+                it.copy(errorMessage = "Encargado inválido")
+            }
         }
     }
+
 
 
     fun TicketUiState.toEntity() = TicketDto(
