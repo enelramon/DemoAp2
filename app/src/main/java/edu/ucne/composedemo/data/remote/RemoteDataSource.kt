@@ -1,6 +1,6 @@
 package edu.ucne.composedemo.data.remote
 
-import edu.ucne.composedemo.data.remote.dto.GastoRecurenciaDto
+import edu.ucne.composedemo.data.remote.dto.GastoRecurrenciaDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.TicketDto
 import javax.inject.Inject
@@ -37,6 +37,6 @@ class RemoteDataSource @Inject constructor(
     suspend fun getTicket(idTicket: Double) = ticketingApi.getTicket(idTicket)
 
     suspend fun getGastosRecurencias() = ticketingApi.getGastosRecurencias()
-    suspend fun createGastoRecurencia(gastosRecurenciaDto: GastoRecurenciaDto) = ticketingApi.createGastoRecurencia(gastosRecurenciaDto)
+    suspend fun createGastoRecurencia(gastosRecurenciaDto: GastoRecurrenciaDto) = ticketingApi.createGastoRecurencia(gastosRecurenciaDto)
     suspend fun deleteGastoRecurencia(id: Int) = ticketingApi.deleteGastosRecurencia(id)
 }

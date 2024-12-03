@@ -1,6 +1,6 @@
 package edu.ucne.composedemo.data.remote.dto
 
-data class GastoRecurenciaDto(
+data class GastoRecurrenciaDto(
     val id: Int = 0,
     val idSuplidor: Int = 0,
     val periodicidad: Int = 0,

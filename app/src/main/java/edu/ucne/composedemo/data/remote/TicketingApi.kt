@@ -6,7 +6,7 @@ import edu.ucne.composedemo.data.remote.dto.CobroDto
 import edu.ucne.composedemo.data.remote.dto.CxcDto
 import edu.ucne.composedemo.data.remote.dto.EquiposAnyDeskDto
 import edu.ucne.composedemo.data.remote.dto.GastoDto
-import edu.ucne.composedemo.data.remote.dto.GastoRecurenciaDto
+import edu.ucne.composedemo.data.remote.dto.GastoRecurrenciaDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
 import edu.ucne.composedemo.data.remote.dto.TicketDto
@@ -85,15 +85,15 @@ interface TicketingApi {
 
     @Headers("X-API-Key:test")
     @GET("api/GastosRecurencias/{id}")
-    suspend fun getGastosRecurencia(@Path("id") id: Int): GastoRecurenciaDto
+    suspend fun getGastosRecurencia(@Path("id") id: Int): GastoRecurrenciaDto
 
     @Headers("X-API-Key:test")
     @GET("api/GastosRecurencias")
-    suspend fun getGastosRecurencias(): List<GastoRecurenciaDto>
+    suspend fun getGastosRecurencias(): List<GastoRecurrenciaDto>
 
     @Headers("X-API-Key:test")
     @POST("api/GastosRecurencias")
-    suspend fun createGastoRecurencia(@Body gastosRecurenciaDto: GastoRecurenciaDto): GastoRecurenciaDto
+    suspend fun createGastoRecurencia(@Body gastosRecurenciaDto: GastoRecurrenciaDto): GastoRecurrenciaDto
 
     @Headers("X-API-Key:test")
     @DELETE("api/GastosRecurencias/{id}")

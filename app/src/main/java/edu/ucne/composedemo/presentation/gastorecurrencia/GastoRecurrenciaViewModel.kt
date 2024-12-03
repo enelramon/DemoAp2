@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.composedemo.data.remote.Resource
-import edu.ucne.composedemo.data.remote.dto.GastoRecurenciaDto
+import edu.ucne.composedemo.data.remote.dto.GastoRecurrenciaDto
 import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
 import edu.ucne.composedemo.data.repository.GastoRecurrenciaRepository
 import edu.ucne.composedemo.data.repository.SuplidorGastoRepository
@@ -102,7 +102,7 @@ class GastoRecurrenciaViewModel @Inject constructor(
     private fun cargarSuplidor(id: Int){
         _uiState.value = _uiState.value.copy(
             gastoRecurrencia = _uiState.value.gastosRecurrencia.find { it.idSuplidor == id }
-                ?: GastoRecurenciaDto(),
+                ?: GastoRecurrenciaDto(),
             suplidorgasto = _uiState.value.suplidoresGastos.find { it.idSuplidor == id }
                 ?: SuplidorGastoDto(),
         )
