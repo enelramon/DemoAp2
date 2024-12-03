@@ -142,7 +142,6 @@ class TicketViewModel @Inject constructor(
         }
     }
 
-
     private fun onClienteChange(cliente: Double) {
         _uiState.update {
             it.copy(idCliente = cliente)
