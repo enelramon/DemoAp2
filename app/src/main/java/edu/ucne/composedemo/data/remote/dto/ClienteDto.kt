@@ -1,7 +1,7 @@
 package edu.ucne.composedemo.data.remote.dto
 
 data class ClienteDto(
-    val codigoCliente: Int,
+    val codigoCliente: Double,
     val nombres: String,
     val empresa: String,
     val direccion: String,
