@@ -17,12 +17,9 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -35,14 +32,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import edu.ucne.composedemo.data.local.entities.TicketEntity
+import edu.ucne.composedemo.data.remote.dto.TicketDto
 import edu.ucne.composedemo.presentation.components.TopBarComponent
 import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 
 @Composable
 fun TicketListScreen(
     viewModel: TicketViewModel = hiltViewModel(),
-    goToTicket: (Int) -> Unit,
+    goToTicket: (Double) -> Unit,
     createTicket: () -> Unit,
     onDrawer: () -> Unit
 ) {
@@ -58,7 +55,7 @@ fun TicketListScreen(
 @Composable
 fun TicketListBodyScreen(
     uiState: TicketUiState,
-    goToTicket: (Int) -> Unit,
+    goToTicket: (Double) -> Unit,
     createTicket: () -> Unit,
     onDrawer: () -> Unit
 ) {
@@ -154,16 +151,16 @@ fun TicketListBodyScreen(
 
 @Composable
 private fun TicketCard (
-    ticket: TicketEntity,
+    ticket: TicketDto,
     date: String,
-    goToTicket: (Int) -> Unit
+    goToTicket: (Double) -> Unit
 ){
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp)
             .clickable {
-                goToTicket(ticket.ticketId ?: 0)
+                goToTicket(ticket.idTicket ?: 0.0)
             },
         elevation = CardDefaults.cardElevation()
     ) {
@@ -173,11 +170,11 @@ private fun TicketCard (
                 .padding(16.dp)
         ) {
             Row() {
-                Text("Ticket #: ${ticket.ticketId}")
+                Text("Ticket #: ${ticket.idTicket}")
                 Text("Date: ${date}")
             }
             Spacer(modifier = Modifier.height(4.dp))
-            Text("Empresa: ${ticket.cliente}")
+            Text("Empresa: ${ticket.idTicket}")
             Text("Asunto: ${ticket.asunto}")
         }
     }
@@ -187,9 +184,48 @@ private fun TicketCard (
 @Composable
 private fun TicketPreview() {
     val sampleTickets = listOf(
-        TicketEntity(ticketId = 1, cliente = "Juan Pérez", asunto = "Revisión técnica"),
-        TicketEntity(ticketId = 2, cliente = "Ana Gómez", asunto = "Solicitud de garantía"),
-        TicketEntity(ticketId = 3, cliente = "Carlos Sánchez", asunto = "Consulta general")
+        TicketDto(
+            idTicket = 1.1,
+            fecha = "2024-12-01",
+            vence = "2024-12-10",
+            idCliente = 1001.0,
+            empresa = "Empresa A",
+            solicitadoPor = "Juan Pérez",
+            asunto = "Revisión técnica",
+            prioridad = 1,
+            idEncargado = 2001,
+            estatus = 0,
+            especificaciones = "Revisión completa del sistema",
+            archivo = null
+        ),
+        TicketDto(
+            idTicket = 2.1,
+            fecha = "2024-12-02",
+            vence = "2024-12-12",
+            idCliente = 1002.0,
+            empresa = "Empresa B",
+            solicitadoPor = "Ana Gómez",
+            asunto = "Solicitud de garantía",
+            prioridad = 2,
+            idEncargado = 2002,
+            estatus = 1,
+            especificaciones = "Reemplazo de piezas defectuosas",
+            archivo = "garantia.pdf"
+        ),
+        TicketDto(
+            idTicket = 3.1,
+            fecha = "2024-12-03",
+            vence = "2024-12-13",
+            idCliente = 1003.0,
+            empresa = "Empresa C",
+            solicitadoPor = "Carlos Sánchez",
+            asunto = "Consulta general",
+            prioridad = 3,
+            idEncargado = 2003,
+            estatus = 2,
+            especificaciones = "Consulta sobre el estado del proyecto",
+            archivo = null
+        )
     )
 
     val mockUiState = TicketUiState(tickets = sampleTickets)
