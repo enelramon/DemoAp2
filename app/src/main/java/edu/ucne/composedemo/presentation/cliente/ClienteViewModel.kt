@@ -62,7 +62,7 @@ class ClienteViewModel @Inject constructor(
 }
 
 fun ClienteUiState.toEntity() = ClienteDto(
-    codigoCliente = codigoCliente ?: 0,
+    codigoCliente = codigoCliente ?: 0.0,
     nombres = nombres ?: "",
     empresa = empresa ?: "",
     direccion = direccion ?: "",
