@@ -1,65 +1,58 @@
 package edu.ucne.composedemo.presentation.suplidorGastos
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
 import edu.ucne.composedemo.presentation.components.TopBarComponent
+import edu.ucne.composedemo.ui.theme.Green
 
 @Composable
 fun SuplidorGastosListScreen(
     viewModel: SuplidorGastosViewModel = hiltViewModel(),
-    onGoCreate: () -> Unit,
-    onDrawer: () -> Unit
+    onGoCreate: () -> Unit = {},
+    onDrawer: () -> Unit,
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    SuplidorGastosBodyListCreen(
-        uiState = uiState,
-        onGoCreate= onGoCreate,
-        onDrawer = onDrawer
-    )
-}
+    var filter by remember { mutableStateOf("Todos") }
+    val uiState  by viewModel.uiState.collectAsStateWithLifecycle()
 
-@Composable
-fun SuplidorGastosBodyListCreen(
-    uiState: UiState,
-    onGoCreate: () -> Unit,
-    onDrawer: () -> Unit
-) {
     Scaffold(
         topBar = {
             TopBarComponent(
-                title = "Sistemas",
+                title = "Suplidores Gastos",
                 onDrawer
             )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = onGoCreate
-            ) {
-                Icon(Icons.Default.ArrowBack, contentDescription = null)
-            }
         }
     ) { innerPadding ->
         Column(
@@ -67,46 +60,32 @@ fun SuplidorGastosBodyListCreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            Text(
-                "Lista de SuplidoresGastos",
-                style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.Center
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Start
             ) {
-                Text(
-                    "Nombre",
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    "Direccion",
-                    modifier = Modifier.weight(1.2f)
-                )
-                Text(
-                    "Telefono",
-                    modifier = Modifier.weight(1.2f)
-                )
-                Text(
-                    "Fax",
-                    modifier = Modifier.weight(1.1f)
-                )
-                Text(
-                    "Rnc",
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    "Email",
-                    modifier = Modifier.weight(1f)
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    RadioButton(
+                        selected = filter == "Todos",
+                        onClick = { filter = "Todos" }
+                    )
+                    Text("Todos")
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    RadioButton(
+                        selected = filter == "Recurrentes",
+                        onClick = { filter = "Recurrentes" },
+                    )
+                    Text("Recurrentes")
+                }
             }
-            if(uiState.isLoading){
+
+            if (uiState.isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier
                         .padding(16.dp)
@@ -118,48 +97,67 @@ fun SuplidorGastosBodyListCreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                items(uiState.suplidoresGastos){
-                    SuplidoresGastosRowList(it)
+                val filteredList = if (filter == "Recurrentes") {
+                    uiState.suplidoresGastos
+                } else {
+                    uiState.suplidoresGastos
+                }
+
+                items(filteredList) { suplidor ->
+                    SuplidoresGastosCard(suplidor)
                 }
             }
         }
     }
 }
 
-
 @Composable
-fun SuplidoresGastosRowList(
+fun SuplidoresGastosCard(
     suplidorGasto: SuplidorGastoDto
 ) {
-    Row(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(16.dp)
+            .padding(8.dp),
+        elevation = CardDefaults.elevatedCardElevation(8.dp),
+        shape = RoundedCornerShape(8.dp)
     ) {
-        Text(
-            text = suplidorGasto.nombres,
-            modifier = Modifier.weight(1f)
-        )
-        Text(
-            text = suplidorGasto.direccion,
-            modifier = Modifier.weight(1.2f)
-        )
-        Text(
-            text = suplidorGasto.telefono,
-            modifier = Modifier.weight(1.1f)
-        )
-        Text(
-            text = suplidorGasto.fax,
-            modifier = Modifier.weight(1.1f)
-        )
-        Text(
-            text = suplidorGasto.rnc,
-            modifier = Modifier.weight(1f)
-        )
-        Text(
-            text = suplidorGasto.email,
-            modifier = Modifier.weight(1f)
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = suplidorGasto.nombres,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ){
+                    Text(
+                        text = "Recurrente",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Spacer(modifier = Modifier.width(2.dp))
+                    Icon(
+                        imageVector = Icons.Default.CheckCircle,
+                        contentDescription = "Recurrente",
+                        tint = Green,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Mensual: Dia 10",
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
     }
 }
