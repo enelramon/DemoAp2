@@ -141,7 +141,7 @@ fun TicketListBodyScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(uiState.tickets) {
-                    TicketCart(
+                    TicketCard(
                         it,
                         date = "12/08/2023",
                         goToTicket
@@ -153,7 +153,7 @@ fun TicketListBodyScreen(
 }
 
 @Composable
-private fun TicketCart (
+private fun TicketCard (
     ticket: TicketEntity,
     date: String,
     goToTicket: (Int) -> Unit
