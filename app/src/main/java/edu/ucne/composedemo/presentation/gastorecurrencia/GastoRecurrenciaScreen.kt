@@ -56,6 +56,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import edu.ucne.composedemo.presentation.components.ShowComponent
 import edu.ucne.composedemo.presentation.components.TopBarComponent
 import edu.ucne.composedemo.ui.theme.Green
 import edu.ucne.composedemo.ui.theme.Red
@@ -113,20 +114,24 @@ fun GastoRecurrenciaScreen(
                                 ),
                                 thumbContent =
                                 {
-                                    if (uiState.esRecurrente) {
-                                        Icon(
-                                            imageVector = Icons.Filled.Check,
-                                            contentDescription = null,
-                                            modifier = Modifier.size(SwitchDefaults.IconSize),
-                                        )
-                                    }else{
-                                        Icon(
-                                            imageVector = Icons.Filled.Cancel,
-                                            contentDescription = null,
-                                            modifier = Modifier.size(SwitchDefaults.IconSize),
-                                            tint = Color.White
-                                        )
-                                    }
+                                    ShowComponent(
+                                        value = uiState.esRecurrente,
+                                        whenContentIsTrue = {
+                                            Icon(
+                                                imageVector = Icons.Filled.Check,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(SwitchDefaults.IconSize),
+                                            )
+                                        },
+                                        whenContentIsFalse = {
+                                            Icon(
+                                                imageVector = Icons.Filled.Cancel,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(SwitchDefaults.IconSize),
+                                                tint = Color.White
+                                            )
+                                        }
+                                    )
                                 }
                             )
                         }
@@ -143,57 +148,69 @@ fun GastoRecurrenciaScreen(
                             )
                         }
                     }
-                    if(uiState.esRecurrente){
-                        InputSelectRecurrence(uiState.periodicidad){
-                            onEvent(GastoRecurrenciaEvent.PeriodicidadChange(it.toString()))
-                        }
-                        if(uiState.errorPeriodicidad.isNotBlank()){
-                            Text(
-                                text = uiState.errorPeriodicidad,
-                                color = Red,
-                                style = MaterialTheme.typography.bodySmall,
-                                textAlign = TextAlign.Start
+                    ShowComponent(
+                        value = uiState.esRecurrente,
+                        whenContentIsTrue = {
+                            InputSelectRecurrence(uiState.periodicidad){
+                                onEvent(GastoRecurrenciaEvent.PeriodicidadChange(it.toString()))
+                            }
+                            ShowComponent(
+                                value = uiState.errorPeriodicidad.isNotBlank(),
+                                whenContentIsTrue = {
+                                    Text(
+                                        text = uiState.errorPeriodicidad,
+                                        color = Red,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        textAlign = TextAlign.Start
+                                    )
+                                }
                             )
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
-                        InputSelectDia(
-                            range = 1..28,
-                            value = uiState.dia
-                        ){
-                            onEvent(GastoRecurrenciaEvent.DiaChange(it.toString()))
-                        }
-                        if(uiState.errorDia.isNotBlank()){
-                            Text(
-                                text = uiState.errorDia,
-                                color = Red,
-                                style = MaterialTheme.typography.bodySmall,
-                                textAlign = TextAlign.Start
+                            Spacer(modifier = Modifier.height(8.dp))
+                            InputSelectDia(
+                                range = 1..28,
+                                value = uiState.dia
+                            ){
+                                onEvent(GastoRecurrenciaEvent.DiaChange(it.toString()))
+                            }
+                            ShowComponent(
+                                value = uiState.errorDia.isNotBlank(),
+                                whenContentIsTrue = {
+                                    Text(
+                                        text = uiState.errorDia,
+                                        color = Red,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        textAlign = TextAlign.Start
+                                    )
+                                }
                             )
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
-                        OutlinedTextField(
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                keyboardType = KeyboardType.Number,
-                                imeAction = ImeAction.Done
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onDone = { focusManager.clearFocus() }
-                            ),
-                            value = uiState.monto.toString(),
-                            onValueChange = {onEvent(GastoRecurrenciaEvent.MontoChange(it))},
-                            label = { Text("Monto") },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        if(uiState.errorMonto.isNotBlank()){
-                            Text(
-                                text = uiState.errorMonto,
-                                color = Red,
-                                style = MaterialTheme.typography.bodySmall,
-                                textAlign = TextAlign.Start
+                            Spacer(modifier = Modifier.height(8.dp))
+                            OutlinedTextField(
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    keyboardType = KeyboardType.Number,
+                                    imeAction = ImeAction.Done
+                                ),
+                                keyboardActions = KeyboardActions(
+                                    onDone = { focusManager.clearFocus() }
+                                ),
+                                value = uiState.monto.toString(),
+                                onValueChange = {onEvent(GastoRecurrenciaEvent.MontoChange(it))},
+                                label = { Text("Monto") },
+                                modifier = Modifier.fillMaxWidth()
                             )
+                            ShowComponent(
+                                value = uiState.errorMonto.isNotBlank(),
+                                whenContentIsTrue = {
+                                    Text(
+                                        text = uiState.errorMonto,
+                                        color = Red,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        textAlign = TextAlign.Start
+                                    )
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -221,32 +238,39 @@ fun GastoRecurrenciaScreen(
                         .fillMaxSize()
                         .wrapContentSize(Alignment.Center)
                 ) {
-                    if (uiState.errorMessage.isNotBlank()) {
-                        Toast.makeText(
-                            LocalContext.current,
-                            uiState.errorMessage,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
+                    ShowComponent(
+                        value = uiState.errorMessage.isNotBlank(),
+                        whenContentIsTrue = {
+                            Toast.makeText(
+                                LocalContext.current,
+                                uiState.errorMessage,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    )
                 }
             }
         }
-        if(uiState.isLoading){
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.5f))
-                    .clickable(enabled = false) {}
-            ) {
-                CircularProgressIndicator(
+
+        ShowComponent(
+            value = uiState.isLoading,
+            whenContentIsTrue = {
+                Box(
                     modifier = Modifier
-                        .align(Alignment.Center)
-                        .size(150.dp),
-                    color = Color.White,
-                    strokeWidth = 10.dp,
-                )
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.5f))
+                        .clickable(enabled = false) {}
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(150.dp),
+                        color = Color.White,
+                        strokeWidth = 10.dp,
+                    )
+                }
             }
-        }
+        )
     }
 }
 
@@ -269,7 +293,8 @@ fun InputSelectRecurrence(
             value = selectedOption,
             onValueChange = {},
             label = { Text("Recurrencia") },
-            modifier = Modifier.menuAnchor(MenuAnchorType.SecondaryEditable, true)
+            modifier = Modifier
+                .menuAnchor(MenuAnchorType.SecondaryEditable, true)
                 .fillMaxWidth(),
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
@@ -311,7 +336,8 @@ fun InputSelectDia(
             value = selectedDay,
             onValueChange = {},
             label = { Text("Seleccionar Día") },
-            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true)
+            modifier = Modifier
+                .menuAnchor(MenuAnchorType.PrimaryEditable, true)
                 .fillMaxWidth(),
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
