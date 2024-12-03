@@ -62,7 +62,7 @@ class GastoRecurrenciaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
-                            errorMessage = result.message ?: "Error desconocido"
+                            errorMessage = result.message ?: ""
                         )
                     }
                 }
@@ -91,7 +91,7 @@ class GastoRecurrenciaViewModel @Inject constructor(
                     is Resource.Error -> {
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
-                            errorMessage = result.message ?: "Error desconocido"
+                            errorMessage = result.message ?: ""
                         )
                     }
                 }
@@ -204,7 +204,7 @@ class GastoRecurrenciaViewModel @Inject constructor(
                         is Resource.Error -> {
                             _uiState.value = _uiState.value.copy(
                                 isLoading = false,
-                                errorMessage = result.message ?: "Error desconocido"
+                                errorMessage = result.message ?: ""
                             )
                         }
                     }
@@ -242,7 +242,7 @@ class GastoRecurrenciaViewModel @Inject constructor(
                         is Resource.Error -> {
                             _uiState.value = _uiState.value.copy(
                                 isLoading = false,
-                                errorMessage = result.message ?: "Error desconocido"
+                                errorMessage = result.message ?: ""
                             )
                         }
                     }
