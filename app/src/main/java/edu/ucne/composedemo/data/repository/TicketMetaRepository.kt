@@ -2,7 +2,7 @@ package edu.ucne.composedemo.data.repository
 
 import edu.ucne.composedemo.data.remote.RemoteDataSource
 import edu.ucne.composedemo.data.remote.Resource
-import edu.ucne.composedemo.data.remote.dto.TicketMetaDto
+import edu.ucne.composedemo.data.remote.dto.TicketMetaRequestDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -11,7 +11,7 @@ import javax.inject.Inject
 class TicketMetaRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) {
-    fun getMetasUsuario(idUsuario: Int): Flow<Resource<List<TicketMetaDto>>> = flow {
+    fun getMetasUsuario(idUsuario: Int): Flow<Resource<List<TicketMetaRequestDto>>> = flow {
         try{
             emit(Resource.Loading())
             val metasUsuario = remoteDataSource.getMetasUsuario(idUsuario)
@@ -24,7 +24,7 @@ class TicketMetaRepository @Inject constructor(
         }
     }
 
-    suspend fun addTicketMeta(ticketMetaDto: TicketMetaDto) = remoteDataSource.addTicketMeta(ticketMetaDto)
+    suspend fun addTicketMeta(ticketMetaRequestDto: TicketMetaRequestDto) = remoteDataSource.addTicketMeta(ticketMetaRequestDto)
 
     suspend fun deleteTicketMeta(idDetalle: Int) = remoteDataSource.deleteTicketMeta(idDetalle)
 }

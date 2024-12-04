@@ -9,7 +9,7 @@ import edu.ucne.composedemo.data.remote.dto.GastoDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
 import edu.ucne.composedemo.data.remote.dto.TicketDto
-import edu.ucne.composedemo.data.remote.dto.TicketMetaDto
+import edu.ucne.composedemo.data.remote.dto.TicketMetaRequestDto
 import edu.ucne.composedemo.data.remote.dto.TiposSoportesDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -83,11 +83,11 @@ interface TicketingApi {
 
     @Headers("X-API-Key:test")
     @GET("api/TicketMetas/GetMetasUsuario/{idUsuario}")
-    suspend fun getMetasUsuario(@Path("idUsuario") idUsuario: Int): List<TicketMetaDto>
+    suspend fun getMetasUsuario(@Path("idUsuario") idUsuario: Int): List<TicketMetaRequestDto>
 
     @Headers("X-API-Key:test")
     @POST("api/TicketMetas/AddTicketMeta")
-    suspend fun addTicketMeta(@Body ticketMetaDto: TicketMetaDto): TicketMetaDto
+    suspend fun addTicketMeta(@Body ticketMetaRequestDto: TicketMetaRequestDto): TicketMetaRequestDto
 
     @Headers("X-API-Key:test")
     @DELETE("api/TicketMetas/DeleteTicketMeta/{idDetalle")
