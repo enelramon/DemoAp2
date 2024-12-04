@@ -1,5 +1,9 @@
 package edu.ucne.composedemo.data.remote.dto
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class TicketMetaRequestDto(
-    val id: Int?,
+    val idTicket: Int,
+    val idUsuario: Int
 )
