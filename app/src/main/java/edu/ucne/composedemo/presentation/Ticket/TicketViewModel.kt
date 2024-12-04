@@ -26,26 +26,35 @@ class TicketViewModel @Inject constructor(
         getClientes()
 
     }
-    private fun getClientes() {
+    private fun getClientes(){
         viewModelScope.launch {
-            clienteRepository.getClientes().collect { resource ->
-                when (resource) {
+            clienteRepository.getClientes().collect { result ->
+                when(result){
                     is Resource.Loading -> {
                         _uiState.update {
                             it.copy(isLoading = true)
                         }
                     }
+
+
                     is Resource.Success -> {
                         _uiState.update {
-                            it.copy(clientes = resource.data ?: emptyList())
-                        }
-                    }
-                    is Resource.Error -> {
-                        _uiState.update {
-                            it.copy(errorMessage = resource.message)
+                            it.copy(
+                                clientes = result.data ?: emptyList(),
+                                isLoading =false
+                            )
                         }
                     }
 
+
+                    is Resource.Error -> {
+                        _uiState.update {
+                            it.copy(
+                                errorMessage =it.errorMessage,
+                                isLoading = false
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -59,8 +68,17 @@ class TicketViewModel @Inject constructor(
             is TicketEvent.EncargadoChange -> event.idEncargado?.let { onEncargadoChange(it) }
             TicketEvent.Save -> save()
             TicketEvent.New -> nuevo()
+            is TicketEvent.MinutosInvertidosChange -> event.minutos?.let { onMinutosInvertidosChange(it) }
+
         }
     }
+
+    private fun onMinutosInvertidosChange(minutos: Int) {
+        _uiState.update {
+            it.copy(minutosInvertidos = minutos)
+        }
+    }
+
     private fun save() {
         viewModelScope.launch {
             if (_uiState.value.idCliente ==null && _uiState.value.asunto.isNullOrBlank()){
@@ -101,6 +119,7 @@ class TicketViewModel @Inject constructor(
                             it.copy(isLoading = true)
                         }
                     }
+
                     is Resource.Success -> {
                         _uiState.update {
                             it.copy(
@@ -109,11 +128,13 @@ class TicketViewModel @Inject constructor(
                             )
                         }
                     }
-                    is Resource.Error ->{
+
+                    is Resource.Error -> {
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                errorCargar = tickets.message)
+                                errorCargar = tickets.message
+                            )
                         }
                     }
                 }
@@ -139,10 +160,17 @@ class TicketViewModel @Inject constructor(
         }
     }
     private fun onEncargadoChange(idEncargado: Int) {
-        _uiState.update {
-            it.copy(idEncargado = idEncargado)
+        if (idEncargado > 0) {
+            _uiState.update { currentState ->
+                currentState.copy(idEncargado = idEncargado)
+            }
+        } else {
+            _uiState.update {
+                it.copy(errorMessage = "Encargado inválido")
+            }
         }
     }
+
 
 
     fun TicketUiState.toEntity() = TicketDto(
