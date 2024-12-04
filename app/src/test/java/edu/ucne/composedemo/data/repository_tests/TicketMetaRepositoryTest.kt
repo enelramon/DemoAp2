@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth
 import edu.ucne.composedemo.data.remote.RemoteDataSource
 import edu.ucne.composedemo.data.remote.Resource
-import edu.ucne.composedemo.data.remote.dto.TicketMetaRequestDto
+import edu.ucne.composedemo.data.remote.dto.TicketMetaResponseDto
 import edu.ucne.composedemo.data.repository.TicketMetaRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -19,11 +19,21 @@ class TicketMetaRepositoryTest {
         val idUsuario = 1
 
         val ticketmetas = listOf(
-            TicketMetaRequestDto(
-                id = 1
+            TicketMetaResponseDto(
+                id = 1,
+                idTicket = 1.0,
+                asunto = "Ticket 1",
+                empresa = "Empresa 1",
+                estatus = 1,
+                estatusDescription = "Pendiente"
             ),
-            TicketMetaRequestDto(
-                id = 2
+            TicketMetaResponseDto(
+                id = 2,
+                idTicket = 2.0,
+                asunto = "Ticket 2",
+                empresa = "Empresa 2",
+                estatus = 2,
+                estatusDescription = "En Proceso"
             )
         )
 
