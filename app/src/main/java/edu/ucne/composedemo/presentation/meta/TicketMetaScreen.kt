@@ -11,9 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -21,24 +19,37 @@ import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import edu.ucne.composedemo.data.remote.dto.TicketDto
+import edu.ucne.composedemo.data.remote.dto.TicketMetaResponseDto
+import edu.ucne.composedemo.presentation.Ticket.TicketCard
 import edu.ucne.composedemo.presentation.components.TopBarComponent
+import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 
 @Composable
-fun MetaScreen(
-    onDrawer: () -> Unit
+fun TicketMetaScreen(
+    onDrawer: () -> Unit,
+    viewModel: TicketMetaViewModel = hiltViewModel()
 ){
-    MetaBodyScreen(
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    TicketMetaBodyScreen(
+        uiState = uiState,
+        onEvent = viewModel::onEvent,
         onDrawer = onDrawer
     )
 }
 
 @Composable
-private fun MetaBodyScreen(
+private fun TicketMetaBodyScreen(
+    uiState: TicketMetaUiState,
+    onEvent: (TicketMetaUiEvent) -> Unit,
     onDrawer: () -> Unit
 ) {
     val progress = 0.75f
@@ -95,35 +106,40 @@ private fun MetaBodyScreen(
 
             OutlinedTextField(
                 label = { Text("% Logrado") },
-                value = "100%",
+                value = "${progress * 100}",
                 onValueChange = {},
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            Card(
+            Text(
+                text = "Tickets Seleccionados",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Text(
-                        text = "Tickets Seleccionados",
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally) // Centralizado
-                            .padding(bottom = 8.dp)
-                    )
-                    TicketList(
-                        tickets = listOf(
-                            TicketPrueba(1, "Solicitado", "Empresa 1", "Asunto 1", "Finalizado"),
-                            TicketPrueba(2, "En Proceso", "Empresa 2", "Asunto 2", "Pendiente"),
-                            TicketPrueba(3, "Completado", "Empresa 3", "Asunto 3", "Finalizado")
-                        )
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 8.dp)
+            )
+            LazyColumn {
+                items(uiState.ticketMetas) { ticket ->
+                    TicketCard(
+                        ticket = TicketDto(
+                            idTicket = ticket.idTicket,
+                            fecha = "",
+                            vence = "",
+                            idCliente = 1001.0,
+                            empresa = ticket.empresa,
+                            solicitadoPor = "",
+                            asunto = ticket.asunto,
+                            prioridad = 1,
+                            idEncargado = 2001,
+                            estatus = ticket.estatus,
+                            especificaciones = ticket.estatusDescription,
+                            archivo = null
+                        ),
+                        date = "12/08/2023",
+                        goToTicket = {}
                     )
                 }
             }
@@ -132,17 +148,7 @@ private fun MetaBodyScreen(
 }
 
 @Composable
-private fun TicketList(tickets: List<TicketPrueba>) {
-    LazyColumn {
-        items(tickets) { ticket ->
-            TicketRow(ticket)
-            HorizontalDivider()
-        }
-    }
-}
-
-@Composable
-private fun TicketRow(ticket: TicketPrueba) {
+private fun TicketRow(ticket: TicketMetaResponseDto) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -168,25 +174,42 @@ private fun TicketRow(ticket: TicketPrueba) {
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "Estado Final: ${ticket.estatusFinal}",
+                text = "Estatus Descripción: ${ticket.estatusDescription}",
                 style = MaterialTheme.typography.bodyMedium
             )
         }
     }
 }
 
-data class TicketPrueba(
-    val id: Int,
-    val estatus: String,
-    val empresa: String,
-    val asunto: String,
-    val estatusFinal: String
+private val sampleTicketMetaUiSate = TicketMetaUiState(
+    ticketMetas = listOf(
+        TicketMetaResponseDto(
+            id = 1,
+            idTicket = 1.0,
+            asunto = "Asunto 1",
+            empresa = "Empresa 1",
+            estatus = 1,
+            estatusDescription = "Estatus 1"
+        ),
+        TicketMetaResponseDto(
+            id = 2,
+            idTicket = 2.0,
+            asunto = "Asunto 2",
+            empresa = "Empresa 2",
+            estatus = 2,
+            estatusDescription = "Estatus 2"
+        )
+    )
 )
 
 @Preview
 @Composable
-private fun MetaScreenPreview() {
-    MetaScreen(
-        onDrawer = {}
-    )
+private fun TicketMetaScreenPreview() {
+    DemoAp2Theme {
+        TicketMetaBodyScreen(
+            uiState = sampleTicketMetaUiSate,
+            onEvent = {},
+            onDrawer = {}
+        )
+    }
 }
