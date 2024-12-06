@@ -8,17 +8,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,7 +31,6 @@ import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 @Composable
 fun TicketScreen(
     viewModel: TicketViewModel = hiltViewModel(),
-    ticketId: Int,
     goBack: () -> Unit,
     onDrawer: () -> Unit
 ) {
@@ -81,8 +76,11 @@ fun TicketBodyScreen(
 
                     OutlinedTextField(
                         label = { Text(text = "Cliente") },
-                        value = uiState.cliente ?: "",
-                        onValueChange = { onEvent(TicketEvent.ClienteChange(it)) },
+                        value = uiState.idCliente?.toString() ?: "",
+                        onValueChange = { newValue ->
+                            val newDoubleValue = newValue.toDoubleOrNull()
+                            onEvent(TicketEvent.ClienteChange(newDoubleValue))
+                        },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
@@ -135,6 +133,11 @@ fun TicketBodyScreen(
 @Composable
 private fun Preview() {
     DemoAp2Theme {
-
+        TicketBodyScreen(
+            uiState = TicketUiState(),
+            onEvent = {},
+            goBack = {},
+            onDrawer = {},
+        )
     }
 }

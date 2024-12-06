@@ -15,6 +15,7 @@ import edu.ucne.composedemo.presentation.cliente.ClienteListScreen
 import edu.ucne.composedemo.presentation.cobro.CobroListScreen
 import edu.ucne.composedemo.presentation.cxc.CxcListScreen
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
+import edu.ucne.composedemo.presentation.gastorecurrencia.GastoRecurrenciaScreen
 import edu.ucne.composedemo.presentation.gastos.GastosListScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
 import edu.ucne.composedemo.presentation.suplidorGastos.SuplidorGastosListScreen
@@ -38,10 +39,10 @@ fun DemoAp2NavHost(
             composable<Screen.TicketList> {
                 TicketListScreen(
                     goToTicket = {
-                        navHostController.navigate(Screen.Ticket(it))
+                        navHostController.navigate(Screen.Ticket(it.toDouble()))
                     },
                     createTicket = {
-                        navHostController.navigate(Screen.Ticket(0))
+                        navHostController.navigate(Screen.Ticket(0.0))
                     },
                     onDrawer = {
                         scope.launch {
@@ -52,9 +53,7 @@ fun DemoAp2NavHost(
             }
 
             composable<Screen.Ticket> {
-                val args = it.toRoute<Screen.Ticket>()
                 TicketScreen(
-                    ticketId = args.ticketId,
                     goBack = {
                         navHostController.navigateUp()
                     },
@@ -149,7 +148,21 @@ fun DemoAp2NavHost(
                             drawerState.open()
                         }
                     },
-                    onGoCreate = {}
+                    onEdit = {
+                        navHostController.navigate(Screen.GastoRecurrencia(it))
+                    }
+                )
+            }
+
+            composable<Screen.GastoRecurrencia>{
+                val args = it.toRoute<Screen.GastoRecurrencia>()
+                GastoRecurrenciaScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    },
+                    idSuplidor = args.idSuplidor
                 )
             }
         }

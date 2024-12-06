@@ -1,5 +1,6 @@
 package edu.ucne.composedemo.presentation.suplidorGastos
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,8 +42,8 @@ import edu.ucne.composedemo.ui.theme.Green
 @Composable
 fun SuplidorGastosListScreen(
     viewModel: SuplidorGastosViewModel = hiltViewModel(),
-    onGoCreate: () -> Unit = {},
     onDrawer: () -> Unit,
+    onEdit:(Int) -> Unit
 ) {
     var filter by remember { mutableStateOf("Todos") }
     val uiState  by viewModel.uiState.collectAsStateWithLifecycle()
@@ -97,14 +98,11 @@ fun SuplidorGastosListScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                val filteredList = if (filter == "Recurrentes") {
-                    uiState.suplidoresGastos
-                } else {
-                    uiState.suplidoresGastos
-                }
 
-                items(filteredList) { suplidor ->
-                    SuplidoresGastosCard(suplidor)
+                items(uiState.suplidoresGastos) { suplidor ->
+                    SuplidoresGastosCard(suplidor){
+                        onEdit(it)
+                    }
                 }
             }
         }
@@ -113,12 +111,15 @@ fun SuplidorGastosListScreen(
 
 @Composable
 fun SuplidoresGastosCard(
-    suplidorGasto: SuplidorGastoDto
+    suplidorGasto: SuplidorGastoDto,
+    onEdit: (Int) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp).clickable {
+                onEdit(suplidorGasto.idSuplidor)
+            },
         elevation = CardDefaults.elevatedCardElevation(8.dp),
         shape = RoundedCornerShape(8.dp)
     ) {

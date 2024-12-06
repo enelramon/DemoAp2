@@ -20,10 +20,10 @@ class ClienteRepositoryTest {
     fun `Should return a flow of clientes`() = runTest {
         // Given
         val clientes = listOf(
-            ClienteDto(1, "Cliente 1", "Empresa 1",
+            ClienteDto(1.2, "Cliente 1", "Empresa 1",
                 "Direccion 1", "123-456", "987-654",
                 "RNC1", true, 1),
-            ClienteDto(2, "Cliente 2", "Empresa 2",
+            ClienteDto(2.2, "Cliente 2", "Empresa 2",
                 "Direccion 2", "456-789", "321-654",
                 "RNC2", false, 2)
         )
