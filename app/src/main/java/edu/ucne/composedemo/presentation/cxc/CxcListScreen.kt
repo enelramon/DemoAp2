@@ -88,100 +88,94 @@ fun CxcListBody(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Fecha", modifier = Modifier.weight(0.30f))
-                Text(text = "Monto", modifier = Modifier.weight(0.30f))
-                Text(text = "Balance", modifier = Modifier.weight(0.30f))
-            }
-            HorizontalDivider()
-
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                if (uiState.isLoading) {
-                    item {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .wrapContentSize(Alignment.Center)
-                        ) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.padding(16.dp)
-                            )
-                        }
-                    }
-                } else {
-                    items(uiState.cxc, key = { it.idVenta }) { cxc ->
-                        val coroutineScope = rememberCoroutineScope()
-                        val dismissState = rememberSwipeToDismissBoxState(
-                            confirmValueChange = { state ->
-                                if (state == SwipeToDismissBoxValue.EndToStart) {
-                                    coroutineScope.launch {
-
-                                    }
-                                    true
-                                } else {
-                                    false
-                                }
-                            }
-                        )
-
-                        SwipeToDismissBox(
-                            state = dismissState,
-                            enableDismissFromStartToEnd = false,
-                            enableDismissFromEndToStart = false,
-                            backgroundContent = {
-                                val color by animateColorAsState(
-                                    when (dismissState.targetValue) {
-                                        SwipeToDismissBoxValue.Settled -> Color.Transparent
-                                        SwipeToDismissBoxValue.EndToStart -> Color.Red
-                                        SwipeToDismissBoxValue.StartToEnd -> TODO()
-                                    },
-                                    label = "Changing color"
-                                )
-                            },
-                            modifier = Modifier
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable { /* Manejar clic en el CXC */ }
-                                    .padding(16.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(text = cxc.fecha, modifier = Modifier.weight(0.30f))
-                                Text(text = cxc.monto.toString(), modifier = Modifier.weight(0.30f))
-                                Text(text = cxc.balance.toString(), modifier = Modifier.weight(0.30f))
-                            }
-                            HorizontalDivider(
-                                modifier = Modifier.padding(horizontal = 20.dp)
-                            )
-                        }
+            when {
+                uiState.isLoading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                }
+                uiState.errorMessage != "" -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center)
+                    ) {
+                        Toast.makeText(
+                            LocalContext.current,
+                            uiState.errorMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
-                if (uiState.errorMessage != "") {
-                    item {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .wrapContentSize(Alignment.Center)
-                        ) {
-                            Toast.makeText(
-                                LocalContext.current,
-                                uiState.errorMessage,
-                                Toast.LENGTH_LONG
-                            ).show()
+                else -> {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = "Fecha", modifier = Modifier.weight(0.30f))
+                        Text(text = "Monto", modifier = Modifier.weight(0.30f))
+                        Text(text = "Balance", modifier = Modifier.weight(0.30f))
+                    }
+                    HorizontalDivider()
+
+                    LazyColumn(modifier = Modifier.fillMaxSize()){
+                        items(uiState.cxc, key = { it.idVenta }) { cxc ->
+                            val coroutineScope = rememberCoroutineScope()
+                            val dismissState = rememberSwipeToDismissBoxState(
+                                confirmValueChange = { state ->
+                                    if (state == SwipeToDismissBoxValue.EndToStart) {
+                                        coroutineScope.launch {
+
+                                        }
+                                        true
+                                    } else {
+                                        false
+                                    }
+                                }
+                            )
+
+                            SwipeToDismissBox(
+                                state = dismissState,
+                                enableDismissFromStartToEnd = false,
+                                enableDismissFromEndToStart = false,
+                                backgroundContent = {
+                                    val color by animateColorAsState(
+                                        when (dismissState.targetValue) {
+                                            SwipeToDismissBoxValue.Settled -> Color.Transparent
+                                            SwipeToDismissBoxValue.EndToStart -> Color.Red
+                                            SwipeToDismissBoxValue.StartToEnd -> TODO()
+                                        },
+                                        label = "Changing color"
+                                    )
+                                },
+                                modifier = Modifier
+                            ) {
+                                CxcRow(it = cxc)
+                            }
                         }
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun CxcRow(it: CxcDto){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { /* Manejar clic en el CXC */ }
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = it.fecha, modifier = Modifier.weight(0.30f))
+        Text(text = it.monto.toString(), modifier = Modifier.weight(0.30f))
+        Text(text = it.balance.toString(), modifier = Modifier.weight(0.30f))
+    }
+    HorizontalDivider(
+        modifier = Modifier.padding(horizontal = 20.dp)
+    )
 }
 
 @Preview(showBackground = true, showSystemUi = true)

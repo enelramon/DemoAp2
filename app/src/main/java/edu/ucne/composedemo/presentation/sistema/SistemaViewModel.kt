@@ -29,7 +29,7 @@ class SistemaViewModel @Inject constructor(
 
     fun update() {
         viewModelScope.launch {
-            val response = sistemaRepository.update(SistemaDto(
+            sistemaRepository.update(SistemaDto(
                 idSistema = _uiState.value.sistemaId?: 0,
                 nombre = _uiState.value.nombre?:""
             ))
