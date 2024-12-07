@@ -23,6 +23,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxState
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
@@ -60,7 +61,7 @@ fun ClienteListBody(
     onEvent: (ClienteEvent) -> Unit,
     onDrawer: () -> Unit
 ) {
-    Scaffold (
+    Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopBarComponent(
@@ -70,118 +71,137 @@ fun ClienteListBody(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {
-                    onEvent(ClienteEvent.GetClientes)
-                }
+                onClick = { onEvent(ClienteEvent.GetClientes) }
             ) {
                 Icon(Icons.Filled.Refresh, "Agregar")
             }
         }
-    ){
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Cliente", modifier = Modifier.weight(0.10f))
-                Text(text = "Empresa", modifier = Modifier.weight(0.10f))
-                Text(text = "Celular", modifier = Modifier.weight(0.10f))
-            }
+            ClienteListHeader()
             HorizontalDivider()
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                item {
-                    if (uiState.isLoading) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .wrapContentSize(Alignment.Center)
-                        ) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.padding(16.dp)
-                            )
-                        }
-                    }
-                }
-
-                items(uiState.clientes, key = { it.codigoCliente }) { cliente ->
-                    val coroutineScope = rememberCoroutineScope()
-                    val dismissState = rememberSwipeToDismissBoxState(
-                        confirmValueChange = { state ->
-                            if (state == SwipeToDismissBoxValue.EndToStart) {
-                                coroutineScope.launch {}
-                                true
-                            } else false
-                        }
-                    )
-
-                    SwipeToDismissBox(
-                        state = dismissState,
-                        enableDismissFromStartToEnd = false,
-                        enableDismissFromEndToStart = false,
-                        backgroundContent = {
-                            val color by animateColorAsState(
-                                when (dismissState.targetValue) {
-                                    SwipeToDismissBoxValue.Settled -> Color.Transparent
-                                    SwipeToDismissBoxValue.EndToStart -> Color.Red
-                                    SwipeToDismissBoxValue.StartToEnd -> TODO()
-                                },
-                                label = "Changing color"
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(color, shape = RoundedCornerShape(8.dp))
-                                    .padding(16.dp),
-                                contentAlignment = Alignment.CenterEnd
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = null,
-                                    tint = Color.White
-                                )
-                            }
-                        }
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { }
-                                .padding(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(text = cliente.nombres, modifier = Modifier.weight(0.12f))
-                            Text(text = cliente.empresa, modifier = Modifier.weight(0.12f))
-                            Text(text = cliente.celular, modifier = Modifier.weight(0.12f))
-                        }
-                        HorizontalDivider(
-                            modifier = Modifier.padding(horizontal = 20.dp)
-                        )
-                    }
-                }
-
-                if (uiState.errorMessage.isNotEmpty()) {
-                    item {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .wrapContentSize(Alignment.Center)
-                        ) {
-                            Toast.makeText(LocalContext.current,
-                                uiState.errorMessage,
-                                Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
+            ClienteListContent(uiState)
+            if (uiState.errorMessage.isNotEmpty()) {
+                ShowErrorMessage(uiState.errorMessage)
             }
         }
+    }
+}
+
+@Composable
+fun ClienteListHeader() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = "Cliente", modifier = Modifier.weight(0.10f))
+        Text(text = "Empresa", modifier = Modifier.weight(0.10f))
+        Text(text = "Celular", modifier = Modifier.weight(0.10f))
+    }
+}
+
+@Composable
+fun ClienteListContent(uiState: ClienteUiState) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        item {
+            if (uiState.isLoading) {
+                LoadingIndicator()
+            }
+        }
+
+        items(uiState.clientes, key = { it.codigoCliente }) { cliente ->
+            ClienteListItem(cliente)
+        }
+    }
+}
+
+@Composable
+fun LoadingIndicator() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center)
+    ) {
+        CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+    }
+}
+
+@Composable
+fun ClienteListItem(cliente: ClienteDto) {
+    val coroutineScope = rememberCoroutineScope()
+    val dismissState = rememberSwipeToDismissBoxState(
+        confirmValueChange = { state ->
+            if (state == SwipeToDismissBoxValue.EndToStart) {
+                coroutineScope.launch {}
+                true
+            } else false
+        }
+    )
+
+    SwipeToDismissBox(
+        state = dismissState,
+        enableDismissFromStartToEnd = false,
+        enableDismissFromEndToStart = false,
+        backgroundContent = {
+            SwipeBackground(dismissState)
+        }
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { }
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = cliente.nombres, modifier = Modifier.weight(0.12f))
+            Text(text = cliente.empresa, modifier = Modifier.weight(0.12f))
+            Text(text = cliente.celular, modifier = Modifier.weight(0.12f))
+        }
+        HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
+    }
+}
+
+@Composable
+fun SwipeBackground(dismissState: SwipeToDismissBoxState) {
+    val color by animateColorAsState(
+        when (dismissState.targetValue) {
+            SwipeToDismissBoxValue.Settled -> Color.Transparent
+            SwipeToDismissBoxValue.EndToStart -> Color.Red
+            SwipeToDismissBoxValue.StartToEnd -> TODO()
+        },
+        label = "Changing color"
+    )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color, shape = RoundedCornerShape(8.dp))
+            .padding(16.dp),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        Icon(
+            imageVector = Icons.Default.Delete,
+            contentDescription = null,
+            tint = Color.White
+        )
+    }
+}
+
+@Composable
+fun ShowErrorMessage(errorMessage: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center)
+    ) {
+        Toast.makeText(LocalContext.current, errorMessage, Toast.LENGTH_LONG).show()
     }
 }
 

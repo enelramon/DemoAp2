@@ -17,9 +17,6 @@ class SistemaRepository @Inject constructor(
             emit(Resource.Loading())
             val sistemas = remoteDataSource.getSistemas()
 
-            //Todo: Insertar "sistemas" a la base de datos room
-
-            //val sistemasLocal = getSistemasLocal()
             emit(Resource.Success(sistemas))
         } catch (e: HttpException) {
             Log.e("Retrofit No connection", "Error de connection ${e.message} ", e)
