@@ -41,7 +41,6 @@ fun TicketMetaScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     TicketMetaBodyScreen(
         uiState = uiState,
-        onEvent = viewModel::onEvent,
         onDrawer = onDrawer
     )
 }
@@ -49,7 +48,6 @@ fun TicketMetaScreen(
 @Composable
 private fun TicketMetaBodyScreen(
     uiState: TicketMetaUiState,
-    onEvent: (TicketMetaUiEvent) -> Unit,
     onDrawer: () -> Unit
 ) {
     val progress = 0.75f
@@ -208,7 +206,6 @@ private fun TicketMetaScreenPreview() {
     DemoAp2Theme {
         TicketMetaBodyScreen(
             uiState = sampleTicketMetaUiSate,
-            onEvent = {},
             onDrawer = {}
         )
     }
