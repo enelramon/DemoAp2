@@ -54,7 +54,7 @@ class TicketMetaViewModel @Inject constructor(
 
     fun onEvent(event: TicketMetaUiEvent){
         when(event){
-            is TicketMetaUiEvent.idTicketChanged -> {
+            is TicketMetaUiEvent.IdTicketChanged -> {
                 _uiState.update { it.copy(idTicket = event.idTicket) }
             }
             TicketMetaUiEvent.Save -> {
