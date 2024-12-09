@@ -138,7 +138,7 @@ fun ClienteListBody(
 fun ClienteListPreview() {
     val list = listOf(
         ClienteDto(
-            codigoCliente = 1,
+            codigoCliente = 1.1,
             nombres = "Juan Perez",
             empresa = "Empresa 1",
             direccion = "Direccion 1",
@@ -149,7 +149,7 @@ fun ClienteListPreview() {
             tipoComprobante = 1
         ),
         ClienteDto(
-            codigoCliente = 2,
+            codigoCliente = 2.2,
             nombres = "Maria Perez",
             empresa = "Empresa 2",
             direccion = "Direccion 2",

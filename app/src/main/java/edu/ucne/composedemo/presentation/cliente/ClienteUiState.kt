@@ -3,7 +3,7 @@ package edu.ucne.composedemo.presentation.cliente
 import edu.ucne.composedemo.data.remote.dto.ClienteDto
 
 data class ClienteUiState(
-    val codigoCliente: Int? = null,
+    val codigoCliente: Double? = null,
     val nombres: String? = "",
     val empresa: String? = "",
     val direccion: String? = "",
