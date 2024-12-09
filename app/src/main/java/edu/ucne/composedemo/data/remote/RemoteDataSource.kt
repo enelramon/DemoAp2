@@ -2,6 +2,7 @@ package edu.ucne.composedemo.data.remote
 
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.TicketDto
+import edu.ucne.composedemo.data.remote.dto.TicketMetaRequestDto
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
@@ -35,4 +36,9 @@ class RemoteDataSource @Inject constructor(
     suspend fun getTicket(idTicket: Double) = ticketingApi.getTicket(idTicket)
 
 
+    suspend fun getMetasUsuario(idUsuario: Int) = ticketingApi.getMetasUsuario(idUsuario)
+
+    suspend fun addTicketMeta(ticketMetaRequestDto: TicketMetaRequestDto) = ticketingApi.addTicketMeta(ticketMetaRequestDto)
+
+    suspend fun deleteTicketMeta(idDetalle: Int) = ticketingApi.deleteTicketMeta(idDetalle)
 }

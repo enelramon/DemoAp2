@@ -1,6 +1,5 @@
 package edu.ucne.composedemo.data.remote
 
-import androidx.room.Delete
 import edu.ucne.composedemo.data.remote.dto.AnyDeskLogDto
 import edu.ucne.composedemo.data.remote.dto.ClienteDto
 import edu.ucne.composedemo.data.remote.dto.CobroDto
@@ -10,8 +9,12 @@ import edu.ucne.composedemo.data.remote.dto.GastoDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
 import edu.ucne.composedemo.data.remote.dto.TicketDto
+import edu.ucne.composedemo.data.remote.dto.TicketMetaRequestDto
+import edu.ucne.composedemo.data.remote.dto.TicketMetaResponseDto
 import edu.ucne.composedemo.data.remote.dto.TiposSoportesDto
+import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -79,4 +82,15 @@ interface TicketingApi {
 
 
 
+    @Headers("X-API-Key:test")
+    @GET("api/TicketMetas/GetMetasUsuario/{idUsuario}")
+    suspend fun getMetasUsuario(@Path("idUsuario") idUsuario: Int): List<TicketMetaResponseDto>
+
+    @Headers("X-API-Key:test")
+    @POST("api/TicketMetas/AddTicketMeta")
+    suspend fun addTicketMeta(@Body ticketMetaRequestDto: TicketMetaRequestDto): TicketMetaRequestDto
+
+    @Headers("X-API-Key:test")
+    @DELETE("api/TicketMetas/DeleteTicketMeta/{idDetalle")
+    suspend fun deleteTicketMeta(@Path("idDetalle") idDetalle: Int): Response<Unit>
 }
