@@ -6,7 +6,7 @@ sealed class Screen {
     @Serializable
     data object TicketList : Screen()
     @Serializable
-    data class Ticket(val ticketId: Double) : Screen()
+    data class Ticket(val ticketId: String) : Screen()
     @Serializable
     data object SistemaList : Screen()
     @Serializable
