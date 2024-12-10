@@ -17,8 +17,7 @@ import edu.ucne.composedemo.presentation.components.TopBarComponent
 
 @Composable
 fun ConversationScreen(
-    goToTicket: (Int) -> Unit,
-    createTicket: () -> Unit,
+
     onDrawer: () -> Unit
 ) {
 
@@ -178,8 +177,7 @@ data class Message(val date: String, val sender: String, val content: String)
 @Composable
 fun PreviewConversationScreen() {
     ConversationScreen(
-        goToTicket = {},
-        createTicket = {  },
+
         onDrawer = {  }
     )
 }
