@@ -9,8 +9,10 @@ import edu.ucne.composedemo.data.remote.dto.GastoDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
 import edu.ucne.composedemo.data.remote.dto.TicketDto
+import edu.ucne.composedemo.data.remote.dto.TicketGetMen
 import edu.ucne.composedemo.data.remote.dto.TicketMetaRequestDto
 import edu.ucne.composedemo.data.remote.dto.TicketMetaResponseDto
+import edu.ucne.composedemo.data.remote.dto.TicketPostMen
 import edu.ucne.composedemo.data.remote.dto.TiposSoportesDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -66,8 +68,6 @@ interface TicketingApi {
     @GET("api/Cxc/{idCliente}")
     suspend fun getCxc(@Path("idCliente") idCliente: Int): List<CxcDto>
 
-
-
     @Headers("X-API-Key:test")
     @GET("api/Tickets")
     suspend fun getTickets() : List<TicketDto>
@@ -80,6 +80,13 @@ interface TicketingApi {
     @PUT("api/Tickets/{idTickets}")
     suspend fun putTickets(@Path("idTickets") idTicket: Double, @Body ticket: TicketDto):TicketDto
 
+    @Headers("X-API-Key:test")
+    @GET("api/Tickets/GetMensajes/{idTicket}")
+    suspend fun getMensaje(@Path("idTicket") idTicket: Double): List<TicketGetMen>
+
+    @Headers("X-API-Key:test")
+    @POST("api/Tickets/PostMensaje")
+    suspend fun postMensaje(@Body ticketPostMen: TicketPostMen): TicketPostMen
 
 
     @Headers("X-API-Key:test")
