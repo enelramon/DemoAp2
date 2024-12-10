@@ -154,69 +154,33 @@ fun TicketDetalleBodyScreen(
                         color = Color.Black
                     )
 
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(text = "Fecha:", fontWeight = FontWeight.Bold)
-                            Text(text = "Estatus:", fontWeight = FontWeight.Bold)
-                            Text(text = "Prioridad:", fontWeight = FontWeight.Bold)
-                            Text(text = "Clients:", fontWeight = FontWeight.Bold)
-                            Text(text = "Sistema:", fontWeight = FontWeight.Bold)
-                            Text(text = "Solicit por:", fontWeight = FontWeight.Bold)
-                        }
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(text = uiState.fecha ?: "Penitent")
-                            Text(text = uiState.solicitadoPor ?: "Pendiente")
-                            Text(text = "${uiState.prioridad ?: "Pendiente"}")
-                            Text(text = uiState.nombreCliente,
-                                color = Color.Blue,)
-                            Text(text = "${uiState.sistema}")
-                            Text(text = uiState.solicitadoPor ?: "Pendiente")
-                        }
-                    }
+                    DetalleRow(
+                        labels = listOf("Fecha:", "Estatus:", "Prioridad:", "Clients:", "Sistema:", "Solicit por:"),
+                        values = listOf(
+                            uiState.fecha ?: "Pendiente",
+                            uiState.solicitadoPor ?: "Pendiente",
+                            "${uiState.prioridad ?: "Pendiente"}",
+                            uiState.nombreCliente,
+                            "${uiState.sistema}",
+                            uiState.solicitadoPor ?: "Pendiente"
+                        )
+                    )
                     Divider(
                         modifier = Modifier.fillMaxWidth(),
                         thickness = 1.dp,
                         color = Color.Black
                     )
 
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(text = "Tipo:", fontWeight = FontWeight.Bold)
-                            Text(text = "Asunto:", fontWeight = FontWeight.Bold)
-                            Text(text = "Especificaciones:", fontWeight = FontWeight.Bold)
-                            Text(text = "Encargado:", fontWeight = FontWeight.Bold)
-                        }
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(text = uiState.fecha ?: "Pendiente")
-                            Text(text = uiState.asunto ?: "Pendiente")
-                            Text(text = uiState.especificaciones ?: "Pendiente")
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(text = uiState.idEncargado?.toString() ?: "No asignado")
-                                IconButton(
-                                    modifier = Modifier.size(20.dp),
-                                    onClick = { isEncargadoModalOpen = true }
-                                ) {
-                                    Icon(
-                                        painter = painterResource(id = android.R.drawable.ic_menu_edit),
-                                        contentDescription = "Editar encargado"
-                                    )
-                                }
-                            }
-                        }
+                    DetalleRow(
+                        labels = listOf("Tipo:", "Asunto:", "Especificaciones:", "Encargado:"),
+                        values = listOf(
+                            uiState.fecha ?: "Pendiente",
+                            uiState.asunto ?: "Pendiente",
+                            uiState.especificaciones ?: "Pendiente",
+                            uiState.idEncargado?.toString() ?: "No asignado"
+                        )
+                    )
 
-                    }
                     if (isEncargadoModalOpen) {
                         EncargadoModal(
                             encargadosMap = mapOf(1 to "Juan Pérez", 2 to "Ana López", 3 to "Carlos Gómez"),
@@ -316,6 +280,40 @@ fun EncargadoModal(
         }
     )
 }
+
+@Composable
+fun DetalleRow(
+    labels: List<String>,
+    values: List<String>,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            labels.forEach { label ->
+                Text(text = label, fontWeight = FontWeight.Bold)
+            }
+        }
+        Column(modifier = Modifier.weight(1f)) {
+            values.forEach { value ->
+                Text(text = value)
+            }
+        }
+    }
+}
+
+@Composable
+fun SectionDivider() {
+    Divider(
+        modifier = Modifier.fillMaxWidth(),
+        thickness = 1.dp,
+        color = Color.Black
+    )
+}
+
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
