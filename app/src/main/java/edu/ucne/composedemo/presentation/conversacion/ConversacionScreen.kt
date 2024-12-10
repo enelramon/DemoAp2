@@ -17,18 +17,18 @@ import edu.ucne.composedemo.presentation.components.TopBarComponent
 
 @Composable
 fun ConversationScreen(
-    goToTicket: (Int) -> Unit, // Navegación a detalles del Ticket
-    createTicket: () -> Unit, // Crear un nuevo Ticket
-    onDrawer: () -> Unit // Acción del ícono del drawer
+    goToTicket: (Int) -> Unit,
+    createTicket: () -> Unit,
+    onDrawer: () -> Unit
 ) {
 
     Scaffold(
 
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            // Aquí integramos el TopBarComponent
+
             TopBarComponent(
-                title = "Tickets", // Título del TopBar
+                title = "Tickets",
                  onDrawer,
 
             )
@@ -118,7 +118,7 @@ fun MessagesBlock(messages: List<Message>) {
 @Composable
 fun MessageInputBlock(userName: String) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        // Nombre (No editable)
+
         Text(
             text = "Nombre:",
             fontSize = 16.sp,
@@ -137,7 +137,7 @@ fun MessageInputBlock(userName: String) {
         )
 
 
-        // Campo para escribir mensaje
+
         var message by remember { mutableStateOf(TextFieldValue("")) }
         BasicTextField(
             value = message,
@@ -162,7 +162,7 @@ fun MessageInputBlock(userName: String) {
         ) {
 
             Button(
-                onClick = { /* Lógica para enviar mensaje */ },
+                onClick = {  },
                 colors = ButtonDefaults.buttonColors(Color.Blue)
 
             ) {
@@ -178,8 +178,8 @@ data class Message(val date: String, val sender: String, val content: String)
 @Composable
 fun PreviewConversationScreen() {
     ConversationScreen(
-        goToTicket = { /* Lógica para navegar a detalles del Ticket */ },
-        createTicket = { /* Lógica para crear un nuevo Ticket */ },
-        onDrawer = { /* Lógica para el ícono del drawer */ }
+        goToTicket = {},
+        createTicket = {  },
+        onDrawer = {  }
     )
 }
