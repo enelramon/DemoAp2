@@ -2,7 +2,6 @@ package edu.ucne.composedemo.data.remote
 
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.TicketDto
-import edu.ucne.composedemo.data.remote.dto.TicketGetMen
 import edu.ucne.composedemo.data.remote.dto.TicketPostMen
 import javax.inject.Inject
 
