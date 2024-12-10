@@ -150,7 +150,7 @@ fun TicketListBodyScreen(
 }
 
 @Composable
-private fun TicketCard (
+fun TicketCard (
     ticket: TicketDto,
     date: String,
     goToTicket: (Double) -> Unit
