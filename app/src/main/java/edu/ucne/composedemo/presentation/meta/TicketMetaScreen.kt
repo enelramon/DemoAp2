@@ -35,13 +35,13 @@ import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 
 @Composable
 fun TicketMetaScreen(
-    idTicket: Int,
+    idUsuario: Int,
     onDrawer: () -> Unit,
     viewModel: TicketMetaViewModel = hiltViewModel()
 ){
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     TicketMetaBodyScreen(
-        idTicket = idTicket,
+        idUsuario = idUsuario,
         uiState = uiState,
         onEvent = viewModel::onEvent,
         onDrawer = onDrawer
@@ -50,13 +50,13 @@ fun TicketMetaScreen(
 
 @Composable
 private fun TicketMetaBodyScreen(
-    idTicket: Int,
+    idUsuario: Int,
     uiState: TicketMetaUiState,
     onEvent: (TicketMetaUiEvent) -> Unit,
     onDrawer: () -> Unit
 ) {
     LaunchedEffect(Unit){
-        onEvent(TicketMetaUiEvent.SelectedTicketMeta(idTicket))
+        onEvent(TicketMetaUiEvent.SelectedTicketMeta(idUsuario))
     }
 
     val ticketCompletados = uiState.ticketMetas.count(
@@ -192,7 +192,7 @@ private fun TicketMetaScreenPreview() {
     DemoAp2Theme {
         TicketMetaBodyScreen(
             uiState = sampleTicketMetaUiSate,
-            idTicket = 1,
+            idUsuario = 1,
             onEvent = {},
             onDrawer = {}
         )
