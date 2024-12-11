@@ -165,7 +165,10 @@ fun DemoAp2NavHost(
                             drawerState.open()
                         }
                     },
-                    idSuplidor = args.idSuplidor
+                    idSuplidor = args.idSuplidor,
+                    navigateToSuplidoresGasto = {
+                        navHostController.navigate(Screen.SuplidoresGastosList)
+                    }
                 )
             }
         }
