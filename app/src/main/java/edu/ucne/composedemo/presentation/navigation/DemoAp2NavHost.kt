@@ -37,15 +37,18 @@ fun DemoAp2NavHost(
             composable<Screen.TicketList> {
                 TicketListScreen(
                     goToTicket = {
-                        navHostController.navigate(Screen.Ticket(it.toString()))
+                        navHostController.navigate(Screen.Ticket(it))
                     },
                     createTicket = {
-                        navHostController.navigate(Screen.Ticket(0.0.toString()))
+                        navHostController.navigate(Screen.Ticket(0))
                     },
                     onDrawer = {
                         scope.launch {
                             drawerState.open()
                         }
+                    },
+                    goToMeta = {
+                        navHostController.navigate(Screen.TicketMeta(it))
                     }
                 )
             }
@@ -147,6 +150,18 @@ fun DemoAp2NavHost(
                         }
                     },
                     onGoCreate = {}
+                )
+            }
+            composable<Screen.TicketMeta> {
+                TicketScreen(
+                    goBack = {
+                        navHostController.navigateUp()
+                    },
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
                 )
             }
         }
