@@ -98,67 +98,46 @@ fun SuplidorGastosListScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            LazyRow(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
                 horizontalArrangement = Arrangement.Start
             ) {
-                item{
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButton(
-                            selected = filter == stringResource(R.string.todos),
-                            onClick = {
-                                expandedIndex.intValue = -1
-                                filter = "Todos"
-                                onEvent(SuplidorGastoEvent.GetAllSuplidorGastos)
-                            },
-                            colors = RadioButtonDefaults.colors(
-                                selectedColor = Blue,
-                                unselectedColor = Blue
-                            ),
-                            modifier = Modifier.padding(0.dp)
-                        )
-                        Text(stringResource(R.string.todos))
-                    }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    RadioButton(
+                        selected = filter == stringResource(R.string.todos),
+                        onClick = {
+                            expandedIndex.intValue = -1
+                            filter = "Todos"
+                            onEvent(SuplidorGastoEvent.GetAllSuplidorGastos)
+                        },
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = Blue,
+                            unselectedColor = Blue
+                        ),
+                        modifier = Modifier.padding(0.dp)
+                    )
+                    Text(stringResource(R.string.todos))
+                }
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(8.dp))
 
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButton(
-                            selected = filter == stringResource(R.string.recurrentes),
-                            onClick = {
-                                expandedIndex.intValue = -1
-                                filter = "Recurrentes"
-                                onEvent(SuplidorGastoEvent.GetAllSuplidorGastosByRecurrencia)
-                            },
-                            colors = RadioButtonDefaults.colors(
-                                selectedColor = Blue,
-                                unselectedColor = Blue
-                            ),
-                            modifier = Modifier.padding(0.dp)
-                        )
-                        Text(stringResource(R.string.recurrentes))
-                    }
-
-                    Spacer(modifier = Modifier.width(8.dp))
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButton(
-                            selected = filter == stringResource(R.string.no_recurrentes),
-                            onClick = {
-                                expandedIndex.intValue = -1
-                                filter = "NoRecurrentes"
-                                onEvent(SuplidorGastoEvent.GetAllSuplidorGastosByNoRecurrente)
-                            },
-                            colors = RadioButtonDefaults.colors(
-                                selectedColor = Blue,
-                                unselectedColor = Blue
-                            ),
-                            modifier = Modifier.padding(0.dp)
-                        )
-                        Text(stringResource(R.string.no_recurrentes))
-                    }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    RadioButton(
+                        selected = filter == stringResource(R.string.recurrentes),
+                        onClick = {
+                            expandedIndex.intValue = -1
+                            filter = "Recurrentes"
+                            onEvent(SuplidorGastoEvent.GetAllSuplidorGastosByRecurrencia)
+                        },
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = Blue,
+                            unselectedColor = Blue
+                        ),
+                        modifier = Modifier.padding(0.dp)
+                    )
+                    Text(stringResource(R.string.recurrentes))
                 }
             }
 

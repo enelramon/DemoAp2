@@ -27,7 +27,6 @@ class SuplidorGastosViewModel @Inject constructor(
         when(event){
             SuplidorGastoEvent.GetAllSuplidorGastos -> getSuplidoresGastos()
             SuplidorGastoEvent.GetAllSuplidorGastosByRecurrencia -> getSuplidoresGastosByRecurrencia()
-            SuplidorGastoEvent.GetAllSuplidorGastosByNoRecurrente -> getAllSuplidorGastosByNoRecurrente()
         }
     }
 
@@ -70,33 +69,6 @@ class SuplidorGastosViewModel @Inject constructor(
                     is Resource.Success -> {
                         _uiState.value = _uiState.value.copy(
                             suplidoresGastos = result.data?.filter {it.esRecurrente }?: emptyList(),
-                            isLoading = false
-                        )
-                    }
-                    is Resource.Error -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getAllSuplidorGastosByNoRecurrente() {
-        viewModelScope.launch {
-            repositorySuplidor.getSuplidoresGastos().collect { result ->
-                when(result){
-                    is Resource.Loading -> {
-                        _uiState.update {
-                            it.copy(isLoading = true)
-                        }
-                    }
-                    is Resource.Success -> {
-                        _uiState.value = _uiState.value.copy(
-                            suplidoresGastos = result.data?.filter { !it.esRecurrente }?: emptyList(),
                             isLoading = false
                         )
                     }
