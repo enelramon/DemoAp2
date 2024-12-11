@@ -11,5 +11,6 @@ data class TicketMetaUiState(
     val estatusDescription: String? = "",
     val ticketMetas: List<TicketMetaResponseDto> = emptyList(),
     val isLoading: Boolean = false,
-    val errorMessage: String? = ""
+    val errorMessage: String? = "",
+    val encargado: String? = ""
 )
