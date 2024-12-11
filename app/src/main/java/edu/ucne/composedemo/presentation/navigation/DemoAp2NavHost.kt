@@ -148,8 +148,11 @@ fun DemoAp2NavHost(
                             drawerState.open()
                         }
                     },
-                    onEdit = {
+                    onAsignarRecurrencia = {
                         navHostController.navigate(Screen.GastoRecurrencia(it))
+                    },
+                    onAsignarGasto = {
+
                     }
                 )
             }
