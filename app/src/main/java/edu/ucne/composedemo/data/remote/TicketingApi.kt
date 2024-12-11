@@ -11,6 +11,8 @@ import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.SuplidorGastoDto
 import edu.ucne.composedemo.data.remote.dto.TicketDto
 import edu.ucne.composedemo.data.remote.dto.TicketGetMen
+import edu.ucne.composedemo.data.remote.dto.TicketMetaRequestDto
+import edu.ucne.composedemo.data.remote.dto.TicketMetaResponseDto
 import edu.ucne.composedemo.data.remote.dto.TicketPostMen
 import edu.ucne.composedemo.data.remote.dto.TiposSoportesDto
 import retrofit2.Response
@@ -71,8 +73,6 @@ interface TicketingApi {
     @GET("api/Cxc/{idCliente}")
     suspend fun getCxc(@Path("idCliente") idCliente: Int): List<CxcDto>
 
-
-
     @Headers("X-API-Key:test")
     @GET("api/Tickets")
     suspend fun getTickets() : List<TicketDto>
@@ -108,4 +108,16 @@ interface TicketingApi {
     @Headers("X-API-Key:test")
     @DELETE("api/GastosRecurencias/{id}")
     suspend fun deleteGastosRecurencia(@Path("id") id: Int): Response<Unit>
+  
+    @Headers("X-API-Key:test")
+    @GET("api/TicketMetas/GetMetasUsuario/{idUsuario}")
+    suspend fun getMetasUsuario(@Path("idUsuario") idUsuario: Int): List<TicketMetaResponseDto>
+
+    @Headers("X-API-Key:test")
+    @POST("api/TicketMetas/AddTicketMeta")
+    suspend fun addTicketMeta(@Body ticketMetaRequestDto: TicketMetaRequestDto): TicketMetaRequestDto
+
+    @Headers("X-API-Key:test")
+    @DELETE("api/TicketMetas/DeleteTicketMeta/{idDetalle")
+    suspend fun deleteTicketMeta(@Path("idDetalle") idDetalle: Int): Response<Unit>
 }
