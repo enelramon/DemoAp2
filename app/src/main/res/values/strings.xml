@@ -10,4 +10,10 @@
     <string name="drawer_tiposSoportes">Tipos Soportes</string>
     <string name="drawer_suplidoresGastos">Suplidores Gastos</string>
     <string name="drawer_cxc">Cuentas x Cobrar</string>
+    <string name="mensual">Mensual</string>
+    <string name="anual">Anual</string>
+    <string name="todos">Todos</string>
+    <string name="recurrentes">Recurrentes</string>
+    <string name="no_recurrentes">NoRecurrentes</string>
+    <string name="recurrente">Recurrente</string>
 </resources>
