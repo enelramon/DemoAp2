@@ -1,5 +1,6 @@
 package edu.ucne.composedemo.data.remote
 
+import edu.ucne.composedemo.data.remote.dto.GastoRecurrenciaDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.TicketDto
 import edu.ucne.composedemo.data.remote.dto.TicketMetaRequestDto
@@ -28,6 +29,7 @@ class RemoteDataSource @Inject constructor(
     suspend fun getTiposSoportes() = ticketingApi.getTiposSoportes()
 
     suspend fun getSuplidoresGastos() = ticketingApi.getSuplidoresGastos()
+    suspend fun getSuplidorGastos(id: Int) = ticketingApi.getSuplidorGasto(id)
 
     suspend fun getCxc(idCliente: Int) = ticketingApi.getCxc(idCliente)
 
@@ -35,6 +37,10 @@ class RemoteDataSource @Inject constructor(
     suspend fun saveTicket(ticketDto: TicketDto) = ticketingApi.saveTicket(ticketDto)
     suspend fun getTicket(idTicket: Double) = ticketingApi.getTicket(idTicket)
 
+    suspend fun getGastosRecurencias() = ticketingApi.getGastosRecurencias()
+    suspend fun createGastoRecurencia(gastosRecurenciaDto: GastoRecurrenciaDto) = ticketingApi.createGastoRecurencia(gastosRecurenciaDto)
+    suspend fun deleteGastoRecurencia(id: Int) = ticketingApi.deleteGastosRecurencia(id)
+    
     suspend fun getMensaje(idTicket: Double) =ticketingApi.getMensaje(idTicket)
     suspend fun postMensaje(ticketPostMen: TicketPostMen) = ticketingApi.postMensaje(ticketPostMen)
 
