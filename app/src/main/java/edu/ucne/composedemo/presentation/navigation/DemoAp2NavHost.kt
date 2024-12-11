@@ -148,8 +148,11 @@ fun DemoAp2NavHost(
                             drawerState.open()
                         }
                     },
-                    onEdit = {
+                    onAsignarRecurrencia = {
                         navHostController.navigate(Screen.GastoRecurrencia(it))
+                    },
+                    onAsignarGasto = {
+
                     }
                 )
             }
@@ -162,7 +165,10 @@ fun DemoAp2NavHost(
                             drawerState.open()
                         }
                     },
-                    idSuplidor = args.idSuplidor
+                    idSuplidor = args.idSuplidor,
+                    navigateToSuplidoresGasto = {
+                        navHostController.navigate(Screen.SuplidoresGastosList)
+                    }
                 )
             }
         }
