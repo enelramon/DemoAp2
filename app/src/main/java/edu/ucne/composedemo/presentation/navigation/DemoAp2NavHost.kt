@@ -17,6 +17,7 @@ import edu.ucne.composedemo.presentation.cxc.CxcListScreen
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
 import edu.ucne.composedemo.presentation.gastorecurrencia.GastoRecurrenciaScreen
 import edu.ucne.composedemo.presentation.gastos.GastosListScreen
+import edu.ucne.composedemo.presentation.meta.TicketMetaScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
 import edu.ucne.composedemo.presentation.suplidorGastos.SuplidorGastosListScreen
 import edu.ucne.composedemo.presentation.tipossoportes.TiposSoportesListScreen
@@ -175,10 +176,8 @@ fun DemoAp2NavHost(
                 )
             }
             composable<Screen.TicketMeta> {
-                TicketScreen(
-                    goBack = {
-                        navHostController.navigateUp()
-                    },
+                TicketMetaScreen(
+                    idUsuario = 1,
                     onDrawer = {
                         scope.launch {
                             drawerState.open()
