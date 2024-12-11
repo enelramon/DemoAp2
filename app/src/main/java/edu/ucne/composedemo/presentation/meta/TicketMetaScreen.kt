@@ -2,7 +2,6 @@ package edu.ucne.composedemo.presentation.meta
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +18,7 @@ import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,23 +35,36 @@ import edu.ucne.composedemo.ui.theme.DemoAp2Theme
 
 @Composable
 fun TicketMetaScreen(
+    idTicket: Int,
     onDrawer: () -> Unit,
     viewModel: TicketMetaViewModel = hiltViewModel()
 ){
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     TicketMetaBodyScreen(
+        idTicket = idTicket,
         uiState = uiState,
+        onEvent = viewModel::onEvent,
         onDrawer = onDrawer
     )
 }
 
 @Composable
 private fun TicketMetaBodyScreen(
+    idTicket: Int,
     uiState: TicketMetaUiState,
+    onEvent: (TicketMetaUiEvent) -> Unit,
     onDrawer: () -> Unit
 ) {
-    val progress = 0.75f
+    LaunchedEffect(Unit){
+        onEvent(TicketMetaUiEvent.SelectedTicketMeta(idTicket))
+    }
 
+    val ticketCompletados = uiState.ticketMetas.count(
+        predicate = { it.estatus == 1 }
+    )
+
+    val progress = ticketCompletados.toFloat() / uiState.ticketMetas.size.toFloat()
+    
     Scaffold(
         topBar = {
             TopBarComponent(
@@ -136,45 +149,10 @@ private fun TicketMetaBodyScreen(
                             especificaciones = ticket.estatusDescription,
                             archivo = null
                         ),
-                        date = "12/08/2023",
-                        goToTicket = {}
+                        date = "12/08/2023"
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun TicketRow(ticket: TicketMetaResponseDto) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = "ID: ${ticket.id}",
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Text(
-                text = "Estatus: ${ticket.estatus}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Empresa: ${ticket.empresa}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Asunto: ${ticket.asunto}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Estatus Descripción: ${ticket.estatusDescription}",
-                style = MaterialTheme.typography.bodyMedium
-            )
         }
     }
 }
@@ -183,7 +161,7 @@ private val sampleTicketMetaUiSate = TicketMetaUiState(
     ticketMetas = listOf(
         TicketMetaResponseDto(
             id = 1,
-            idTicket = 1.0,
+            idTicket = 1,
             asunto = "Asunto 1",
             empresa = "Empresa 1",
             estatus = 1,
@@ -191,11 +169,19 @@ private val sampleTicketMetaUiSate = TicketMetaUiState(
         ),
         TicketMetaResponseDto(
             id = 2,
-            idTicket = 2.0,
+            idTicket = 2,
             asunto = "Asunto 2",
             empresa = "Empresa 2",
-            estatus = 2,
+            estatus = 0,
             estatusDescription = "Estatus 2"
+        ),
+        TicketMetaResponseDto(
+            id = 3,
+            idTicket = 3,
+            asunto = "Asunto 3",
+            empresa = "Empresa 3",
+            estatus = 1,
+            estatusDescription = "Estatus 3"
         )
     )
 )
@@ -206,6 +192,8 @@ private fun TicketMetaScreenPreview() {
     DemoAp2Theme {
         TicketMetaBodyScreen(
             uiState = sampleTicketMetaUiSate,
+            idTicket = 1,
+            onEvent = {},
             onDrawer = {}
         )
     }
