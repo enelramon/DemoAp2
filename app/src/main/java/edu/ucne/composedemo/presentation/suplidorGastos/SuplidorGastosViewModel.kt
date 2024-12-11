@@ -23,6 +23,14 @@ class SuplidorGastosViewModel @Inject constructor(
         getSuplidoresGastos()
     }
 
+    fun onEvent(event: SuplidorGastoEvent){
+        when(event){
+            SuplidorGastoEvent.GetAllSuplidorGastos -> getSuplidoresGastos()
+            SuplidorGastoEvent.GetAllSuplidorGastosByRecurrencia -> getSuplidoresGastosByRecurrencia()
+            SuplidorGastoEvent.GetAllSuplidorGastosByNoRecurrente -> GetAllSuplidorGastosByNoRecurrente()
+        }
+    }
+
     private fun getSuplidoresGastos() {
         viewModelScope.launch {
             repositorySuplidor.getSuplidoresGastos().collect { result ->
@@ -33,12 +41,64 @@ class SuplidorGastosViewModel @Inject constructor(
                         }
                     }
                     is Resource.Success -> {
+                        _uiState.value = _uiState.value.copy(
+                            suplidoresGastos = result.data?: emptyList(),
+                            isLoading = false
+                        )
+                    }
+                    is Resource.Error -> {
                         _uiState.update {
                             it.copy(
-                                suplidoresGastos = result.data?: emptyList(),
                                 isLoading = false
                             )
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getSuplidoresGastosByRecurrencia() {
+        viewModelScope.launch {
+            repositorySuplidor.getSuplidoresGastos().collect { result ->
+                when(result){
+                    is Resource.Loading -> {
+                        _uiState.update {
+                            it.copy(isLoading = true)
+                        }
+                    }
+                    is Resource.Success -> {
+                        _uiState.value = _uiState.value.copy(
+                            suplidoresGastos = result.data?.filter {SuplidorGasto ->  SuplidorGasto.esRecurrente }?: emptyList(),
+                            isLoading = false
+                        )
+                    }
+                    is Resource.Error -> {
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun GetAllSuplidorGastosByNoRecurrente() {
+        viewModelScope.launch {
+            repositorySuplidor.getSuplidoresGastos().collect { result ->
+                when(result){
+                    is Resource.Loading -> {
+                        _uiState.update {
+                            it.copy(isLoading = true)
+                        }
+                    }
+                    is Resource.Success -> {
+                        _uiState.value = _uiState.value.copy(
+                            suplidoresGastos = result.data?.filter {SuplidorGasto ->  !SuplidorGasto.esRecurrente }?: emptyList(),
+                            isLoading = false
+                        )
                     }
                     is Resource.Error -> {
                         _uiState.update {
