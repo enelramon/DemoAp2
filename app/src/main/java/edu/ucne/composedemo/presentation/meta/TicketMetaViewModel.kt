@@ -54,14 +54,24 @@ class TicketMetaViewModel @Inject constructor(
 
     fun onEvent(event: TicketMetaUiEvent){
         when(event){
-            is TicketMetaUiEvent.SelectedTicketMeta -> TODO()
+            is TicketMetaUiEvent.SelectedTicketMeta -> {
+                _uiState.update {
+                    it.copy(
+                        idUsuario = 1
+                    )
+                }
+            }
             is TicketMetaUiEvent.Save -> {
                 viewModelScope.launch {
                     _uiState.update { it.copy(idTicket = event.idTicket) }
                     ticketMetaRepository.addTicketMeta(uiState.value.toRequestDto())
                 }
             }
-            TicketMetaUiEvent.Delete -> TODO()
+            TicketMetaUiEvent.Delete -> {
+                viewModelScope.launch {
+                    ticketMetaRepository.deleteTicketMeta(uiState.value.idTicket)
+                }
+            }
         }
     }
 
