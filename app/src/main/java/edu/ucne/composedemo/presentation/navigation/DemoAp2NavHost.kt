@@ -34,15 +34,15 @@ fun DemoAp2NavHost(
     ) {
         NavHost(
             navController = navHostController,
-            startDestination = Screen.SistemaList
+            startDestination = Screen.TicketList
         ) {
             composable<Screen.TicketList> {
                 TicketListScreen(
                     goToTicket = {
-                        navHostController.navigate(Screen.Ticket(it.toDouble()))
+                        navHostController.navigate(Screen.Ticket(it.toString()))
                     },
                     createTicket = {
-                        navHostController.navigate(Screen.Ticket(0.0))
+                        navHostController.navigate(Screen.Ticket(0.0.toString()))
                     },
                     onDrawer = {
                         scope.launch {
