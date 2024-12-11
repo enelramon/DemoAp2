@@ -11,5 +11,9 @@ data class SuplidorGastoDto(
     val tipoNCF: Int = 0,
     val condicion: Int = 0,
     val email: String = "",
-    val esRecurrente: Boolean = false
+    val esRecurrente: Boolean = false,
+    val periodicidad: Int? = 0,
+    val dia: Int? = null,
+    val monto: Double? = null,
+    val ultimaRecurencia: String? = null
 )
