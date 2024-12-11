@@ -7,6 +7,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import edu.ucne.composedemo.presentation.Ticket.TicketListScreen
 import edu.ucne.composedemo.presentation.Ticket.TicketScreen
 import edu.ucne.composedemo.presentation.anydesklog.AnyDeskLogListScreen
@@ -14,6 +15,7 @@ import edu.ucne.composedemo.presentation.cliente.ClienteListScreen
 import edu.ucne.composedemo.presentation.cobro.CobroListScreen
 import edu.ucne.composedemo.presentation.cxc.CxcListScreen
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
+import edu.ucne.composedemo.presentation.gastorecurrencia.GastoRecurrenciaScreen
 import edu.ucne.composedemo.presentation.gastos.GastosListScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
 import edu.ucne.composedemo.presentation.suplidorGastos.SuplidorGastosListScreen
@@ -146,7 +148,27 @@ fun DemoAp2NavHost(
                             drawerState.open()
                         }
                     },
-                    onGoCreate = {}
+                    onAsignarRecurrencia = {
+                        navHostController.navigate(Screen.GastoRecurrencia(it))
+                    },
+                    onAsignarGasto = {
+
+                    }
+                )
+            }
+
+            composable<Screen.GastoRecurrencia>{
+                val args = it.toRoute<Screen.GastoRecurrencia>()
+                GastoRecurrenciaScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    },
+                    idSuplidor = args.idSuplidor,
+                    navigateToSuplidoresGasto = {
+                        navHostController.navigate(Screen.SuplidoresGastosList)
+                    }
                 )
             }
         }
