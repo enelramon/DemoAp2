@@ -154,7 +154,7 @@ class TicketViewModel @Inject constructor(
         }
     }
 
-    private fun onTicketIdChange(ticketId: Double) {
+    private fun onTicketIdChange(ticketId: Int) {
         _uiState.update {
             it.copy(idTicket = ticketId)
         }

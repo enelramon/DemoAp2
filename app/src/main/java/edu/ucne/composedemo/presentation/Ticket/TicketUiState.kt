@@ -5,7 +5,7 @@ import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.TicketDto
 
 data class TicketUiState(
-    val idTicket: Double? = null,
+    val idTicket: Int? = null,
     val fecha: String? = "",
     val vence: String? = "",
     val idCliente: Double? = null,

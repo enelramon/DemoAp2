@@ -1,7 +1,7 @@
 package edu.ucne.composedemo.data.remote.dto
 
 data class TicketDto(
-    val idTicket: Double?,
+    val idTicket: Int?,
     val fecha: String?,
     val vence: String?,
     val idCliente: Double?,
