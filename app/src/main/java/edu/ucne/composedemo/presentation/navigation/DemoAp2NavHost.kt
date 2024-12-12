@@ -16,6 +16,7 @@ import edu.ucne.composedemo.presentation.cobro.CobroListScreen
 import edu.ucne.composedemo.presentation.cxc.CxcListScreen
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
 import edu.ucne.composedemo.presentation.gastorecurrencia.GastoRecurrenciaScreen
+import edu.ucne.composedemo.presentation.gastos.GastoScreen
 import edu.ucne.composedemo.presentation.gastos.GastosListScreen
 import edu.ucne.composedemo.presentation.meta.TicketMetaScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
@@ -126,6 +127,22 @@ fun DemoAp2NavHost(
                     }
                 )
             }
+
+            composable<Screen.GastoScreen> {
+                val args = it.toRoute<Screen.GastoScreen>()
+                GastoScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    },
+                    idSuplidor = args.idSuplidor,
+                    navigateToSuplidorGasto = {
+                        navHostController.navigate(Screen.SuplidoresGastosList)
+                    }
+                )
+            }
+
             composable<Screen.CobroList> {
                 CobroListScreen(
                     onDrawer = {
@@ -156,7 +173,7 @@ fun DemoAp2NavHost(
                         navHostController.navigate(Screen.GastoRecurrencia(it))
                     },
                     onAsignarGasto = {
-
+                        navHostController.navigate(Screen.GastoScreen(it))
                     }
                 )
             }
