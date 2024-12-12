@@ -39,7 +39,7 @@ import java.util.Calendar
 import java.util.Locale
 
 @Composable
-fun GastoScreen(
+fun GastosScreen(
     viewModel: GastosViewModel = hiltViewModel(),
     onDrawer: () -> Unit = {},
     idSuplidor: Int,

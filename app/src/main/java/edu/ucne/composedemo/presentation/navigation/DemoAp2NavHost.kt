@@ -16,7 +16,7 @@ import edu.ucne.composedemo.presentation.cobro.CobroListScreen
 import edu.ucne.composedemo.presentation.cxc.CxcListScreen
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
 import edu.ucne.composedemo.presentation.gastorecurrencia.GastoRecurrenciaScreen
-import edu.ucne.composedemo.presentation.gastos.GastoScreen
+import edu.ucne.composedemo.presentation.gastos.GastosScreen
 import edu.ucne.composedemo.presentation.gastos.GastosListScreen
 import edu.ucne.composedemo.presentation.meta.TicketMetaScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
@@ -128,9 +128,9 @@ fun DemoAp2NavHost(
                 )
             }
 
-            composable<Screen.GastoScreen> {
-                val args = it.toRoute<Screen.GastoScreen>()
-                GastoScreen(
+            composable<Screen.GastosScreen> {
+                val args = it.toRoute<Screen.GastosScreen>()
+                GastosScreen(
                     onDrawer = {
                         scope.launch {
                             drawerState.open()
@@ -173,7 +173,7 @@ fun DemoAp2NavHost(
                         navHostController.navigate(Screen.GastoRecurrencia(it))
                     },
                     onAsignarGasto = {
-                        navHostController.navigate(Screen.GastoScreen(it))
+                        navHostController.navigate(Screen.GastosScreen(it))
                     }
                 )
             }
