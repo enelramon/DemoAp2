@@ -56,28 +56,13 @@ fun GastosScreen(
     }
 
     if (showDatePicker.value) {
-        val calendar = Calendar.getInstance()
-        val year = calendar[Calendar.YEAR]
-        val month = calendar[Calendar.MONTH]
-        val day = calendar[Calendar.DAY_OF_MONTH]
-
-        DatePickerDialog(
-            context,
-            { _, selectedYear, selectedMonth, selectedDay ->
-                val formattedDate = String.format(
-                    Locale.getDefault(),
-                    "%04d-%02d-%02d",
-                    selectedYear,
-                    selectedMonth + 1,
-                    selectedDay
-                )
-                onEvent(GastosEvent.FechaChange(formattedDate))
+        ShowDatePickerDialog(
+            context = context,
+            onDateSelected = { selectedDate ->
+                onEvent(GastosEvent.FechaChange(selectedDate))
                 showDatePicker.value = false
-            },
-            year,
-            month,
-            day
-        ).show()
+            }
+        )
     }
 
     Scaffold(
@@ -91,12 +76,10 @@ fun GastosScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            OutlinedTextField(
+            GastoTextField(
                 value = uiState.fecha,
                 onValueChange = {},
-                label = { Text("Fecha") },
-                readOnly = true,
-                modifier = Modifier.fillMaxWidth(),
+                label = "Fecha",
                 trailingIcon = {
                     IconButton(onClick = { showDatePicker.value = true }) {
                         Icon(
@@ -104,98 +87,59 @@ fun GastosScreen(
                             contentDescription = "Seleccionar Fecha"
                         )
                     }
-                }
+                },
+                error = uiState.errorFecha,
+                readOnly = true
             )
-            if (uiState.errorFecha != null) {
-                Text(
-                    text = uiState.errorFecha,
-                    color = Color.Red,
-                    modifier = Modifier.align(Alignment.Start)
-                )
-            }
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            OutlinedTextField(
+            GastoTextField(
                 value = uiState.ncf,
                 onValueChange = { onEvent(GastosEvent.NcfChange(it)) },
-                label = { Text("NCF") },
-                modifier = Modifier.fillMaxWidth()
+                label = "NCF",
+                error = uiState.errorNcf
             )
-            if (uiState.errorNcf != null) {
-                Text(
-                    text = uiState.errorNcf,
-                    color = Color.Red,
-                    modifier = Modifier.align(Alignment.Start)
-                )
-            }
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            OutlinedTextField(
+            GastoTextField(
                 value = uiState.concepto,
                 onValueChange = { onEvent(GastosEvent.ConceptoChange(it)) },
-                label = { Text("Concepto") },
-                modifier = Modifier.fillMaxWidth()
+                label = "Concepto",
+                error = uiState.errorConcepto
             )
-            if (uiState.errorConcepto != null) {
-                Text(
-                    text = uiState.errorConcepto,
-                    color = Color.Red,
-                    modifier = Modifier.align(Alignment.Start)
-                )
-            }
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            OutlinedTextField(
+            GastoTextField(
                 value = uiState.descuento.toString(),
                 onValueChange = { onEvent(GastosEvent.DescuentoChange(it)) },
-                label = { Text("Descuento") },
+                label = "Descuento",
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
-                ),
-                modifier = Modifier.fillMaxWidth()
+                )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            OutlinedTextField(
+            GastoTextField(
                 value = uiState.itbis.toString(),
                 onValueChange = { onEvent(GastosEvent.ItbisChange(it)) },
-                label = { Text("ITBIS") },
+                label = "ITBIS",
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
-                ),
-                modifier = Modifier.fillMaxWidth()
+                )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
             if (!uiState.esRecurrente) {
-                OutlinedTextField(
+                GastoTextField(
                     value = uiState.monto.toString(),
                     onValueChange = { onEvent(GastosEvent.MontoChange(it)) },
-                    label = { Text("Monto") },
+                    label = "Monto",
+                    error = uiState.errorMonto,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                )
-                if (uiState.errorMonto != null) {
-                    Text(
-                        text = uiState.errorMonto,
-                        color = Color.Red,
-                        modifier = Modifier.align(Alignment.Start)
                     )
-                }
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-
             Button(
                 colors = ButtonDefaults.buttonColors(Green),
                 onClick = {
@@ -212,4 +156,63 @@ fun GastosScreen(
             }
         }
     }
+}
+
+@Composable
+fun ShowDatePickerDialog(
+    context: android.content.Context,
+    onDateSelected: (String) -> Unit
+) {
+    val calendar = Calendar.getInstance()
+    val year = calendar[Calendar.YEAR]
+    val month = calendar[Calendar.MONTH]
+    val day = calendar[Calendar.DAY_OF_MONTH]
+
+    DatePickerDialog(
+        context,
+        { _, selectedYear, selectedMonth, selectedDay ->
+            val formattedDate = String.format(
+                Locale.getDefault(),
+                "%04d-%02d-%02d",
+                selectedYear,
+                selectedMonth + 1,
+                selectedDay
+            )
+            onDateSelected(formattedDate)
+        },
+        year,
+        month,
+        day
+    ).show()
+}
+
+@Composable
+fun GastoTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    error: String? = null,
+    readOnly: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            label = { Text(label) },
+            trailingIcon = trailingIcon,
+            readOnly = readOnly,
+            keyboardOptions = keyboardOptions,
+            modifier = Modifier.fillMaxWidth()
+        )
+        error?.let {
+            Text(
+                text = it,
+                color = Color.Red,
+                modifier = Modifier.align(Alignment.Start)
+            )
+        }
+    }
+    Spacer(modifier = Modifier.height(8.dp))
 }
