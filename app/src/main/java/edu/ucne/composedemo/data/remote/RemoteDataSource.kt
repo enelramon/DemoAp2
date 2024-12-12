@@ -1,5 +1,6 @@
 package edu.ucne.composedemo.data.remote
 
+import edu.ucne.composedemo.data.remote.dto.GastoDto
 import edu.ucne.composedemo.data.remote.dto.GastoRecurrenciaDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.remote.dto.TicketDto
@@ -23,6 +24,7 @@ class RemoteDataSource @Inject constructor(
     suspend fun getAnydeskLog(id: Int) = ticketingApi.getAnyDeskLogs(id)
 
     suspend fun getGastos() = ticketingApi.getGastos()
+    suspend fun createGasto(gastoDto: GastoDto) = ticketingApi.createGasto(gastoDto)
 
     suspend fun getCobros() = ticketingApi.getCobro()
 
