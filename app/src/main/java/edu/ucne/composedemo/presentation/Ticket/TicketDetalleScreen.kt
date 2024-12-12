@@ -321,7 +321,7 @@ private fun Preview() {
     DemoAp2Theme {
         TicketDetalleBodyScreen(
             uiState = TicketUiState(
-                idTicket = 101.1,
+                idTicket = 101,
                 fecha = "2024-12-03",
                 solicitadoPor = "Juan Pérez",
                 prioridad = 1,

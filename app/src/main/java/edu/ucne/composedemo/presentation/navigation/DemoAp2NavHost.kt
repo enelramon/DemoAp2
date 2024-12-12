@@ -17,6 +17,7 @@ import edu.ucne.composedemo.presentation.cxc.CxcListScreen
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
 import edu.ucne.composedemo.presentation.gastorecurrencia.GastoRecurrenciaScreen
 import edu.ucne.composedemo.presentation.gastos.GastosListScreen
+import edu.ucne.composedemo.presentation.meta.TicketMetaScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
 import edu.ucne.composedemo.presentation.suplidorGastos.SuplidorGastosListScreen
 import edu.ucne.composedemo.presentation.tipossoportes.TiposSoportesListScreen
@@ -39,15 +40,18 @@ fun DemoAp2NavHost(
             composable<Screen.TicketList> {
                 TicketListScreen(
                     goToTicket = {
-                        navHostController.navigate(Screen.Ticket(it.toString()))
+                        navHostController.navigate(Screen.Ticket(it))
                     },
                     createTicket = {
-                        navHostController.navigate(Screen.Ticket(0.0.toString()))
+                        navHostController.navigate(Screen.Ticket(0))
                     },
                     onDrawer = {
                         scope.launch {
                             drawerState.open()
                         }
+                    },
+                    goToMeta = {
+                        navHostController.navigate(Screen.TicketMeta(it))
                     }
                 )
             }
@@ -168,6 +172,16 @@ fun DemoAp2NavHost(
                     idSuplidor = args.idSuplidor,
                     navigateToSuplidoresGasto = {
                         navHostController.navigate(Screen.SuplidoresGastosList)
+                    }
+                )
+            }
+            composable<Screen.TicketMeta> {
+                TicketMetaScreen(
+                    idUsuario = 1,
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
                     }
                 )
             }

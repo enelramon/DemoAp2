@@ -6,7 +6,7 @@ sealed class Screen {
     @Serializable
     data object TicketList : Screen()
     @Serializable
-    data class Ticket(val ticketId: String) : Screen()
+    data class Ticket(val ticketId: Int) : Screen()
     @Serializable
     data object SistemaList : Screen()
     @Serializable
@@ -27,4 +27,6 @@ sealed class Screen {
     data object SuplidoresGastosList : Screen()
     @Serializable
     data class GastoRecurrencia(val idSuplidor: Int) : Screen()
+    @Serializable
+    data class TicketMeta(val idUsuario: Int) : Screen()
 }

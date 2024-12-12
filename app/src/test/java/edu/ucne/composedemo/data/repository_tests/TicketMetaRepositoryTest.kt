@@ -21,7 +21,7 @@ class TicketMetaRepositoryTest {
         val ticketmetas = listOf(
             TicketMetaResponseDto(
                 id = 1,
-                idTicket = 1.0,
+                idTicket = 1,
                 asunto = "Ticket 1",
                 empresa = "Empresa 1",
                 estatus = 1,
@@ -29,7 +29,7 @@ class TicketMetaRepositoryTest {
             ),
             TicketMetaResponseDto(
                 id = 2,
-                idTicket = 2.0,
+                idTicket = 2,
                 asunto = "Ticket 2",
                 empresa = "Empresa 2",
                 estatus = 2,
