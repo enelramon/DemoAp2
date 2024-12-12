@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class Gastosrepository @Inject constructor(
+class GastosRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ){
     fun getGastos(): Flow<Resource<List<GastoDto>>> = flow {

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.composedemo.data.remote.Resource
 import edu.ucne.composedemo.data.remote.dto.GastoDto
-import edu.ucne.composedemo.data.repository.Gastosrepository
+import edu.ucne.composedemo.data.repository.GastosRepository
 import edu.ucne.composedemo.data.repository.SuplidorGastoRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GastosViewModel @Inject constructor(
-    private val gastosRepository: Gastosrepository,
+    private val gastosRepository: GastosRepository,
     private val suplidorGastoRepository: SuplidorGastoRepository
 ) : ViewModel() {
 
