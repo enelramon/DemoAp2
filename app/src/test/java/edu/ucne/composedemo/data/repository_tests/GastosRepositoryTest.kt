@@ -1,29 +1,23 @@
 package edu.ucne.composedemo.data.repository_tests
 
-import app.cash.turbine.test
-import com.google.common.truth.Truth
 import edu.ucne.composedemo.data.remote.RemoteDataSource
-import edu.ucne.composedemo.data.remote.Resource
 import edu.ucne.composedemo.data.remote.dto.GastoDto
-import edu.ucne.composedemo.data.repository.Gastosrepository
+import edu.ucne.composedemo.data.repository.GastosRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Test
-import retrofit2.HttpException
-import retrofit2.Response
 
-class GastosrepositoryTest {
-    private lateinit var repository: Gastosrepository
+class GastosRepositoryTest {
+    private lateinit var repository: GastosRepository
     private lateinit var remoteDataSource: RemoteDataSource
 
     @Before
     fun setup() {
         remoteDataSource = mockk()
-        repository = Gastosrepository(remoteDataSource)
+        repository = GastosRepository(remoteDataSource)
     }
 
     @Test

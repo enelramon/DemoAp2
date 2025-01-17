@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class Gastosrepository @Inject constructor(
+class GastosRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ){
     fun getGastos(): Flow<Resource<List<GastoDto>>> = flow {
@@ -28,5 +28,16 @@ class Gastosrepository @Inject constructor(
         }
     }
 
-
+    fun createGasto(gastoDto: GastoDto): Flow<Resource<GastoDto>> = flow {
+        try {
+            emit(Resource.Loading())
+            val createdGasto = remoteDataSource.createGasto(gastoDto)
+            emit(Resource.Success(createdGasto))
+        } catch (e: HttpException) {
+            val errorMessage = e.response()?.errorBody()?.string() ?: e.message()
+            emit(Resource.Error("Error de Internet: $errorMessage"))
+        } catch (e: Exception) {
+            emit(Resource.Error("Error ${e.message}"))
+        }
+    }
 }
