@@ -88,7 +88,11 @@ interface TicketingApi {
     @Headers("X-API-Key:test")
     @GET("api/GastosRecurencias/{id}")
     suspend fun getGastosRecurencia(@Path("id") id: Int): GastoRecurrenciaDto
-  
+
+    @Headers("X-API-Key:test")
+    @POST("api/Gastos")
+    suspend fun createGasto(@Body gastoDto: GastoDto): GastoDto
+
     @Headers("X-API-Key:test")
     @GET("api/Tickets/GetMensajes/{idTicket}")
     suspend fun getMensaje(@Path("idTicket") idTicket: Double): List<TicketGetMen>

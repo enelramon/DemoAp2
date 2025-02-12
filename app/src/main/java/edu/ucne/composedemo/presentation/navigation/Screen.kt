@@ -26,6 +26,8 @@ sealed class Screen {
     @Serializable
     data object SuplidoresGastosList : Screen()
     @Serializable
+    data class GastosScreen(val idSuplidor: Int) : Screen()
+    @Serializable
     data class GastoRecurrencia(val idSuplidor: Int) : Screen()
     @Serializable
     data class TicketMeta(val idUsuario: Int) : Screen()
