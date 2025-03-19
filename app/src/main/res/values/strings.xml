@@ -10,6 +10,7 @@
     <string name="drawer_tiposSoportes">Tipos Soportes</string>
     <string name="drawer_suplidoresGastos">Suplidores Gastos</string>
     <string name="drawer_cxc">Cuentas x Cobrar</string>
+    <string name="drawer_deposito">Depositos</string>
     <string name="mensual">Mensual</string>
     <string name="anual">Anual</string>
     <string name="todos">Todos</string>
