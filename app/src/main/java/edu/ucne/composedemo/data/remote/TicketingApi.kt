@@ -4,6 +4,7 @@ import edu.ucne.composedemo.data.remote.dto.AnyDeskLogDto
 import edu.ucne.composedemo.data.remote.dto.ClienteDto
 import edu.ucne.composedemo.data.remote.dto.CobroDto
 import edu.ucne.composedemo.data.remote.dto.CxcDto
+import edu.ucne.composedemo.data.remote.dto.DepositoDto
 import edu.ucne.composedemo.data.remote.dto.EquiposAnyDeskDto
 import edu.ucne.composedemo.data.remote.dto.GastoDto
 import edu.ucne.composedemo.data.remote.dto.GastoRecurrenciaDto
@@ -124,4 +125,27 @@ interface TicketingApi {
     @Headers("X-API-Key:test")
     @DELETE("api/TicketMetas/DeleteTicketMeta/{idDetalle")
     suspend fun deleteTicketMeta(@Path("idDetalle") idDetalle: Int): Response<Unit>
+
+    @Headers("X-API-Key:test")
+    @GET("api/Depositos")
+    suspend fun getDepositos(): List<DepositoDto>
+
+    @Headers("X-API-Key:test")
+    @GET("api/Depositos/{id}")
+    suspend fun getDeposito(@Path("id") id: Int): DepositoDto
+
+    @Headers("X-API-Key:test")
+    @POST("api/Depositos")
+    suspend fun saveDeposito(@Body depositoDto: DepositoDto?): DepositoDto
+
+    @Headers("X-API-Key:test")
+    @PUT("api/Depositos/{id}")
+    suspend fun updateDeposito(
+        @Path("id") id: Int,
+        @Body deposito: DepositoDto
+    ): Response<DepositoDto>
+
+    @Headers("X-API-Key:test")
+    @DELETE("api/Depositos/{id}")
+    suspend fun deleteDeposito(@Path("id") id: Int): Response<Unit>
 }
