@@ -1,5 +1,6 @@
 package edu.ucne.composedemo.data.remote
 
+import edu.ucne.composedemo.data.remote.dto.DepositoDto
 import edu.ucne.composedemo.data.remote.dto.GastoDto
 import edu.ucne.composedemo.data.remote.dto.GastoRecurrenciaDto
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
@@ -51,4 +52,16 @@ class RemoteDataSource @Inject constructor(
     suspend fun addTicketMeta(ticketMetaRequestDto: TicketMetaRequestDto) = ticketingApi.addTicketMeta(ticketMetaRequestDto)
 
     suspend fun deleteTicketMeta(idDetalle: Int) = ticketingApi.deleteTicketMeta(idDetalle)
+
+    suspend fun getDepositos() = ticketingApi.getDepositos()
+
+    suspend fun getDeposito(id: Int) = ticketingApi.getDeposito(id)
+
+    suspend fun saveDeposito(depositoDto: DepositoDto) = ticketingApi.saveDeposito(depositoDto)
+
+    suspend fun updateDeposito(id: Int, depositoDto: DepositoDto) = ticketingApi.updateDeposito(id, depositoDto)
+
+    suspend fun deleteDeposito(id: Int) = ticketingApi.deleteDeposito(id)
+
+
 }
