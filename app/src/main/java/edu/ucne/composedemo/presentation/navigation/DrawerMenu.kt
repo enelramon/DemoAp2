@@ -147,6 +147,15 @@ fun DrawerMenu(
                         ) {
                             handleItemClick(Screen.CxcList, it)
                         }
+
+                        DrawerItem(
+                            title = stringResource(R.string.drawer_deposito),
+                            icon = Icons.Filled.Money,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_deposito)
+                        ) {
+                            handleItemClick(Screen.DepositoList, it)
+                        }
+
                     }
                 }
             }
