@@ -127,12 +127,4 @@ fun DepositoBodyScreen(
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-private fun Preview() {
-    DepositoBodyScreen(
-        depositoId = 0,
-        viewModel = hiltViewModel(),
-        uiState = DepositoUiState()
-    )
-}
+
