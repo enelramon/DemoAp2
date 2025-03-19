@@ -14,6 +14,8 @@ import edu.ucne.composedemo.presentation.anydesklog.AnyDeskLogListScreen
 import edu.ucne.composedemo.presentation.cliente.ClienteListScreen
 import edu.ucne.composedemo.presentation.cobro.CobroListScreen
 import edu.ucne.composedemo.presentation.cxc.CxcListScreen
+import edu.ucne.composedemo.presentation.deposito.DepositoListScreen
+import edu.ucne.composedemo.presentation.deposito.DepositoScreen
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
 import edu.ucne.composedemo.presentation.gastorecurrencia.GastoRecurrenciaScreen
 import edu.ucne.composedemo.presentation.gastos.GastosScreen
@@ -200,6 +202,27 @@ fun DemoAp2NavHost(
                             drawerState.open()
                         }
                     }
+                )
+            }
+            composable<Screen.DepositoList> {
+                DepositoListScreen(
+                    goToDeposito = {
+                        navHostController.navigate(Screen.Deposito(it))
+                    },
+                    createDeposito = {
+                        navHostController.navigate(Screen.Deposito(0))
+                    },
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
+            composable<Screen.Deposito> {
+                val deposito = it.toRoute<Screen.Deposito>()
+                DepositoScreen(
+                    depositoId = deposito.depositoId,
                 )
             }
         }
