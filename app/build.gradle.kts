@@ -78,8 +78,8 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
 
     //koin
-    implementation("io.insert-koin:koin-android:3.5.3")
-    implementation("io.insert-koin:koin-androidx-compose:3.5.3")
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
