@@ -5,8 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import edu.ucne.composedemo.presentation.Ticket.TicketListScreen
-import edu.ucne.composedemo.presentation.Ticket.TicketScreen
+import edu.ucne.composedemo.presentation.ticket.TicketListScreen
+import edu.ucne.composedemo.presentation.ticket.TicketScreen
 
 
 @Composable

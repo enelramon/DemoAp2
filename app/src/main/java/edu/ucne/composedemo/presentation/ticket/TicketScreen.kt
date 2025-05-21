@@ -1,4 +1,4 @@
-package edu.ucne.composedemo.presentation.Ticket
+package edu.ucne.composedemo.presentation.ticket
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,14 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.composedemo.ui.theme.DemoAp2Theme
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun TicketScreen(
-    viewModel: TicketViewModel = hiltViewModel(),
+    viewModel: TicketViewModel = koinViewModel(),
     ticketId: Int,
     goBack: () -> Unit
 ) {

@@ -1,4 +1,4 @@
-package edu.ucne.composedemo.presentation.Ticket
+package edu.ucne.composedemo.presentation.ticket
 
 import edu.ucne.composedemo.data.local.entities.TicketEntity
 

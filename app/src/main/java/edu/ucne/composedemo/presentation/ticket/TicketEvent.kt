@@ -1,4 +1,4 @@
-package edu.ucne.composedemo.presentation.Ticket
+package edu.ucne.composedemo.presentation.ticket
 
 sealed interface TicketEvent{
     data class TicketChange(val ticketId: Int): TicketEvent

@@ -2,9 +2,8 @@ package edu.ucne.composedemo.data.repository
 
 import edu.ucne.composedemo.data.local.dao.TicketDao
 import edu.ucne.composedemo.data.local.entities.TicketEntity
-import javax.inject.Inject
 
-class TicketRepository @Inject constructor(
+class TicketRepository (
     private val ticketDao: TicketDao
 ) {
     suspend fun save(ticket: TicketEntity) = ticketDao.save(ticket)

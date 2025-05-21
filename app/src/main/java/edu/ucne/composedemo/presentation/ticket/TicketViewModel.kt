@@ -1,18 +1,16 @@
-package edu.ucne.composedemo.presentation.Ticket
+package edu.ucne.composedemo.presentation.ticket
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.composedemo.data.local.entities.TicketEntity
 import edu.ucne.composedemo.data.repository.TicketRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class TicketViewModel @Inject constructor(
+
+class TicketViewModel(
     private val ticketRepository: TicketRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(TicketUiState())

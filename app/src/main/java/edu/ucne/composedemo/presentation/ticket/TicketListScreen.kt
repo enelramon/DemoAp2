@@ -1,4 +1,4 @@
-package edu.ucne.composedemo.presentation.Ticket
+package edu.ucne.composedemo.presentation.ticket
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -22,13 +22,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.composedemo.data.local.entities.TicketEntity
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TicketListScreen(
-    viewModel: TicketViewModel = hiltViewModel(),
+    viewModel: TicketViewModel = koinViewModel(),
     goToTicket: (Int) -> Unit,
     createTicket: () -> Unit
 ) {
