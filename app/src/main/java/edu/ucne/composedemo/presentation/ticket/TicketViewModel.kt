@@ -21,6 +21,7 @@ class TicketViewModel(
     }
 
     fun onEvent(event: TicketEvent){
+
         when (event){
             is TicketEvent.TicketChange -> onTicketIdChange(event.ticketId)
             is TicketEvent.ClienteChange -> onClienteChange(event.cliente)
