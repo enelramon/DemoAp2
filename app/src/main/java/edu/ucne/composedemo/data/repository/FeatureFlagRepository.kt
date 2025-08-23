@@ -5,17 +5,20 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
+enum class FeatureFlag(val key: String, val default: Boolean) {
+    DrawerTicket("drawer_ticket_enabled", true),
+    // Add future flags here following the same pattern
+}
+
 @Singleton
 class FeatureFlagRepository @Inject constructor(
     private val remoteConfig: FirebaseRemoteConfig
 ) {
-    suspend fun isTicketEnabled(): Boolean {
-        // Fetch and activate to ensure we have the latest values
+    suspend fun isEnabled(flag: FeatureFlag): Boolean {
         try {
             remoteConfig.fetchAndActivate().await()
         } catch (_: Exception) {
-            // Ignore fetch errors and fall back to cached/defaults
         }
-        return remoteConfig.getBoolean("drawer_ticket_enabled")
+        return remoteConfig.getBoolean(flag.key)
     }
 }

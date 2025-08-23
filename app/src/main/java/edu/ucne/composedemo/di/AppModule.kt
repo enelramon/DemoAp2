@@ -10,6 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import edu.ucne.composedemo.data.local.database.TicketDb
+import edu.ucne.composedemo.data.repository.FeatureFlag
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -36,9 +37,8 @@ object AppModule {
             minimumFetchIntervalInSeconds = 3600
         }
         config.setConfigSettingsAsync(settings)
-        config.setDefaultsAsync(mapOf(
-            "drawer_ticket_enabled" to true
-        ))
+        val defaults = FeatureFlag.values().associate { it.key to it.default }
+        config.setDefaultsAsync(defaults)
         return config
     }
 }

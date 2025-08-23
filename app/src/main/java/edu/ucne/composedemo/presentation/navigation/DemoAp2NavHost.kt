@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import edu.ucne.composedemo.data.repository.FeatureFlag
 import edu.ucne.composedemo.presentation.Ticket.TicketListScreen
 import edu.ucne.composedemo.presentation.Ticket.TicketScreen
 import edu.ucne.composedemo.presentation.anydesklog.AnyDeskLogListScreen
@@ -39,7 +40,7 @@ fun DemoAp2NavHost(
     val featureFlagViewModel: FeatureFlagViewModel = hiltViewModel()
 
     LaunchedEffect(Unit) {
-        isTicketEnabledState.value = featureFlagViewModel.isTicketEnabled()
+        isTicketEnabledState.value = featureFlagViewModel.isEnabled(FeatureFlag.DrawerTicket)
     }
 
     DrawerMenu(
