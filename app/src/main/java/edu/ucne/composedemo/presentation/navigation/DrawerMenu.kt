@@ -39,6 +39,7 @@ import kotlinx.coroutines.launch
 fun DrawerMenu(
     drawerState: DrawerState,
     navHostController: NavHostController,
+    showTicket: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val selectedItem = remember { mutableStateOf("Sistemas") }
@@ -76,12 +77,14 @@ fun DrawerMenu(
                             handleItemClick(Screen.SistemaList, it)
                         }
 
-                        DrawerItem(
-                            title = stringResource(R.string.drawer_tickets),
-                            icon = Icons.AutoMirrored.Filled.StickyNote2,
-                            isSelected = selectedItem.value == stringResource(R.string.drawer_tickets)
-                        ) {
-                            handleItemClick(Screen.TicketList, it)
+                        if (showTicket) {
+                            DrawerItem(
+                                title = stringResource(R.string.drawer_tickets),
+                                icon = Icons.AutoMirrored.Filled.StickyNote2,
+                                isSelected = selectedItem.value == stringResource(R.string.drawer_tickets)
+                            ) {
+                                handleItemClick(Screen.TicketList, it)
+                            }
                         }
 
                         DrawerItem(

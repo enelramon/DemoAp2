@@ -9,6 +9,11 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+// Apply Google Services plugin only if google-services.json is present to avoid build failures in local/dev
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+}
+
 android {
     namespace = "edu.ucne.composedemo"
     compileSdk = 34
@@ -81,6 +86,11 @@ dependencies {
 
 
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.4")
+
+    // Firebase Remote Config
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.config.ktx)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     //navegacion
     implementation("androidx.navigation:navigation-compose:2.8.0-rc01")

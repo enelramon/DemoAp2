@@ -3,7 +3,11 @@ package edu.ucne.composedemo.presentation.navigation
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,9 +34,18 @@ fun DemoAp2NavHost(
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+    val isTicketEnabledState = remember { mutableStateOf(true) }
+    val featureFlagViewModel: FeatureFlagViewModel = hiltViewModel()
+
+    LaunchedEffect(Unit) {
+        isTicketEnabledState.value = featureFlagViewModel.isTicketEnabled()
+    }
+
     DrawerMenu(
         drawerState = drawerState,
-        navHostController = navHostController
+        navHostController = navHostController,
+        showTicket = isTicketEnabledState.value
     ) {
         NavHost(
             navController = navHostController,
