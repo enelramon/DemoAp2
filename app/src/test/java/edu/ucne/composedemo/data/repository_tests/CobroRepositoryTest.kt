@@ -1,6 +1,5 @@
 package edu.ucne.composedemo.data.repository_tests
 
-import androidx.compose.ui.text.intl.Locale
 import app.cash.turbine.test
 import com.google.common.truth.Truth
 import edu.ucne.composedemo.data.remote.RemoteDataSource
@@ -10,11 +9,7 @@ import edu.ucne.composedemo.data.repository.CobroRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
-
 import org.junit.Test
-import java.text.SimpleDateFormat
-import java.time.Instant
 import java.util.Date
 
 class CobroRepositoryTest {

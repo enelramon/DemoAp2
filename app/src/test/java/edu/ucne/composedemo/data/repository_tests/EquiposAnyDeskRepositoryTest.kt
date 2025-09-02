@@ -9,8 +9,6 @@ import edu.ucne.composedemo.data.repository.EquiposAnyDeskRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
-
 import org.junit.Test
 
 class EquiposAnyDeskRepositoryTest {

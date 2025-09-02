@@ -66,7 +66,7 @@ fun GastosScreen(
     }
 
     Scaffold(
-        topBar = { TopBarComponent(title = "Registrar Gasto", onMenuClick = onDrawer) }
+        topBar = { TopBarComponent(title = "Registrar Gasto", onActionClick = onDrawer) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
