@@ -1,0 +1,5 @@
+<resources>
+    <string name="label_minutos">minutos</string>
+    <string name="icono_delete_tarea">Eliminar Tarea</string>
+    <string name="icono_edit_tarea">Editar Tarea</string>
+</resources>

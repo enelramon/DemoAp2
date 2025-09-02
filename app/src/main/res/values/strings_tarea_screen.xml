@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="registrar_tarea">Registrar tarea</string>
+    <string name="editar_tarea">Editar tarea</string>
+    <string name="campo_descripcion">Descripción</string>
+    <string name="campo_tiempo">Tiempo</string>
+    <string name="limpiar">Limpiar</string>
+    <string name="guardar">Guardar</string>
+    <string name="atras">Atrás</string>
+</resources>
