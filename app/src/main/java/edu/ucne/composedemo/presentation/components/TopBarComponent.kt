@@ -1,6 +1,7 @@
 package edu.ucne.composedemo.presentation.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -18,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBarComponent(title: String, onMenuClick: () -> Unit) {
+fun TopBarComponent(title: String, onActionClick: () -> Unit, backButtonVisible: Boolean = false) {
     CenterAlignedTopAppBar(
         title = {
             Text(
@@ -31,14 +32,22 @@ fun TopBarComponent(title: String, onMenuClick: () -> Unit) {
             )
         },
         navigationIcon = {
-            IconButton(onClick = { onMenuClick() }) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Localized description"
-                )
+            if (backButtonVisible) {
+                IconButton(onClick = { onActionClick() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Localized description"
+                    )
+                }
+            } else {
+                IconButton(onClick = { onActionClick() }) {
+                    Icon(
+                        imageVector = Icons.Filled.Menu,
+                        contentDescription = "Localized description"
+                    )
+                }
             }
         }
-
     )
 }
 
@@ -46,7 +55,7 @@ fun TopBarComponent(title: String, onMenuClick: () -> Unit) {
 @Composable
 fun SimpleTopBarComponent(
     title: String,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
 ) {
     CenterAlignedTopAppBar(
         title = {
