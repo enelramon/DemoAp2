@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,7 +26,7 @@ fun EditTaskScreen(
 }
 
 @Composable
-private fun EditTaskBody(
+fun EditTaskBody(
     state: EditTaskUiState,
     onEvent: (EditTaskUiEvent) -> Unit
 ) {
@@ -40,7 +41,9 @@ private fun EditTaskBody(
                 onValueChange = { onEvent(EditTaskUiEvent.DescripcionChanged(it)) },
                 label = { Text("Descripción") },
                 isError = state.descripcionError != null,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("input_descripcion")
             )
             if (state.descripcionError != null) {
                 Text(
@@ -55,7 +58,9 @@ private fun EditTaskBody(
                 label = { Text("Tiempo") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 isError = state.tiempoError != null,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("input_tiempo")
             )
             if (state.tiempoError != null) Text(
                 state.tiempoError,
@@ -66,12 +71,14 @@ private fun EditTaskBody(
                 Button(
                     onClick = { onEvent(EditTaskUiEvent.Save) },
                     enabled = !state.isSaving
-                ) { Text("Guardar") }
+        , modifier = Modifier.testTag("btn_guardar")
+        ) { Text("Guardar") }
                 Spacer(Modifier.width(8.dp))
                 if (!state.isNew) {
                     OutlinedButton(
                         onClick = { onEvent(EditTaskUiEvent.Delete) },
-                        enabled = !state.isDeleting
+            enabled = !state.isDeleting,
+            modifier = Modifier.testTag("btn_eliminar")
                     ) { Text("Eliminar") }
                 }
             }

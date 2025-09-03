@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,13 +26,16 @@ fun ListScreen(
 }
 
 @Composable
-private fun ListTaskBody(
+fun ListTaskBody(
     state: ListTaskUiState,
     onEvent: (ListTaskUiEvent) -> Unit
 ) {
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { onEvent(ListTaskUiEvent.CreateNew) }) {
+            FloatingActionButton(
+                onClick = { onEvent(ListTaskUiEvent.CreateNew) },
+                modifier = Modifier.testTag("fab_add")
+            ) {
                 Text("+")
             }
         }
@@ -42,12 +46,17 @@ private fun ListTaskBody(
                 .fillMaxSize()
         ) {
             if (state.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .testTag("loading")
+                )
             }
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
+                    .testTag("task_list")
             ) {
                 items(state.tasks) { task ->
                     TaskCard(
@@ -61,7 +70,7 @@ private fun ListTaskBody(
 }
 
 @Composable
-private fun TaskCard(
+fun TaskCard(
     task: Task,
     onClick: (Task) -> Unit,
     onDelete: (Int) -> Unit,
@@ -70,6 +79,7 @@ private fun TaskCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
+            .testTag("task_card_${'$'}{task.tareaId}")
             .clickable { onClick(task) }) {
         Row(
             modifier = Modifier
@@ -81,7 +91,10 @@ private fun TaskCard(
                 Text(task.descripcion, style = MaterialTheme.typography.titleMedium)
                 Text("Tiempo: ${task.tiempo}")
             }
-            TextButton(onClick = { onDelete(task.tareaId) }) { Text("Eliminar") }
+            TextButton(
+                onClick = { onDelete(task.tareaId) },
+                modifier = Modifier.testTag("delete_button_${'$'}{task.tareaId}")
+            ) { Text("Eliminar") }
         }
     }
 }
