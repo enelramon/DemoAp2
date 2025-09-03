@@ -2,6 +2,7 @@ package edu.ucne.composedemo.presentation.tarea
 
 sealed interface TareaEvent {
 
+    data class ChangeTareaId(val tareaId: Int) : TareaEvent
     data class ChangeDescripcion(val descripcion: String) : TareaEvent
     data class ChangeTiempo(val tiempo: Int): TareaEvent
 

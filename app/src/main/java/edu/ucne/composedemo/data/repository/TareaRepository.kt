@@ -10,5 +10,5 @@ class TareaRepository @Inject constructor(
     suspend fun save(tareaEntity: TareaEntity) = tareaDao.saveTarea(tareaEntity)
     suspend fun find(tareaId: Int) = tareaDao.find(tareaId)
     suspend fun delete(tareaEntity: TareaEntity) = tareaDao.delete(tareaEntity)
-    suspend fun getAll() = tareaDao.getAll()
+    fun getAll() = tareaDao.getAll()
 }
