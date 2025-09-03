@@ -25,4 +25,7 @@ object AppModule {
 
     @Provides
     fun provideTicketDao(ticketDb: TicketDb) = ticketDb.ticketDao()
+
+    @Provides
+    fun provideTaskDao(ticketDb: TicketDb) = ticketDb.taskDao()
 }

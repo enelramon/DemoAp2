@@ -4,6 +4,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import edu.ucne.composedemo.data.local.dao.TicketDao
+import edu.ucne.composedemo.data.tareas.local.TaskDao
+import edu.ucne.composedemo.data.tareas.repository.TaskRepositoryImpl
 import edu.ucne.composedemo.domain.tareas.repository.TaskRepository
 import edu.ucne.composedemo.domain.tareas.usecase.DeleteTaskUseCase
 import edu.ucne.composedemo.domain.tareas.usecase.GetTaskUseCase
@@ -40,8 +43,8 @@ object TaskModule {
 
     @Provides
     @Singleton
-    fun provideTaskRepository(taskRepository: TaskRepository): TaskRepository {
-        return taskRepository
+    fun provideTaskRepository(taskDao: TaskDao): TaskRepository {
+        return TaskRepositoryImpl(taskDao)
     }
 
 }
