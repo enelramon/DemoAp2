@@ -21,6 +21,8 @@ import edu.ucne.composedemo.presentation.gastos.GastosListScreen
 import edu.ucne.composedemo.presentation.meta.TicketMetaScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
 import edu.ucne.composedemo.presentation.suplidorGastos.SuplidorGastosListScreen
+import edu.ucne.composedemo.presentation.tarea.TareasList
+import edu.ucne.composedemo.presentation.tarea.TareasScreen
 import edu.ucne.composedemo.presentation.tipossoportes.TiposSoportesListScreen
 import kotlinx.coroutines.launch
 
@@ -38,6 +40,7 @@ fun DemoAp2NavHost(
             navController = navHostController,
             startDestination = Screen.TicketList
         ) {
+
             composable<Screen.TicketList> {
                 TicketListScreen(
                     goToTicket = {
@@ -55,6 +58,32 @@ fun DemoAp2NavHost(
                         navHostController.navigate(Screen.TicketMeta(it))
                     }
                 )
+            }
+            composable<Screen.TareaListScreen> {
+                TareasList(
+                    onEdit = {
+                        it?.let { tareaId -> navHostController.navigate(Screen.Tarea(tareaId)) }
+                    },
+                    createTarea ={
+                        navHostController.navigate(Screen.Tarea(0))
+                    },
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
+
+            composable<Screen.Tarea> {
+                val tareaId = it.toRoute<Screen.Tarea>().tareaId
+                TareasScreen(
+                    tareaId = tareaId,
+                    goBack = {
+                        navHostController.navigateUp()
+                    }
+                )
+
             }
 
             composable<Screen.Ticket> {
