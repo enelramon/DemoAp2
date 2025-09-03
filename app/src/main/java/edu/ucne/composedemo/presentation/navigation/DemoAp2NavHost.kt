@@ -21,6 +21,8 @@ import edu.ucne.composedemo.presentation.gastos.GastosListScreen
 import edu.ucne.composedemo.presentation.meta.TicketMetaScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
 import edu.ucne.composedemo.presentation.suplidorGastos.SuplidorGastosListScreen
+import edu.ucne.composedemo.presentation.tarea.TareaListScreen
+import edu.ucne.composedemo.presentation.tarea.TareaScreen
 import edu.ucne.composedemo.presentation.tipossoportes.TiposSoportesListScreen
 import kotlinx.coroutines.launch
 
@@ -36,8 +38,30 @@ fun DemoAp2NavHost(
     ) {
         NavHost(
             navController = navHostController,
-            startDestination = Screen.TicketList
+            startDestination = Screen.tareaList
         ) {
+
+            composable<Screen.tareaList>{
+
+                TareaListScreen(
+                    goToTarea = { id ->
+                        navHostController.navigate(Screen.tarea(id ?: 0))
+                    },
+                    createTarea = {
+                        navHostController.navigate((Screen.tarea(0)))
+                    }
+                )
+            }
+
+            //pantalla formulario de tecnico
+            composable <Screen.tarea>{ backStack ->
+                val tareaId = backStack.toRoute<Screen.tarea>().tareaId
+                TareaScreen(
+                    tareaId = tareaId,
+                    //viewModel = tareasViewModel,
+                    goBack = { navHostController.popBackStack() }
+                )
+            }
             composable<Screen.TicketList> {
                 TicketListScreen(
                     goToTicket = {
