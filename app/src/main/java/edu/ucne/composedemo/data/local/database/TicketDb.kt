@@ -12,7 +12,7 @@ import  edu.ucne.composedemo.data.local.entities.TareaEntity
         TicketEntity::class,
         TareaEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 
