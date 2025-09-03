@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.composedemo.data.remote.Resource
 
-import edu.ucne.composedemo.data.repository.CobroRepository
+import edu.ucne.composedemo.domain.usecase.CobroUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CobroViewModel @Inject constructor(
-    private val cobroRepository: CobroRepository
+    private val cobroUseCase: CobroUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CobroUiState())
@@ -27,7 +27,7 @@ class CobroViewModel @Inject constructor(
 
     private fun getCobros() {
         viewModelScope.launch {
-            cobroRepository.getCobro().collectLatest { result ->
+            cobroUseCase.getCobros().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> {
                         _uiState.update { it.copy(isLoading = true) }

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.composedemo.data.remote.Resource
 import edu.ucne.composedemo.data.remote.dto.CxcDto
-import edu.ucne.composedemo.data.repository.CxcRepository
+import edu.ucne.composedemo.domain.usecase.CxcUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CxcViewModel @Inject constructor(
-    private val cxcRepository: CxcRepository
+    private val cxcUseCase: CxcUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CxcUiState())
     val uiState = _uiState.asStateFlow()
@@ -32,7 +32,7 @@ class CxcViewModel @Inject constructor(
 
     private fun getCxc() {
         viewModelScope.launch {
-            cxcRepository.getCxc(4).collectLatest { result ->
+            cxcUseCase.getCxc(4).collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> {
                         _uiState.update {

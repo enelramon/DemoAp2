@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.composedemo.data.remote.Resource
 import edu.ucne.composedemo.data.remote.dto.SistemaDto
-import edu.ucne.composedemo.data.repository.SistemaRepository
+import edu.ucne.composedemo.domain.usecase.SistemaUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SistemaViewModel @Inject constructor(
-    private val sistemaRepository: SistemaRepository
+    private val sistemaUseCase: SistemaUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SistemaUiState())
     val uiState = _uiState.asStateFlow()
@@ -24,12 +24,12 @@ class SistemaViewModel @Inject constructor(
     }
 
     fun validarCampos(): Boolean {
-        return !_uiState.value.nombre.isNullOrBlank()
+        return sistemaUseCase.validateCampos(_uiState.value.nombre)
     }
 
     fun update() {
         viewModelScope.launch {
-            sistemaRepository.update(SistemaDto(
+            sistemaUseCase.updateSistema(SistemaDto(
                 idSistema = _uiState.value.sistemaId?: 0,
                 nombre = _uiState.value.nombre?:""
             ))
@@ -39,7 +39,7 @@ class SistemaViewModel @Inject constructor(
 
     fun getSistemas() {
         viewModelScope.launch {
-            sistemaRepository.getSistemas().collectLatest { result ->
+            sistemaUseCase.getSistemas().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> {
                         _uiState.update {

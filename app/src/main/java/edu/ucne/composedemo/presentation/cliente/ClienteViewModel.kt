@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.composedemo.data.remote.Resource
 import edu.ucne.composedemo.data.remote.dto.ClienteDto
-import edu.ucne.composedemo.data.repository.ClienteRepository
+import edu.ucne.composedemo.domain.usecase.ClienteUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClienteViewModel @Inject constructor(
-    private val clienteRepository: ClienteRepository
+    private val clienteUseCase: ClienteUseCase
 ): ViewModel() {
     private val _uiState = MutableStateFlow(ClienteUiState())
     val uiState = _uiState.asStateFlow()
@@ -32,7 +32,7 @@ class ClienteViewModel @Inject constructor(
 
     private fun getClientes () {
         viewModelScope.launch {
-            clienteRepository.getClientes().collectLatest { result ->
+            clienteUseCase.getClientes().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> {
                         _uiState.update{
