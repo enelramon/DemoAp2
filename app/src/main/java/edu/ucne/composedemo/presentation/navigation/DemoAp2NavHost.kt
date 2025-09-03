@@ -16,11 +16,13 @@ import edu.ucne.composedemo.presentation.cobro.CobroListScreen
 import edu.ucne.composedemo.presentation.cxc.CxcListScreen
 import edu.ucne.composedemo.presentation.equiposanydesk.EquipoAnyDeskListScreen
 import edu.ucne.composedemo.presentation.gastorecurrencia.GastoRecurrenciaScreen
-import edu.ucne.composedemo.presentation.gastos.GastosScreen
 import edu.ucne.composedemo.presentation.gastos.GastosListScreen
+import edu.ucne.composedemo.presentation.gastos.GastosScreen
 import edu.ucne.composedemo.presentation.meta.TicketMetaScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
 import edu.ucne.composedemo.presentation.suplidorGastos.SuplidorGastosListScreen
+import edu.ucne.composedemo.presentation.tarea.TareaListScreen
+import edu.ucne.composedemo.presentation.tarea.TareaScreen
 import edu.ucne.composedemo.presentation.tipossoportes.TiposSoportesListScreen
 import kotlinx.coroutines.launch
 
@@ -36,8 +38,29 @@ fun DemoAp2NavHost(
     ) {
         NavHost(
             navController = navHostController,
-            startDestination = Screen.TicketList
+            startDestination = Screen.TareasList
         ) {
+            // Lista de entidades
+            composable<Screen.TareasList> {
+                TareaListScreen(
+                    goToTarea = { navHostController.navigate(Screen.Tarea(it)) },
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
+
+            // Entidad formulario
+            composable<Screen.Tarea> { backStack ->
+                val args = backStack.toRoute<Screen.Tarea>()
+                TareaScreen(
+                    tareaId = args.tareaId,
+                    goBack = { navHostController.navigateUp() }
+                )
+            }
+
             composable<Screen.TicketList> {
                 TicketListScreen(
                     goToTicket = {

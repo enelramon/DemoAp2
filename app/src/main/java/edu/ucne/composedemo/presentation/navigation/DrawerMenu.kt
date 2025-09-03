@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Laptop
 import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.Paid
 import androidx.compose.material.icons.filled.Payments
+import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -74,6 +75,14 @@ fun DrawerMenu(
                             isSelected = selectedItem.value == stringResource(R.string.drawer_sistemas)
                         ) {
                             handleItemClick(Screen.SistemaList, it)
+                        }
+
+                        DrawerItem(
+                            title = stringResource(R.string.drawer_tareas),
+                            icon = Icons.Filled.TaskAlt,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_tareas)
+                        ) {
+                            handleItemClick(Screen.TareasList, it)
                         }
 
                         DrawerItem(

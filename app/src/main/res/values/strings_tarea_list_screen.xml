@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="titulo_listado">Listado de Tareas</string>
+    <string name="agregar_tarea">Agregar Tarea</string>
+    <string name="btn_agregar_tarea">Agregar</string>
+</resources>

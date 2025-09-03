@@ -69,7 +69,7 @@ private fun TicketMetaBodyScreen(
         topBar = {
             TopBarComponent(
                 title = "Registro de Metas",
-                onMenuClick = onDrawer
+                onActionClick = onDrawer
             )
         }
     ) { padding ->

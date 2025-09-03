@@ -8,10 +8,7 @@ import edu.ucne.composedemo.data.remote.dto.SistemaDto
 import edu.ucne.composedemo.data.repository.SistemaRepository
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
-
 import org.junit.Test
 
 class SistemaRepositoryTest {

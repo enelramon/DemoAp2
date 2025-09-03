@@ -82,7 +82,7 @@ fun GastoRecurrenciaScreen(
         topBar = {
             TopBarComponent(
                 title = "Gastos Recurrencia",
-                onMenuClick = { onDrawer() }
+                onActionClick = { onDrawer() }
             )
         }
     ) { innerPadding ->
