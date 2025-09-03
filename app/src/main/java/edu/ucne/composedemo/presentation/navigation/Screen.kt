@@ -4,6 +4,10 @@ import kotlinx.serialization.Serializable
 
 sealed class Screen {
     @Serializable
+    data object  TareaListScreen : Screen()
+    @Serializable
+    data class Tarea(val tareaId: Int) : Screen()
+    @Serializable
     data object TicketList : Screen()
     @Serializable
     data class Ticket(val ticketId: Int) : Screen()
