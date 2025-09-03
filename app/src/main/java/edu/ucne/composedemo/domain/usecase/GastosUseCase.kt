@@ -17,6 +17,10 @@ class GastosUseCase @Inject constructor(
         gastosRepository.save(gastoDto)
     }
     
+    fun createGasto(gastoDto: GastoDto): Flow<Resource<GastoDto>> {
+        return gastosRepository.createGasto(gastoDto)
+    }
+    
     fun getSuplidoresGastos(): Flow<Resource<List<SuplidorGastoDto>>> {
         return suplidorGastoRepository.getSuplidoresGastos()
     }

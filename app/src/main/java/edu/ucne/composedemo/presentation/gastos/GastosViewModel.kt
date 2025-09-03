@@ -5,8 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.composedemo.data.remote.Resource
 import edu.ucne.composedemo.data.remote.dto.GastoDto
-import edu.ucne.composedemo.data.repository.GastosRepository
-import edu.ucne.composedemo.data.repository.SuplidorGastoRepository
+import edu.ucne.composedemo.domain.usecase.GastosUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -16,8 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GastosViewModel @Inject constructor(
-    private val gastosRepository: GastosRepository,
-    private val suplidorGastoRepository: SuplidorGastoRepository
+    private val gastosUseCase: GastosUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(GastosUiState())
@@ -38,7 +36,7 @@ class GastosViewModel @Inject constructor(
 
     private fun loadSuplidorData(idSuplidor: Int) {
         viewModelScope.launch {
-            suplidorGastoRepository.getSuplidoresGastos().collectLatest { result ->
+            gastosUseCase.getSuplidoresGastos().collectLatest { result ->
                 when (result) {
                     is Resource.Loading -> {
                         _uiState.update { it.copy(isLoading = true) }
@@ -124,7 +122,13 @@ class GastosViewModel @Inject constructor(
             _uiState.update { it.copy(errorMonto = null) }
         }
 
-        return isValid
+        return gastosUseCase.validateFields(
+            _uiState.value.fecha,
+            _uiState.value.ncf,
+            _uiState.value.concepto,
+            _uiState.value.monto,
+            _uiState.value.esRecurrente
+        )
     }
 
     private fun saveGasto(navigateBack: () -> Unit) {
@@ -144,7 +148,7 @@ class GastosViewModel @Inject constructor(
         navigateBack()
 
         viewModelScope.launch {
-            gastosRepository.createGasto(gasto).collect { result ->
+            gastosUseCase.createGasto(gasto).collect { result ->
                 when (result) {
                     is Resource.Loading ->
                         _uiState.update {
