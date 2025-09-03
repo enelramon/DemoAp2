@@ -8,11 +8,11 @@ flowchart LR
     actor[Usuario]
 
     %% Sistema y casos de uso
-    subgraph Sistema
+    subgraph Task_Feature
       direction TB
-      UC1([Observar tareas])
-      UC2([Ver detalle de tarea])
-      UC3([Crear / Actualizar tarea])
+      UC1([Crear / Actualizar tarea])
+      UC2([Observar tareas])
+      UC3([Ver detalle de tarea])
       UC4([Eliminar tarea])
       UC5([Validar tarea])
     end
