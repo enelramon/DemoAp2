@@ -18,7 +18,10 @@ fun EditTaskScreen(
     viewModel: EditTaskViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    EditTaskBody(state, viewModel::onEvent)
+    EditTaskBody(
+        state = state,
+        onEvent = viewModel::onEvent
+    )
 }
 
 @Composable
@@ -26,7 +29,6 @@ private fun EditTaskBody(
     state: EditTaskUiState,
     onEvent: (EditTaskUiEvent) -> Unit
 ) {
-
     Scaffold { padding ->
         Column(
             modifier = Modifier
@@ -42,13 +44,11 @@ private fun EditTaskBody(
             )
             if (state.descripcionError != null) {
                 Text(
-                    state.descripcionError,
+                    text = state.descripcionError,
                     color = MaterialTheme.colorScheme.error
                 )
             }
-
             Spacer(Modifier.height(12.dp))
-
             OutlinedTextField(
                 value = state.tiempo,
                 onValueChange = { onEvent(EditTaskUiEvent.TiempoChanged(it)) },
@@ -61,9 +61,7 @@ private fun EditTaskBody(
                 state.tiempoError,
                 color = MaterialTheme.colorScheme.error
             )
-
             Spacer(Modifier.height(16.dp))
-
             Row {
                 Button(
                     onClick = { onEvent(EditTaskUiEvent.Save) },

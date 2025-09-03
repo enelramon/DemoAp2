@@ -29,17 +29,11 @@ class EditTaskViewModel @Inject constructor(
         when (event) {
             is EditTaskUiEvent.Load -> onLoad(event.id)
             is EditTaskUiEvent.DescripcionChanged -> _state.update {
-                it.copy(
-                    descripcion = event.value,
-                    descripcionError = null
-                )
+                it.copy(descripcion = event.value, descripcionError = null)
             }
 
             is EditTaskUiEvent.TiempoChanged -> _state.update {
-                it.copy(
-                    tiempo = event.value,
-                    tiempoError = null
-                )
+                it.copy(tiempo = event.value, tiempoError = null)
             }
 
             EditTaskUiEvent.Save -> onSave()
@@ -69,13 +63,12 @@ class EditTaskViewModel @Inject constructor(
 
     private fun onSave() {
         val descripcion = state.value.descripcion
-        val tiempoStr = state.value.tiempo
-        val d = validateDescripcion(descripcion)
-        val t = validateTiempo(tiempoStr)
-        if (!d.isValid || !t.isValid) {
+        val descriptionValidation = validateDescripcion(descripcion)
+        val t = validateTiempo(state.value.tiempo)
+        if (!descriptionValidation.isValid || !t.isValid) {
             _state.update {
                 it.copy(
-                    descripcionError = d.error,
+                    descripcionError = descriptionValidation.error,
                     tiempoError = t.error
                 )
             }
@@ -84,7 +77,11 @@ class EditTaskViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isSaving = true) }
             val id = state.value.tareaId ?: 0
-            val task = Task(id, descripcion, tiempoStr.toInt())
+            val task = Task(
+                tareaId = id,
+                descripcion = descripcion,
+                tiempo = state.value.tiempo.toInt()
+            )
             val result = upsertTaskUseCase(task)
             result.onSuccess { newId ->
                 _state.update { it.copy(isSaving = false, saved = true, tareaId = newId) }
