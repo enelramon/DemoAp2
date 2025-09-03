@@ -7,7 +7,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import edu.ucne.composedemo.data.local.dao.TareaDao
 import edu.ucne.composedemo.data.local.database.TicketDb
+import edu.ucne.composedemo.data.repository.TareaRepository
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -25,4 +27,13 @@ object AppModule {
 
     @Provides
     fun provideTicketDao(ticketDb: TicketDb) = ticketDb.ticketDao()
+
+    @Provides
+    fun provideTareaDao(ticketDb: TicketDb) = ticketDb.tareaDao()
+
+    @Provides
+    @Singleton
+    fun provideTareaRepository(tareaDao: TareaDao): TareaRepository {
+        return TareaRepository(tareaDao)
+    }
 }
