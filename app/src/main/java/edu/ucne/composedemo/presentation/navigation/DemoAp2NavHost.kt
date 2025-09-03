@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import edu.ucne.composedemo.presentation.Ticket.TicketListScreen
 import edu.ucne.composedemo.presentation.Ticket.TicketScreen
+import edu.ucne.composedemo.presentation.Tarea.TareaListScreen
+import edu.ucne.composedemo.presentation.Tarea.TareaScreen
 import edu.ucne.composedemo.presentation.anydesklog.AnyDeskLogListScreen
 import edu.ucne.composedemo.presentation.cliente.ClienteListScreen
 import edu.ucne.composedemo.presentation.cobro.CobroListScreen
@@ -66,6 +68,32 @@ fun DemoAp2NavHost(
                         scope.launch {
                             drawerState.open()
                         }
+                    }
+                )
+            }
+
+            composable<Screen.TareaList> {
+                TareaListScreen(
+                    createTarea = {
+                        navHostController.navigate(Screen.Tarea(0))
+                    },
+                    onEditTarea = {
+                        navHostController.navigate(Screen.Tarea(it))
+                    },
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
+
+            composable<Screen.Tarea> {
+                val args = it.toRoute<Screen.Tarea>()
+                TareaScreen(
+                    tareaId = args.tareaId,
+                    goBack = {
+                        navHostController.navigateUp()
                     }
                 )
             }
