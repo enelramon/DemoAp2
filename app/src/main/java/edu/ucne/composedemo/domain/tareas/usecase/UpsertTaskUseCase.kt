@@ -7,10 +7,14 @@ class UpsertTaskUseCase(
 	private val repository: TaskRepository
 ) {
 	suspend operator fun invoke(task: Task): Result<Int> {
-		val d = validateDescripcion(task.descripcion)
-		if (!d.isValid) return Result.failure(IllegalArgumentException(d.error))
-		val t = validateTiempo(task.tiempo.toString())
-		if (!t.isValid) return Result.failure(IllegalArgumentException(t.error))
+		val descriptionResult = validateDescripcion(task.descripcion)
+		if (!descriptionResult.isValid) {
+			return Result.failure(IllegalArgumentException(descriptionResult.error))
+		}
+		val tiempoResult = validateTiempo(task.tiempo.toString())
+		if (!tiempoResult.isValid) {
+			return Result.failure(IllegalArgumentException(tiempoResult.error))
+		}
 		return runCatching { repository.upsert(task) }
 	}
 }
