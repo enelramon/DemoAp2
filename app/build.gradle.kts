@@ -105,6 +105,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     testImplementation(libs.junit)
+    testImplementation(platform(libs.androidx.compose.bom))
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("com.google.truth:truth:1.4.2")
     testImplementation("io.mockk:mockk:1.13.13")
@@ -112,6 +113,7 @@ dependencies {
     testImplementation("org.robolectric:robolectric:4.11.1")
     testImplementation("com.google.truth:truth:1.4.2")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("androidx.compose.ui:ui-test-junit4")
 
 
 
@@ -121,4 +123,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+
+
+
+
 }

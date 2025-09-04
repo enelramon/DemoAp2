@@ -27,9 +27,11 @@ flowchart LR
     actor --> UC4
 
     %% Inclusiones/uso de validaciones
+    UC1 -.->|usa| UC5
+    UC2 -.->|usa| UC5
     UC3 -.->|usa| UC5
     UC4 -.->|usa| UC5
-    UC2 -.->|usa| UC5
+  
 
     %% Acceso a datos
     UC1 --> repo
