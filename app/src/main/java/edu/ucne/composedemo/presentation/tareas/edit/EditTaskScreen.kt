@@ -15,7 +15,6 @@ import kotlin.jvm.Throws
 
 @Composable
 fun EditTaskScreen(
-    state: EditTaskUiState,
     viewModel: EditTaskViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -70,15 +69,17 @@ fun EditTaskBody(
             Row {
                 Button(
                     onClick = { onEvent(EditTaskUiEvent.Save) },
-                    enabled = !state.isSaving
-        , modifier = Modifier.testTag("btn_guardar")
-        ) { Text("Guardar") }
+                    enabled = !state.isSaving,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("btn_guardar")
+                ) { Text("Guardar") }
                 Spacer(Modifier.width(8.dp))
                 if (!state.isNew) {
                     OutlinedButton(
                         onClick = { onEvent(EditTaskUiEvent.Delete) },
-            enabled = !state.isDeleting,
-            modifier = Modifier.testTag("btn_eliminar")
+                        enabled = !state.isDeleting,
+                        modifier = Modifier.testTag("btn_eliminar")
                     ) { Text("Eliminar") }
                 }
             }
