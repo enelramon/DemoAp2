@@ -2,6 +2,10 @@
     <string name="app_name">DemoAp2</string>
     <string name="drawer_sistemas">Sistemas</string>
     <string name="drawer_tickets">Tickets</string>
+
+    <string name="drawer_tareas">Tareas</string>
+    <string name="drawer_tictactoe">TicTacToe</string>
+
     <string name="drawer_clientes">Clientes</string>
     <string name="drawer_equiposAnydesks">Equipos AnyDesks</string>
     <string name="drawer_anydeskLogs">AnyDeskLogs</string>

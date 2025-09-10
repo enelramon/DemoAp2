@@ -77,6 +77,23 @@ fun DrawerMenu(
                         }
 
                         DrawerItem(
+                            title = stringResource(R.string.drawer_tareas),
+                            icon = Icons.AutoMirrored.Filled.StickyNote2,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_tareas)
+                        ) {
+                            handleItemClick(Screen.TicketList, it)
+                        }
+
+
+                        DrawerItem(
+                            title = stringResource(R.string.drawer_tictactoe),
+                            icon = Icons.AutoMirrored.Filled.StickyNote2,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_tictactoe)
+                        ) {
+                            handleItemClick(Screen.TicTacToe, it)
+                        }
+
+                        DrawerItem(
                             title = stringResource(R.string.drawer_tickets),
                             icon = Icons.AutoMirrored.Filled.StickyNote2,
                             isSelected = selectedItem.value == stringResource(R.string.drawer_tickets)
