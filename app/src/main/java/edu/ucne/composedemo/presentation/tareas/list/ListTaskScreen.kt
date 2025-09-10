@@ -18,7 +18,8 @@ import edu.ucne.composedemo.domain.tareas.model.Task
 import edu.ucne.composedemo.presentation.tareas.edit.EditTaskUiState
 
 @Composable
-fun ListScreen(
+fun TaskListScreen(
+    onDrawer: () -> Unit = {},
     viewModel: ListTaskViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()

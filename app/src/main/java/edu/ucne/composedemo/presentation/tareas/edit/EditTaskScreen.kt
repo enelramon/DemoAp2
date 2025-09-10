@@ -15,6 +15,7 @@ import kotlin.jvm.Throws
 
 @Composable
 fun EditTaskScreen(
+    onDrawer: () -> Unit = {},
     viewModel: EditTaskViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -25,7 +26,7 @@ fun EditTaskScreen(
 }
 
 @Composable
-fun EditTaskBody(
+private fun EditTaskBody(
     state: EditTaskUiState,
     onEvent: (EditTaskUiEvent) -> Unit
 ) {
