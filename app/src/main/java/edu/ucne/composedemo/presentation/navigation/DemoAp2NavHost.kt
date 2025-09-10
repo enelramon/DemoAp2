@@ -21,6 +21,9 @@ import edu.ucne.composedemo.presentation.gastos.GastosListScreen
 import edu.ucne.composedemo.presentation.meta.TicketMetaScreen
 import edu.ucne.composedemo.presentation.sistema.SistemaListScreen
 import edu.ucne.composedemo.presentation.suplidorGastos.SuplidorGastosListScreen
+import edu.ucne.composedemo.presentation.tareas.edit.EditTaskScreen
+import edu.ucne.composedemo.presentation.tareas.list.TaskListScreen
+import edu.ucne.composedemo.presentation.tictactoe.TicTacToeScreen
 import edu.ucne.composedemo.presentation.tipossoportes.TiposSoportesListScreen
 import kotlinx.coroutines.launch
 
@@ -202,6 +205,41 @@ fun DemoAp2NavHost(
                     }
                 )
             }
+            composable<Screen.TaskList> {
+                TaskListScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
+
+            composable<Screen.TaskEdit> {
+                val args = it.toRoute<Screen.TaskEdit>()
+                EditTaskScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    },
+                    /*idSuplidor = args.idSuplidor,
+                    navigateToSuplidorGasto = {
+                        navHostController.navigate(Screen.SuplidoresGastosList)
+                    }*/
+                )
+            }
+
+            composable<Screen.TicTacToe> {
+                TicTacToeScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
+
         }
     }
 }
