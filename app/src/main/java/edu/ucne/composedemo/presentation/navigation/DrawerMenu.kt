@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.CoPresent
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Inventory
 import androidx.compose.material.icons.filled.Laptop
 import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.Paid
@@ -163,6 +164,14 @@ fun DrawerMenu(
                             isSelected = selectedItem.value == stringResource(R.string.drawer_cxc)
                         ) {
                             handleItemClick(Screen.CxcList, it)
+                        }
+
+                        DrawerItem(
+                            title = stringResource(R.string.drawer_entradashuacales),
+                            icon = Icons.Filled.Inventory,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_entradashuacales)
+                        ) {
+                            handleItemClick(Screen.EntradaHuacalList, it)
                         }
                     }
                 }

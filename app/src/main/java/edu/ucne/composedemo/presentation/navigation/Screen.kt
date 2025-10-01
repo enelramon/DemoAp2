@@ -37,4 +37,8 @@ sealed class Screen {
     data class TaskEdit(val idUsuario: Int) : Screen()
     @Serializable
     data object TicTacToe : Screen()
+    @Serializable
+    data object EntradaHuacalList : Screen()
+    @Serializable
+    data class EntradaHuacalEdit(val idEntrada: Int) : Screen()
 }
