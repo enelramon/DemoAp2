@@ -240,6 +240,35 @@ fun DemoAp2NavHost(
                 )
             }
 
+            composable<Screen.EntradaHuacalList> {
+                edu.ucne.composedemo.presentation.entradashuacales.list.EntradaHuacalListScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    },
+                    goToEdit = {
+                        navHostController.navigate(Screen.EntradaHuacalEdit(it))
+                    },
+                    createNew = {
+                        navHostController.navigate(Screen.EntradaHuacalEdit(0))
+                    }
+                )
+            }
+
+            composable<Screen.EntradaHuacalEdit> {
+                edu.ucne.composedemo.presentation.entradashuacales.edit.EntradaHuacalEditScreen(
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    },
+                    goBack = {
+                        navHostController.navigateUp()
+                    }
+                )
+            }
+
         }
     }
 }
