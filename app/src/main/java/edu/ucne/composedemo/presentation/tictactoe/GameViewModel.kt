@@ -45,8 +45,8 @@ class GameViewModel : ViewModel() {
 
         _state.update {
             it.copy(
-                board = newBoard,
-                currentPlayer = if (it.currentPlayer == Player.X) Player.O else Player.X,
+                board = newBoard.toList(),
+                currentPlayer = it.currentPlayer.opponent,
                 winner = newWinner,
                 isDraw = isDraw
             )
