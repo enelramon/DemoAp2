@@ -79,5 +79,11 @@ class GameViewModel : ViewModel() {
 
 enum class Player(val symbol: String) {
     X("X"),
-    O("O")
+    O("O");
+
+    val opponent: Player
+        get() = when (this) {
+            X -> O
+            O -> X
+        }
 }
