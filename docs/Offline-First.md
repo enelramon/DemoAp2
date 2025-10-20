@@ -148,11 +148,20 @@ data class TaskEntity(
 
 @Dao
 interface TaskDao {
-    @Query("SELECT * FROM tasks") fun observeTasks(): Flow<List<TaskEntity>>
-    @Query("SELECT * FROM tasks WHERE id = :id") suspend fun getTask(id: String): TaskEntity?
-    @Upsert suspend fun upsert(task: TaskEntity)
-    @Query("DELETE FROM tasks WHERE id = :id") suspend fun delete(id: String)
-    @Query("SELECT * FROM tasks WHERE isPendingCreate = 1") suspend fun getPendingCreateTasks(): List<TaskEntity>
+    @Query("SELECT * FROM tasks") 
+    fun observeTasks(): Flow<List<TaskEntity>>
+    
+    @Query("SELECT * FROM tasks WHERE id = :id") 
+    suspend fun getTask(id: String): TaskEntity?
+    
+    @Upsert 
+    suspend fun upsert(task: TaskEntity)
+    
+    @Query("DELETE FROM tasks WHERE id = :id") 
+    suspend fun delete(id: String)
+    
+    @Query("SELECT * FROM tasks WHERE isPendingCreate = 1") 
+    suspend fun getPendingCreateTasks(): List<TaskEntity>
 }
 ```
 
@@ -322,15 +331,21 @@ interface TaskRepository {
 ### 🧪 Use Cases
 
 ```kotlin
-class CreateTaskLocalUseCase @Inject constructor(private val repo: TaskRepository) {
+class CreateTaskLocalUseCase @Inject constructor(
+    private val repo: TaskRepository
+) {
     suspend operator fun invoke(task: Task): Resource<Task> = repo.createTaskLocal(task)
 }
 
-class UpsertTaskUseCase @Inject constructor(private val repo: TaskRepository) {
+class UpsertTaskUseCase @Inject constructor(
+    private val repo: TaskRepository
+) {
     suspend operator fun invoke(task: Task): Resource<Unit> = repo.upsert(task)
 }
 
-class DeleteTaskUseCase @Inject constructor(private val repo: TaskRepository) {
+class DeleteTaskUseCase @Inject constructor(
+    private val repo: TaskRepository
+) {
     suspend operator fun invoke(id: String): Resource<Unit> = repo.delete(id)
 }
 
