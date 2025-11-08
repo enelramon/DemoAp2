@@ -565,10 +565,10 @@ sealed interface TaskEvent {
     data class CrearTask(val descripcion: String) : TaskEvent
     data class UpdateTask(val task: Task) : TaskEvent
     data class DeleteTask(val id: String) : TaskEvent
-    object ShowCreateSheet : TaskEvent
-    object HideCreateSheet : TaskEvent
+    data object ShowCreateSheet : TaskEvent
+    data object HideCreateSheet : TaskEvent
     data class OnDescriptionChange(val description: String) : TaskEvent
-    object UserMessageShown : TaskEvent
+    data object UserMessageShown : TaskEvent
 }
 ```
 
