@@ -11,14 +11,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlin.jvm.Throws
 
 @Composable
 fun EditTaskScreen(
+    taskId: Int,
     onDrawer: () -> Unit = {},
+    goBack: (() -> Unit)? = null,
     viewModel: EditTaskViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(state.saved) {
+        if (state.saved) goBack?.invoke()
+    }
+
+    LaunchedEffect(state.deleted) {
+        if (state.deleted) goBack?.invoke()
+    }
+
     EditTaskBody(
         state = state,
         onEvent = viewModel::onEvent
@@ -51,7 +61,9 @@ private fun EditTaskBody(
                     color = MaterialTheme.colorScheme.error
                 )
             }
+
             Spacer(Modifier.height(12.dp))
+
             OutlinedTextField(
                 value = state.tiempo,
                 onValueChange = { onEvent(EditTaskUiEvent.TiempoChanged(it)) },
@@ -62,11 +74,15 @@ private fun EditTaskBody(
                     .fillMaxWidth()
                     .testTag("input_tiempo")
             )
-            if (state.tiempoError != null) Text(
-                state.tiempoError,
-                color = MaterialTheme.colorScheme.error
-            )
+            if (state.tiempoError != null) {
+                Text(
+                    text = state.tiempoError,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+
             Spacer(Modifier.height(16.dp))
+
             Row {
                 Button(
                     onClick = { onEvent(EditTaskUiEvent.Save) },
@@ -75,7 +91,9 @@ private fun EditTaskBody(
                         .fillMaxWidth()
                         .testTag("btn_guardar")
                 ) { Text("Guardar") }
+
                 Spacer(Modifier.width(8.dp))
+
                 if (!state.isNew) {
                     OutlinedButton(
                         onClick = { onEvent(EditTaskUiEvent.Delete) },
