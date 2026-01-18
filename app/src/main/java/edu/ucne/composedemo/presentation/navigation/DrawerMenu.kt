@@ -46,16 +46,21 @@ fun DrawerMenu(
     val scope = rememberCoroutineScope()
 
     fun handleItemClick(destination: Screen, item: String) {
-        navHostController.navigate(destination)
+        navHostController.navigate(destination) {
+            launchSingleTop = true
+        }
         selectedItem.value = item
         scope.launch { drawerState.close() }
     }
+
     ModalNavigationDrawer(
+        drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
                 modifier = Modifier.width(280.dp)
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
+
                 Text(
                     text = "Sistema de Tickets",
                     style = MaterialTheme.typography.headlineMedium,
@@ -63,6 +68,7 @@ fun DrawerMenu(
                     color = Color.DarkGray,
                     modifier = Modifier.padding(16.dp)
                 )
+
                 HorizontalDivider()
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -77,21 +83,13 @@ fun DrawerMenu(
                             handleItemClick(Screen.SistemaList, it)
                         }
 
+
                         DrawerItem(
                             title = stringResource(R.string.drawer_tareas),
                             icon = Icons.AutoMirrored.Filled.StickyNote2,
                             isSelected = selectedItem.value == stringResource(R.string.drawer_tareas)
                         ) {
-                            handleItemClick(Screen.TicketList, it)
-                        }
-
-
-                        DrawerItem(
-                            title = stringResource(R.string.drawer_tictactoe),
-                            icon = Icons.AutoMirrored.Filled.StickyNote2,
-                            isSelected = selectedItem.value == stringResource(R.string.drawer_tictactoe)
-                        ) {
-                            handleItemClick(Screen.TicTacToe, it)
+                            handleItemClick(Screen.TaskList, it)
                         }
 
                         DrawerItem(
@@ -100,6 +98,14 @@ fun DrawerMenu(
                             isSelected = selectedItem.value == stringResource(R.string.drawer_tickets)
                         ) {
                             handleItemClick(Screen.TicketList, it)
+                        }
+
+                        DrawerItem(
+                            title = stringResource(R.string.drawer_tictactoe),
+                            icon = Icons.AutoMirrored.Filled.StickyNote2,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_tictactoe)
+                        ) {
+                            handleItemClick(Screen.TicTacToe, it)
                         }
 
                         DrawerItem(
@@ -176,9 +182,8 @@ fun DrawerMenu(
                     }
                 }
             }
-        },
-        drawerState = drawerState
-    ){
+        }
+    ) {
         content()
     }
 }

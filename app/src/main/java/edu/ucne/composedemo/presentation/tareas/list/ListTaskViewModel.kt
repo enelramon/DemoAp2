@@ -22,21 +22,24 @@ class ListTaskViewModel @Inject constructor(
     val state: StateFlow<ListTaskUiState> = _state.asStateFlow()
 
     init {
-        onEvent(ListTaskUiEvent.Load)
+        loadTasks()
     }
 
     fun onEvent(event: ListTaskUiEvent) {
         when (event) {
-            ListTaskUiEvent.Load -> observe()
+            ListTaskUiEvent.Load -> loadTasks()
+            ListTaskUiEvent.Refresh -> loadTasks()
             is ListTaskUiEvent.Delete -> onDelete(event.id)
+            is ListTaskUiEvent.ShowMessage -> _state.update { it.copy(message = event.message) }
+            ListTaskUiEvent.ClearMessage -> _state.update { it.copy(message = null) }
             ListTaskUiEvent.CreateNew -> _state.update { it.copy(navigateToCreate = true) }
             is ListTaskUiEvent.Edit -> _state.update { it.copy(navigateToEditId = event.id) }
-            is ListTaskUiEvent.ShowMessage -> _state.update { it.copy(message = event.message) }
         }
     }
 
-    private fun observe() {
+    fun loadTasks() {
         viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
             observeTasksUseCase().collectLatest { list ->
                 _state.update { it.copy(isLoading = false, tasks = list, message = null) }
             }
@@ -48,9 +51,5 @@ class ListTaskViewModel @Inject constructor(
             deleteTaskUseCase(id)
             onEvent(ListTaskUiEvent.ShowMessage("Eliminado"))
         }
-    }
-
-    fun onNavigationHandled() {
-        _state.update { it.copy(navigateToCreate = false, navigateToEditId = null) }
     }
 }

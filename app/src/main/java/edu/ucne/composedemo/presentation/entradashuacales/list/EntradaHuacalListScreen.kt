@@ -27,7 +27,7 @@ fun EntradaHuacalListScreen(
     viewModel: EntradaHuacalListViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    
+
     LaunchedEffect(state.navigateToCreate) {
         if (state.navigateToCreate) {
             createNew()
@@ -61,145 +61,118 @@ fun EntradaHuacalListBody(
         topBar = {
             TopBarComponent(
                 title = "Entradas de Huacales",
-                onDrawer = onDrawer
+                onMenuClick = onDrawer
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { onEvent(EntradaHuacalListUiEvent.CreateNew) }
             ) {
-                Icon(Icons.Filled.Add, "Crear entrada")
+                Icon(Icons.Filled.Add, contentDescription = "Crear entrada")
             }
         }
     ) { padding ->
-        Box(
+        Column(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
+
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
             ) {
-                // Filter Section
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(8.dp)
+                Column(Modifier.padding(8.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                "Filtros",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Row {
-                                IconButton(onClick = { showFilters = !showFilters }) {
-                                    Icon(Icons.Filled.FilterList, "Mostrar filtros")
-                                }
-                                if (state.filterNombreCliente.isNotBlank() || 
-                                    state.filterFechaInicio.isNotBlank() || 
-                                    state.filterFechaFin.isNotBlank()) {
-                                    IconButton(onClick = { onEvent(EntradaHuacalListUiEvent.ClearFilters) }) {
-                                        Icon(Icons.Filled.Clear, "Limpiar filtros")
-                                    }
+                        Text(
+                            "Filtros",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Row {
+                            IconButton(onClick = { showFilters = !showFilters }) {
+                                Icon(Icons.Filled.FilterList, contentDescription = "Filtros")
+                            }
+                            if (
+                                state.filterNombreCliente.isNotBlank() ||
+                                state.filterFechaInicio.isNotBlank() ||
+                                state.filterFechaFin.isNotBlank()
+                            ) {
+                                IconButton(onClick = {
+                                    onEvent(EntradaHuacalListUiEvent.ClearFilters)
+                                }) {
+                                    Icon(Icons.Filled.Clear, contentDescription = "Limpiar")
                                 }
                             }
                         }
+                    }
 
-                        if (showFilters) {
-                            Spacer(modifier = Modifier.height(8.dp))
-                            OutlinedTextField(
-                                value = state.filterNombreCliente,
-                                onValueChange = { onEvent(EntradaHuacalListUiEvent.FilterByCliente(it)) },
-                                label = { Text("Nombre Cliente") },
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            OutlinedTextField(
-                                value = state.filterFechaInicio,
-                                onValueChange = { onEvent(EntradaHuacalListUiEvent.FilterByFechaInicio(it)) },
-                                label = { Text("Fecha Inicio (YYYY-MM-DD)") },
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            OutlinedTextField(
-                                value = state.filterFechaFin,
-                                onValueChange = { onEvent(EntradaHuacalListUiEvent.FilterByFechaFin(it)) },
-                                label = { Text("Fecha Fin (YYYY-MM-DD)") },
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
+                    if (showFilters) {
+                        Spacer(Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = state.filterNombreCliente,
+                            onValueChange = {
+                                onEvent(EntradaHuacalListUiEvent.FilterByCliente(it))
+                            },
+                            label = { Text("Nombre Cliente") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = state.filterFechaInicio,
+                            onValueChange = {
+                                onEvent(EntradaHuacalListUiEvent.FilterByFechaInicio(it))
+                            },
+                            label = { Text("Fecha Inicio (YYYY-MM-DD)") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = state.filterFechaFin,
+                            onValueChange = {
+                                onEvent(EntradaHuacalListUiEvent.FilterByFechaFin(it))
+                            },
+                            label = { Text("Fecha Fin (YYYY-MM-DD)") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     }
                 }
+            }
 
-                if (state.isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(16.dp)
-                    )
-                } else {
-                    LazyColumn(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp)
-                    ) {
-                        items(state.entradas) { entrada ->
-                            EntradaHuacalCard(
-                                entrada = entrada,
-                                onClick = { onEvent(EntradaHuacalListUiEvent.Edit(entrada.idEntrada)) },
-                                onDelete = { onEvent(EntradaHuacalListUiEvent.Delete(entrada.idEntrada)) }
-                            )
-                        }
-                    }
-
-                    // Summary Card
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(16.dp)
+                )
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                ) {
+                    items(state.entradas) { entrada ->
+                        EntradaHuacalCard(
+                            entrada = entrada,
+                            onClick = {
+                                onEvent(
+                                    EntradaHuacalListUiEvent.Edit(entrada.idEntrada)
+                                )
+                            },
+                            onDelete = {
+                                onEvent(
+                                    EntradaHuacalListUiEvent.Delete(entrada.idEntrada)
+                                )
+                            }
                         )
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                "Resumen",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text("Total de Huacales:")
-                                Text(
-                                    "${state.totalEntradas}",
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text("Total en Precio:")
-                                Text(
-                                    "${'$'}${String.format("%.2f", state.totalPrecio)}",
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                        }
                     }
                 }
             }
@@ -220,12 +193,10 @@ fun EntradaHuacalCard(
             .clickable { onClick() }
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(modifier = Modifier.weight(1f)) {
+            Column(Modifier.weight(1f)) {
                 Text(
                     entrada.nombreCliente,
                     style = MaterialTheme.typography.titleMedium,
@@ -233,9 +204,9 @@ fun EntradaHuacalCard(
                 )
                 Text("Fecha: ${entrada.fecha}")
                 Text("Cantidad: ${entrada.cantidad}")
-                Text("Precio: ${'$'}${String.format("%.2f", entrada.precio)}")
+                Text("Precio: $${"%.2f".format(entrada.precio)}")
                 Text(
-                    "Total: ${'$'}${String.format("%.2f", entrada.precio * entrada.cantidad)}",
+                    "Total: $${"%.2f".format(entrada.precio * entrada.cantidad)}",
                     fontWeight = FontWeight.Bold
                 )
             }

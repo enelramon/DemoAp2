@@ -7,6 +7,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.navigation.NavType
 import androidx.navigation.toRoute
 import edu.ucne.composedemo.presentation.Ticket.TicketListScreen
 import edu.ucne.composedemo.presentation.Ticket.TicketScreen
@@ -103,6 +105,7 @@ fun DemoAp2NavHost(
                     }
                 )
             }
+
             composable<Screen.AnyDeskLogList> {
                 AnyDeskLogListScreen(
                     onDrawer = {
@@ -112,6 +115,7 @@ fun DemoAp2NavHost(
                     }
                 )
             }
+
             composable<Screen.CxcList> {
                 CxcListScreen(
                     onDrawer = {
@@ -121,6 +125,7 @@ fun DemoAp2NavHost(
                     }
                 )
             }
+
             composable<Screen.GastosList> {
                 GastosListScreen(
                     onDrawer = {
@@ -165,6 +170,7 @@ fun DemoAp2NavHost(
                     }
                 )
             }
+
             composable<Screen.SuplidoresGastosList> {
                 SuplidorGastosListScreen (
                     onDrawer = {
@@ -181,7 +187,7 @@ fun DemoAp2NavHost(
                 )
             }
 
-            composable<Screen.GastoRecurrencia>{
+            composable<Screen.GastoRecurrencia> {
                 val args = it.toRoute<Screen.GastoRecurrencia>()
                 GastoRecurrenciaScreen(
                     onDrawer = {
@@ -195,6 +201,7 @@ fun DemoAp2NavHost(
                     }
                 )
             }
+
             composable<Screen.TicketMeta> {
                 TicketMetaScreen(
                     idUsuario = 1,
@@ -205,24 +212,35 @@ fun DemoAp2NavHost(
                     }
                 )
             }
+
             composable<Screen.TaskList> {
                 TaskListScreen(
                     onDrawer = {
                         scope.launch {
                             drawerState.open()
                         }
+                    },
+                    navigateToEditTask = { taskId, _ ->
+                        navHostController.navigate("task_edit/$taskId")
                     }
                 )
             }
 
-            composable<Screen.TaskEdit> {
-                val args = it.toRoute<Screen.TaskEdit>()
+            composable(
+                route = "task_edit/{taskId}",
+                arguments = listOf(navArgument("taskId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val taskId = backStackEntry.arguments?.getInt("taskId") ?: 0
                 EditTaskScreen(
+                    taskId = taskId,
                     onDrawer = {
                         scope.launch {
                             drawerState.open()
                         }
                     },
+                    goBack = {
+                        navHostController.navigateUp()
+                    }
                     /*idSuplidor = args.idSuplidor,
                     navigateToSuplidorGasto = {
                         navHostController.navigate(Screen.SuplidoresGastosList)
@@ -268,7 +286,6 @@ fun DemoAp2NavHost(
                     }
                 )
             }
-
         }
     }
 }
