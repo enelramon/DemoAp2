@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.composedemo.domain.tareas.model.Task
+import edu.ucne.composedemo.presentation.components.TopBarComponent
 
 @Composable
 fun TaskListScreen(
@@ -45,6 +46,7 @@ fun ListTaskBody(
     navigateToEditTask: (taskId: Int, goBack: () -> Unit) -> Unit
 ) {
     Scaffold(
+        topBar = { TopBarComponent(title = "Lista de Tareas", onMenuClick = onDrawer) },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {

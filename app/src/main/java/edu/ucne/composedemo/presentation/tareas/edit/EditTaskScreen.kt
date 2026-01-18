@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import edu.ucne.composedemo.presentation.components.TopBarComponent
 
 @Composable
 fun EditTaskScreen(
@@ -37,10 +38,13 @@ fun EditTaskScreen(
 
 @Composable
 private fun EditTaskBody(
+    onDrawer: () -> Unit = {},
     state: EditTaskUiState,
     onEvent: (EditTaskUiEvent) -> Unit
 ) {
-    Scaffold { padding ->
+    Scaffold(
+        topBar = { TopBarComponent(title = "Tarea", onMenuClick = onDrawer) },
+    ) { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
