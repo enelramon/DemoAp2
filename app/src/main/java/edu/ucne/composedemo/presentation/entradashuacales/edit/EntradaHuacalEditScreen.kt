@@ -44,7 +44,7 @@ private fun EntradaHuacalEditBody(
         topBar = {
             TopBarComponent(
                 title = if (state.isNew) "Nueva Entrada" else "Editar Entrada",
-                onDrawer = onDrawer
+                onMenuClick = onDrawer
             )
         }
     ) { padding ->
@@ -54,6 +54,7 @@ private fun EntradaHuacalEditBody(
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
+
             OutlinedTextField(
                 value = state.fecha,
                 onValueChange = { onEvent(EntradaHuacalEditUiEvent.FechaChanged(it)) },
@@ -61,12 +62,8 @@ private fun EntradaHuacalEditBody(
                 isError = state.fechaError != null,
                 modifier = Modifier.fillMaxWidth()
             )
-            if (state.fechaError != null) {
-                Text(
-                    text = state.fechaError,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall
-                )
+            state.fechaError?.let {
+                Text(it, color = MaterialTheme.colorScheme.error)
             }
 
             Spacer(Modifier.height(12.dp))
@@ -78,12 +75,8 @@ private fun EntradaHuacalEditBody(
                 isError = state.nombreClienteError != null,
                 modifier = Modifier.fillMaxWidth()
             )
-            if (state.nombreClienteError != null) {
-                Text(
-                    text = state.nombreClienteError,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall
-                )
+            state.nombreClienteError?.let {
+                Text(it, color = MaterialTheme.colorScheme.error)
             }
 
             Spacer(Modifier.height(12.dp))
@@ -96,12 +89,8 @@ private fun EntradaHuacalEditBody(
                 isError = state.cantidadError != null,
                 modifier = Modifier.fillMaxWidth()
             )
-            if (state.cantidadError != null) {
-                Text(
-                    text = state.cantidadError,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall
-                )
+            state.cantidadError?.let {
+                Text(it, color = MaterialTheme.colorScheme.error)
             }
 
             Spacer(Modifier.height(12.dp))
@@ -114,12 +103,8 @@ private fun EntradaHuacalEditBody(
                 isError = state.precioError != null,
                 modifier = Modifier.fillMaxWidth()
             )
-            if (state.precioError != null) {
-                Text(
-                    text = state.precioError,
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall
-                )
+            state.precioError?.let {
+                Text(it, color = MaterialTheme.colorScheme.error)
             }
 
             Spacer(Modifier.height(16.dp))
